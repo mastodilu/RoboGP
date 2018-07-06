@@ -15,11 +15,13 @@ import robogp.robodrome.image.ImageUtil;
  */
 public class RobotMarker implements Serializable {
 
-    private transient BufferedImage robotImage;
+    private transient BufferedImage robotImage; // transient dice al compilatore che la variabile non viene serializzata
     private final String name;
     private final String color;
     private String owner;
-    private int dockNumber;
+    private int dockNumber; //posizione corrente del robot
+    private int salute, vita; //salute e vita correnti del robot
+    private char direction;
 
     public RobotMarker(String name, String color) {
         this.name = name;
@@ -64,4 +66,29 @@ public class RobotMarker implements Serializable {
     public String getName() {
         return name;
     }
+    
+    public int getSalute() {
+        return salute;
+    }
+
+    public int getVita() {
+        return vita;
+    }
+
+    public void setSalute(int salute) {
+        this.salute = salute;
+    }
+
+    public void setVita(int vita) {
+        this.vita = vita;
+    }
+    
+    public void setDirection(char c){
+        this.direction = c;
+    }
+    
+    public char getDirection(){
+        return this.direction;
+    }
+    
 }

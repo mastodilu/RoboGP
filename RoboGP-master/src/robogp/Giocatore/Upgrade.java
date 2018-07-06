@@ -1,38 +1,25 @@
+package robogp.Giocatore;
 
 public class Upgrade {
-    private String nome;
-    private String effetto;
+    public final String nome;
+    public final String effetto;
+    public final int cariche;
     private int caricheRimanenti;
+    
+    //ci serve un modo per avere un set iniziale di upgrade gia' inizializzati
 
-    public Upgrade(String nome, String effetto, int caricheRimanenti) {
+    public Upgrade(String nome, String effetto, int cariche) {
         this.nome = nome;
         this.effetto = effetto;
-        this.caricheRimanenti = caricheRimanenti;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEffetto() {
-        return effetto;
-    }
-
-    public int getCaricheRimanenti() {
-        return caricheRimanenti;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setEffetto(String effetto) {
-        this.effetto = effetto;
-    }
-
-    public void setCaricheRimanenti(int caricheRimanenti) {
-        this.caricheRimanenti = caricheRimanenti;
+        this.cariche = cariche;
+        this.caricheRimanenti = cariche;
     }
     
+    public int getCaricheRimanenti(){
+        return this.caricheRimanenti;
+    }
     
+    public void setCaricheRimanenti(int n){
+        this.caricheRimanenti = n;
+    }
 }

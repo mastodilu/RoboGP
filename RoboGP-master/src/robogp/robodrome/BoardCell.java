@@ -42,8 +42,8 @@ public class BoardCell {
     }
 
     private final char type;
-    private boolean hLaser;
-    private boolean vLaser;
+    private boolean hLaser; //true se ha un laser orizzontale
+    private boolean vLaser; // true se ha un laser verticale
 
     public boolean hasHorizontalLaser() {
         return hLaser;
