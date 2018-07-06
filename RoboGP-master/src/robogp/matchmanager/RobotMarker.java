@@ -20,7 +20,7 @@ public class RobotMarker implements Serializable {
     private final String color;
     private String owner;
     private int dockNumber; //posizione corrente del robot
-    private int salute, vita; //salute e vita correnti del robot
+    private int salute, vite; //salute e vita correnti del robot
     private char direction;
 
     public RobotMarker(String name, String color) {
@@ -71,16 +71,16 @@ public class RobotMarker implements Serializable {
         return salute;
     }
 
-    public int getVita() {
-        return vita;
+    public int getVite() {
+        return vite;
     }
 
     public void setSalute(int salute) {
         this.salute = salute;
     }
 
-    public void setVita(int vita) {
-        this.vita = vita;
+    public void setVite(int vite) {
+        this.vite = vite;
     }
     
     public void setDirection(char c){
