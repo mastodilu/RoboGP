@@ -21,8 +21,8 @@ public class BeltCell extends BoardCell {
     private final boolean[] inputs;
     private Direction output;
 
-    BeltCell(String[] comps, char subtype) {
-        super(subtype);
+    BeltCell(String[] comps, char subtype, int riga, int colonna) {
+        super(subtype, riga, colonna);
         inputs = new boolean[3];
         int countin = 0;
         output = Direction.E;

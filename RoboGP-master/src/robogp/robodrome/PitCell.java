@@ -16,8 +16,8 @@ import robogp.robodrome.image.TileProvider;
 public class PitCell extends BoardCell {
   private final boolean[] walls;
   
-  PitCell(String[] comps) {
-    super('P');
+  PitCell(String[] comps, int riga, int colonna) {
+    super('P', riga, colonna);
     boolean wset = false;
     walls = new boolean[4];
     java.util.Arrays.fill(walls, false);
