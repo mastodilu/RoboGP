@@ -18,32 +18,35 @@ public class BoardCell {
     /**
      * Crea una casella del robodromo a partire da un array di stringhe che la descrivono
      * @param comps le stringhe che descrivono la casella
+     * @param riga numero di riga della cella nel robodromo
+     * @param colonna numero di colonna della cella nel robodromo
      * @return la casella creata
      */
-    public static BoardCell createBoardCell(String[] comps) {
-        char t = comps[0].trim().charAt(0);
-        String[] recomps = new String[comps.length - 1];
+    public static BoardCell createBoardCell(String[] comps, int riga, int colonna) {
+        char t = comps[0].trim().charAt(0); // legge il carattere che rappresenta il tipo di cella
+        String[] recomps = new String[comps.length - 1]; // crea un nuovo array di stringhe per memorizzare tutte le altre stringhe rimanenti del parametro passato a questo metodo
         for (int i = 0; i < recomps.length; i++) {
-            recomps[i] = comps[i + 1].trim();
+            recomps[i] = comps[i + 1].trim(); // memorizza le stringhe nel nuovo array creato
         }
-        BoardCell b = null;
-        switch (t) {
+        BoardCell b = null; // il costruttore e' 'protected'
+        switch (t) { // a seconda del tipo
             case 'F':
-                b = new FloorCell(recomps);
+                b = new FloorCell(recomps, riga, colonna);
                 break;
             case 'P':
-                b = new PitCell(recomps);
+                b = new PitCell(recomps, riga, colonna);
                 break;
             case 'B':
             case 'E':
-                b = new BeltCell(recomps, t);
+                b = new BeltCell(recomps, t, riga, colonna);
         }
         return b;
     }
 
-    private final char type;
-    private boolean hLaser;
-    private boolean vLaser;
+    private final char type; // F-P-B-E, il tipo di cella
+    private boolean hLaser; //true se ha un laser orizzontale
+    private boolean vLaser; // true se ha un laser verticale
+    private int c, r; // numeri di riga e colonna della cella nel tabellone
 
     public boolean hasHorizontalLaser() {
         return hLaser;
@@ -61,8 +64,10 @@ public class BoardCell {
         vLaser = v;
     }
 
-    BoardCell(char t) {
+    BoardCell(char t, int r, int c) {
         this.type = t;
+        this.r = r;
+        this.c = c;
     }
 
     public char getType() {
@@ -83,6 +88,14 @@ public class BoardCell {
 
     public boolean hasWall(Direction d) {
         return false;
+    }
+    
+    public int getRiga(){
+        return this.r;
+    }
+    
+    public int getColonna(){
+        return this.c;
     }
 
     public BufferedImage getImage() {

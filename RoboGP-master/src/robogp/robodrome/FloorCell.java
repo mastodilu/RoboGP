@@ -27,8 +27,8 @@ public class FloorCell extends BoardCell {
   private int dockNumber;
   private Direction dockDir;
   
-  FloorCell(String[] comps) {
-    super('F');
+  FloorCell(String[] comps, int riga, int colonna) {
+    super('F', riga, colonna);
     boolean wset = false;
     boolean xset = false;
     checkpoint = 0;

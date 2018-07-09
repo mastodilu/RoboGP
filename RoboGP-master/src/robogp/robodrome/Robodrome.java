@@ -32,6 +32,7 @@ public class Robodrome {
         allLasers = new java.util.ArrayList<>();
         docksCount = 0;
         StringBuilder stringBuilder = new StringBuilder();
+        //legge tutto il txt del robodromo e lo mette in una variabile
         try {
             BufferedReader reader;
             reader = new BufferedReader(new FileReader(filename));
@@ -41,12 +42,12 @@ public class Robodrome {
             }
         } catch (IOException ex) {
             Logger.getLogger(Robodrome.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String[] all = stringBuilder.toString().split(";");
-        name = all[0].trim();
-        String[] dim = all[1].trim().split("x");
-        columns = Integer.parseInt(dim[0]);
-        rows = Integer.parseInt(dim[1]);
+        }//qui ha finito di leggere l'intero roboromo e lo puo' salvare in una variabile
+        String[] all = stringBuilder.toString().split(";"); // crea il robodromo andando a leggere ogni singola cella (separate da ; )
+        name = all[0].trim(); // nome del robodromo
+        String[] dim = all[1].trim().split("x"); // array con le dimensioni del robodromo lette in seconda riga
+        columns = Integer.parseInt(dim[0]);  // numero di colonne
+        rows = Integer.parseInt(dim[1]); // numero di righe
         board = new BoardCell[rows][columns];
         int countcell = 0;
         boolean endfile = false;
@@ -54,7 +55,8 @@ public class Robodrome {
             for (int c = 0; c < columns; c++) {
                 if (!endfile) {
                     if (countcell + 2 < all.length) {
-                        board[r][c] = BoardCell.createBoardCell(all[countcell + 2].trim().split("-"));
+                        board[r][c] = BoardCell.createBoardCell(all[countcell + 2].trim().split("-"), r, c);
+                        System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
                         countcell++;
                         if (countcell + 2 >= all.length) {
                             endfile = true;
@@ -66,7 +68,7 @@ public class Robodrome {
                         }
                     }
                 } else {
-                    board[r][c] = new FloorCell(new String[0]);
+                    board[r][c] = new FloorCell(new String[0], r, c);
                 }
                 if (board[r][c] instanceof FloorCell && ((FloorCell)board[r][c]).isDock()) {
                     this.docksCount++;
