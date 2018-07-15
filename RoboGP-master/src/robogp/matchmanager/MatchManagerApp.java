@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import robogp.Training.*;
 
 /**
  *
@@ -26,6 +27,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
      */
     private MatchManagerApp() {
         initComponents();
+        this.traningController  = TrainingController.getInstance();
         this.inizPartCtrl = IniziarePartitaController.getInstance();
         this.robotChooser = new RobotChooser(this, true);
     }
@@ -35,7 +37,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
     }
 
     private final IniziarePartitaController inizPartCtrl;
-
+    private final TrainingController traningController;
     private final RobotChooser robotChooser;
 
     public IniziarePartitaController getIniziarePartitaController() {
@@ -57,11 +59,14 @@ public class MatchManagerApp extends javax.swing.JFrame {
         javax.swing.JPanel jPanel2 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel1 = new javax.swing.JLabel();
         portField = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
         javax.swing.JPanel jPanel3 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel2 = new javax.swing.JLabel();
         keyField = new javax.swing.JTextField();
         javax.swing.JPanel jPanel5 = new javax.swing.JPanel();
         initButton = new javax.swing.JButton();
+        jPanel9 = new javax.swing.JPanel();
+        btnAllenamento = new javax.swing.JButton();
         matchPanel = new javax.swing.JPanel();
         javax.swing.JPanel jPanel6 = new javax.swing.JPanel();
         createButton = new javax.swing.JButton();
@@ -93,6 +98,12 @@ public class MatchManagerApp extends javax.swing.JFrame {
         cancelMatchButton = new javax.swing.JButton();
         ongoingMatchPanel = new javax.swing.JPanel();
         javax.swing.JLabel jLabel7 = new javax.swing.JLabel();
+        trainingPanel = new javax.swing.JPanel();
+        javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
+        robodromeCombo1 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        javax.swing.JLabel jLabel9 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RoboGP Match Manager");
@@ -115,11 +126,24 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel1.setText("Porta su cui girerà il server di gioco:");
+        jLabel1.setAlignmentY(0.9F);
         jPanel2.add(jLabel1, java.awt.BorderLayout.WEST);
 
         portField.setColumns(6);
         portField.setText("2222");
+        portField.setAlignmentY(0.9F);
+        portField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                portFieldActionPerformed(evt);
+            }
+        });
         jPanel2.add(portField, java.awt.BorderLayout.CENTER);
+
+        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
+        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
+        jSeparator1.setMinimumSize(new java.awt.Dimension(100, 120));
+        jSeparator1.setPreferredSize(new java.awt.Dimension(100, 120));
+        jPanel2.add(jSeparator1, java.awt.BorderLayout.PAGE_START);
 
         jPanel1.add(jPanel2);
 
@@ -128,6 +152,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         jLabel2.setText("Parola chiave per l'accesso al server:");
+        jLabel2.setAlignmentY(0.9F);
         jPanel3.add(jLabel2, java.awt.BorderLayout.WEST);
 
         keyField.setColumns(10);
@@ -141,12 +166,12 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        initButton.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        initButton.setText("Continua");
+        initButton.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
+        initButton.setText("Imposta la partita");
         initButton.setAlignmentX(0.5F);
-        initButton.setMaximumSize(new java.awt.Dimension(122, 40));
-        initButton.setMinimumSize(new java.awt.Dimension(122, 40));
-        initButton.setPreferredSize(new java.awt.Dimension(122, 40));
+        initButton.setMaximumSize(new java.awt.Dimension(250, 40));
+        initButton.setMinimumSize(new java.awt.Dimension(250, 40));
+        initButton.setPreferredSize(new java.awt.Dimension(250, 40));
         initButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 initButtonActionPerformed(evt);
@@ -155,6 +180,20 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel5.add(initButton);
 
         initPanel.add(jPanel5, java.awt.BorderLayout.SOUTH);
+
+        btnAllenamento.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
+        btnAllenamento.setText("Allenamento");
+        btnAllenamento.setMaximumSize(new java.awt.Dimension(180, 40));
+        btnAllenamento.setMinimumSize(new java.awt.Dimension(180, 40));
+        btnAllenamento.setPreferredSize(new java.awt.Dimension(180, 40));
+        btnAllenamento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAllenamentoActionPerformed(evt);
+            }
+        });
+        jPanel9.add(btnAllenamento);
+
+        initPanel.add(jPanel9, java.awt.BorderLayout.PAGE_START);
 
         getContentPane().add(initPanel, "init");
 
@@ -325,6 +364,71 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         getContentPane().add(ongoingMatchPanel, "ongoing");
 
+        jLabel8.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel8.setText("Robodromo:");
+
+        robodromeCombo1.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        robodromeCombo1.setPreferredSize(new java.awt.Dimension(200, 33));
+        robodromeCombo1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                robodromeCombo1ActionPerformed(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
+        jButton1.setText("Avvia allenamento");
+        jButton1.setMaximumSize(new java.awt.Dimension(127, 40));
+        jButton1.setMinimumSize(new java.awt.Dimension(127, 40));
+        jButton1.setPreferredSize(new java.awt.Dimension(127, 40));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
+        jLabel9.setText("Nome utente:");
+
+        jTextField1.setToolTipText("inserisci il tuo alias");
+
+        javax.swing.GroupLayout trainingPanelLayout = new javax.swing.GroupLayout(trainingPanel);
+        trainingPanel.setLayout(trainingPanelLayout);
+        trainingPanelLayout.setHorizontalGroup(
+            trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(trainingPanelLayout.createSequentialGroup()
+                .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(trainingPanelLayout.createSequentialGroup()
+                        .addGap(219, 219, 219)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(trainingPanelLayout.createSequentialGroup()
+                        .addGap(212, 212, 212)
+                        .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(robodromeCombo1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1))))
+                .addGap(219, 219, 219))
+        );
+        trainingPanelLayout.setVerticalGroup(
+            trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(trainingPanelLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(robodromeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(18, 18, 18)
+                .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
+        );
+
+        getContentPane().add(trainingPanel, "initTraining");
+
         setBounds(0, 0, 737, 373);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -343,7 +447,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         }
         if (ok) {
             this.inizPartCtrl.iniziaCreazionePartita(num, this.keyField.getText().trim());
-            this.setupMatchPanel();
+            this.setupMatchPanel(); // prepara il menu' a tendina con la scelta del robodromo
             ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "match");
         }
     }//GEN-LAST:event_initButtonActionPerformed
@@ -420,6 +524,31 @@ public class MatchManagerApp extends javax.swing.JFrame {
         ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "ongoing");
     }//GEN-LAST:event_startMatchButtonActionPerformed
 
+    private void btnAllenamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllenamentoActionPerformed
+       System.out.println("btn allenamento");
+       this.setupRobodromeCombo();
+       ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "initTraining");
+    }//GEN-LAST:event_btnAllenamentoActionPerformed
+
+    private void portFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_portFieldActionPerformed
+
+    private void robodromeCombo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robodromeCombo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_robodromeCombo1ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nome_utente = null;
+        if(this.jTextField1.getText() == null || this.jTextField1.getText().trim().equals("")){ // se non e' stato inserito un nome utente o se e' vuoto
+            this.jTextField1.setText(""); // cancella quanto scritto
+            JOptionPane.showMessageDialog(this, "Inserisci un nome utente");
+        }else{
+            nome_utente = this.jTextField1.getText().trim();
+            System.out.println("Nome utente: " + nome_utente);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -457,11 +586,16 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptRequestButton;
+    private javax.swing.JButton btnAllenamento;
     private javax.swing.JButton cancelMatchButton;
     private javax.swing.JButton createButton;
     private javax.swing.JComboBox<String> endGameCombo;
     private javax.swing.JButton initButton;
     private javax.swing.JPanel initPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField keyField;
     private javax.swing.JPanel matchPanel;
     private javax.swing.JComboBox<String> maxPlayersCombo;
@@ -472,8 +606,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JButton rejectRequestButton;
     private javax.swing.JList<String> requestList;
     private javax.swing.JComboBox<String> robodromeCombo;
+    private javax.swing.JComboBox<String> robodromeCombo1;
     private javax.swing.JPanel robotRecapPanel;
     private javax.swing.JButton startMatchButton;
+    private javax.swing.JPanel trainingPanel;
     private javax.swing.JCheckBox upgradeCheck;
     // End of variables declaration//GEN-END:variables
 
@@ -485,5 +621,15 @@ public class MatchManagerApp extends javax.swing.JFrame {
             opts[i] = robodromeFiles[i].getName().split("\\.")[0];
         }
         this.robodromeCombo.setModel(new DefaultComboBoxModel<>(opts));
+    }
+    
+    private void setupRobodromeCombo(){
+        File robodromeDir = new File("robodromes");
+        File[] robodromeFiles = robodromeDir.listFiles();
+        String[] opts = new String[robodromeFiles.length];
+        for (int i = 0; i < opts.length; i++) {
+            opts[i] = robodromeFiles[i].getName().split("\\.")[0];
+        }
+        this.robodromeCombo1.setModel(new DefaultComboBoxModel<>(opts));
     }
 }

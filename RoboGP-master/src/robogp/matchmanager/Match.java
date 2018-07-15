@@ -65,7 +65,7 @@ public class Match implements MessageObserver {
     }
 
     public static Match getInstance(String rbdName, int nMaxPlayers,
-            int nRobotsXPlayer, EndGame endGameCond, boolean initUpg) {
+        int nRobotsXPlayer, EndGame endGameCond, boolean initUpg) {
         if (Match.singleInstance == null || Match.singleInstance.status == Match.State.Canceled) {
             Match.singleInstance = new Match(rbdName, nMaxPlayers, nRobotsXPlayer, endGameCond, initUpg);
         }
