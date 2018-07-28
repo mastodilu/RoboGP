@@ -11,7 +11,6 @@ public class RobotMarkerTraining extends RobotMarker {
 
     public RobotMarkerTraining(
                     char startDirection,
-                    int saluteMax,
                     String name,
                     String color,
                     String owner,

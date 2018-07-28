@@ -539,13 +539,19 @@ public class MatchManagerApp extends javax.swing.JFrame {
     }//GEN-LAST:event_robodromeCombo1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nome_utente = null;
+        String nome_utente = null,
+                nome_robodromo = null;
         if(this.jTextField1.getText() == null || this.jTextField1.getText().trim().equals("")){ // se non e' stato inserito un nome utente o se e' vuoto
             this.jTextField1.setText(""); // cancella quanto scritto
             JOptionPane.showMessageDialog(this, "Inserisci un nome utente");
         }else{
+            
+            //siamo qua se e' stato inserito un nome utente valido
             nome_utente = this.jTextField1.getText().trim();
-            System.out.println("Nome utente: " + nome_utente);
+            nome_robodromo = this.robodromeCombo1.getSelectedItem().toString();
+            System.out.println("robodromo " + nome_robodromo);
+            this.traningController.init(nome_utente, nome_robodromo);
+            
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
