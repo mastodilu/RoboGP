@@ -41,6 +41,7 @@ public class RobotMarker implements Serializable {
         return ImageUtil.scale(ImageUtil.superImpose(null, this.robotImage),size, size);
     }
 
+//    assegna il robot al giocatore
     public void assign(String nickname, int dock) {
         this.owner = nickname;
         this.dockNumber = dock;

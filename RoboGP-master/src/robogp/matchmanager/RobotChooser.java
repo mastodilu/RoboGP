@@ -41,6 +41,7 @@ public class RobotChooser extends javax.swing.JDialog {
         });
     }
     
+//    restituisce il robot selezionato
     public List<RobotMarker> getSelection() {
         return this.robotList.getSelectedValuesList();
     }

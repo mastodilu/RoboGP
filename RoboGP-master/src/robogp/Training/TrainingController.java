@@ -10,11 +10,8 @@ import robogp.robodrome.Robodrome;
 public class TrainingController {
     
     private static TrainingController singleInstance;
-//    TODO
     private final Training theTraining;
-//    private InstructionCard[] programma = null;
     private Robodrome theRobodrome = null;
-    private RobotMarkerTraining robot = null;
     private String nome_utente = null;
     
     
@@ -22,15 +19,16 @@ public class TrainingController {
     //costruttore
     private TrainingController(){
         theTraining = new Training();
-        //TODO setta le instruction cards
-        System.out.println("creato training controller.");
+        // System.out.println("creato training controller.");
     }
     
+    //inizializza l'istanza usando nome utente e nome robodromo
     public void init(String nome_utente, String robodromo){
         String rbdFileName = "robodromes/" + robodromo + ".txt";
         theRobodrome = new Robodrome(rbdFileName);
-        robot = new RobotMarkerTraining('e', "robot-emerald", "red", "default", -1);
         this.nome_utente = nome_utente;
+        theTraining.init(theRobodrome);
+        
         doSomething();
     }
 
@@ -46,6 +44,7 @@ public class TrainingController {
         System.out.println("Robodromo " + theRobodrome.getName() +
                 "\nrighe e colonne, " + this.theRobodrome.getRowCount() +
                 ", " + this.theRobodrome.getColumnCount());
+        System.out.println("utente " + nome_utente);
     }
     
     public static void avvia(){

@@ -27,7 +27,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
      */
     private MatchManagerApp() {
         initComponents();
-        this.traningController  = TrainingController.getInstance();
+        this.traningController = TrainingController.getInstance();
         this.inizPartCtrl = IniziarePartitaController.getInstance();
         this.robotChooser = new RobotChooser(this, true);
     }
@@ -525,9 +525,9 @@ public class MatchManagerApp extends javax.swing.JFrame {
     }//GEN-LAST:event_startMatchButtonActionPerformed
 
     private void btnAllenamentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllenamentoActionPerformed
-       System.out.println("btn allenamento");
-       this.setupRobodromeCombo();
-       ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "initTraining");
+       System.out.println("cliccato su bottone allenamento");
+       this.setupRobodromeCombo(); // disegna il menu' a tendina coi nomi dei robodromi
+       ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "initTraining"); // mostra questa schermata
     }//GEN-LAST:event_btnAllenamentoActionPerformed
 
     private void portFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_portFieldActionPerformed
@@ -538,10 +538,12 @@ public class MatchManagerApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_robodromeCombo1ActionPerformed
 
+    //inizializza l'istanza di TrainingController passando nome utente e nome robodromo
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nome_utente = null,
-                nome_robodromo = null;
-        if(this.jTextField1.getText() == null || this.jTextField1.getText().trim().equals("")){ // se non e' stato inserito un nome utente o se e' vuoto
+        String nome_utente = null;
+        String nome_robodromo = null;
+        // se non e' stato inserito un nome utente o se contiene solo spazi
+        if(this.jTextField1.getText() == null || this.jTextField1.getText().trim().equals("")){
             this.jTextField1.setText(""); // cancella quanto scritto
             JOptionPane.showMessageDialog(this, "Inserisci un nome utente");
         }else{
@@ -549,7 +551,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
             //siamo qua se e' stato inserito un nome utente valido
             nome_utente = this.jTextField1.getText().trim();
             nome_robodromo = this.robodromeCombo1.getSelectedItem().toString();
-            System.out.println("robodromo " + nome_robodromo);
             this.traningController.init(nome_utente, nome_robodromo);
             
         }
@@ -629,6 +630,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         this.robodromeCombo.setModel(new DefaultComboBoxModel<>(opts));
     }
     
+    //disegna il menu' a tendina dal quale scegliere il robodromo
     private void setupRobodromeCombo(){
         File robodromeDir = new File("robodromes");
         File[] robodromeFiles = robodromeDir.listFiles();

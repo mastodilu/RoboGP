@@ -56,6 +56,7 @@ public class IniziarePartitaController {
         requests.addElement((String) msg.getParameter(0));
     }
 
+//    termina l'istanza di Match e Server
     void chiudi() {
         if (this.theMatch != null) {
             if (this.theMatch.getStatus() == Match.State.Started) {

@@ -50,7 +50,7 @@ import robogp.robodrome.image.TileProvider;
  * @author claudia
  */
 public class RobodromeView extends JComponent {
-
+    
     private class Play extends Thread {
 
         private int waitTime;

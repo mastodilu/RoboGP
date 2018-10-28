@@ -6,8 +6,8 @@ import java.util.ArrayList;
 
 
 public class RobotMarkerTraining extends RobotMarker {
- private ArrayList storicoDirections;
- private ArrayList storicoDocks;
+    private ArrayList storicoDirections;
+    private ArrayList storicoDocks;
 
     public RobotMarkerTraining(
                     char startDirection,

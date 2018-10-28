@@ -56,7 +56,8 @@ public class Robodrome {
                 if (!endfile) {
                     if (countcell + 2 < all.length) {
                         board[r][c] = BoardCell.createBoardCell(all[countcell + 2].trim().split("-"), r, c);
-                        System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
+//                        stampa la cella come [riga colonna tipo]
+//                        System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
                         countcell++;
                         if (countcell + 2 >= all.length) {
                             endfile = true;
@@ -80,7 +81,7 @@ public class Robodrome {
             boolean stop = false;
             int r = las.getRow();
             int c = las.getCol();
-            switch (dir) {
+            switch (dir) { //setta il laser in base alla direzione di fuoco
                 case W:
                     while (!stop) {
                         board[r][c].setHorizontalLaser(true);
