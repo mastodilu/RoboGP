@@ -1,5 +1,6 @@
 package robogp.Training;
 
+import javax.swing.JLabel;
 import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
@@ -13,7 +14,7 @@ public class Training {
     
     private RobotMarkerTraining robot = null;
     private RobodromeView robodromo = null;
-    
+    private TrainingGui trainingGui = null;
     /*
     costruttore
     @param rb istanza del robodromo
@@ -24,10 +25,11 @@ public class Training {
     
     //inizializza 
     public void init(Robodrome rb){
-        robodromo = new RobodromeView(rb, 65);
+        robodromo = new RobodromeView(rb, 35);
         robot = new RobotMarkerTraining('e', "robot-emerald", "red", "default", -1);
-        robodromo.placeRobot(robot, Direction.E, 5, 0, true);
-        robodromo.esisto();
+        robodromo.placeRobot(robot, Direction.E, 5, 1, true);
+        trainingGui = new TrainingGui(robodromo);
+        trainingGui.start(); //rende visibile la finestra di gioco
     };
     
 }

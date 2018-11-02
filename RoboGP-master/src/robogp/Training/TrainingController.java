@@ -24,12 +24,21 @@ public class TrainingController {
     
     //inizializza l'istanza usando nome utente e nome robodromo
     public void init(String nome_utente, String robodromo){
-        String rbdFileName = "robodromes/" + robodromo + ".txt";
-        theRobodrome = new Robodrome(rbdFileName);
+        final String rbdFileName = "robodromes/" + robodromo + ".txt"; // compone il filename del robodromo;
         this.nome_utente = nome_utente;
-        theTraining.init(theRobodrome);
+
+        //uso un thread per non bloccare la gui
+        Thread t = new Thread() {
+            public void run() {
+                theRobodrome = new Robodrome(rbdFileName);
+                theTraining.init(theRobodrome);
+
+                doSomething();
+            }
+        };
+        t.start();
         
-        doSomething();
+        
     }
 
     public static TrainingController getInstance(){
