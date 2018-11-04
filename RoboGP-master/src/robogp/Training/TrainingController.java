@@ -1,6 +1,5 @@
 package robogp.Training;
 
-import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.robodrome.Robodrome;
 
 /**
@@ -18,7 +17,7 @@ public class TrainingController {
     
     //costruttore
     private TrainingController(){
-        theTraining = new Training();
+        theTraining = Training.getInstance();
         // System.out.println("creato training controller.");
     }
     
@@ -41,8 +40,8 @@ public class TrainingController {
         
     }
 
+    //restituisce l'unica istanza di TrainingController
     public static TrainingController getInstance(){
-        System.out.println("sono training controller");
         if( singleInstance == null )
             singleInstance = new TrainingController();
         return singleInstance;
@@ -56,8 +55,10 @@ public class TrainingController {
         System.out.println("utente " + nome_utente);
     }
     
+    
+    
     public static void avvia(){
-        
+        //todo implementa TrainingController.avvia()
         System.out.println("Training controller avvia()");
     }
 }

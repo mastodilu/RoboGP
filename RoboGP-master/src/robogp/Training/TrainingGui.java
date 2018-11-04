@@ -7,14 +7,22 @@ import robogp.robodrome.view.RobodromeView;
  * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
  */
 public class TrainingGui extends javax.swing.JFrame {
+    
+    private static TrainingGui singleInstance;
 
     /**
      * Creates new form TrainingGui
      */
-    public TrainingGui(RobodromeView robodromo){
+    private TrainingGui(RobodromeView robodromo){
         initComponents();
         this.setTabellone(robodromo);
         this.pack();
+    }
+    
+    public static TrainingGui getInstance(RobodromeView robodromo){
+        if(TrainingGui.singleInstance == null)
+            TrainingGui.singleInstance = new TrainingGui(robodromo);
+        return TrainingGui.singleInstance;
     }
     
     protected void setTabellone(RobodromeView robodromo){
