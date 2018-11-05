@@ -37,6 +37,7 @@ public class TrainingGui extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         containerTabellone = new javax.swing.JPanel();
         containerOpzioni = new javax.swing.JPanel();
@@ -47,12 +48,21 @@ public class TrainingGui extends javax.swing.JFrame {
         btnBackward = new javax.swing.JButton();
         btnPlayPause = new javax.swing.JButton();
         btnStop = new javax.swing.JButton();
+        containerSettings = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jComboBox4 = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
-        setBackground(new java.awt.Color(102, 102, 102));
+        setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1080, 370));
         setResizable(false);
 
@@ -60,7 +70,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerTabellone.setForeground(new java.awt.Color(255, 255, 255));
         containerTabellone.setName("containerTabellone"); // NOI18N
         containerTabellone.setRequestFocusEnabled(false);
-        containerTabellone.setLayout(new java.awt.GridLayout());
+        containerTabellone.setLayout(new java.awt.GridLayout(1, 0));
         getContentPane().add(containerTabellone, java.awt.BorderLayout.CENTER);
 
         containerOpzioni.setBackground(new java.awt.Color(255, 255, 255));
@@ -74,6 +84,9 @@ public class TrainingGui extends javax.swing.JFrame {
         containerProgramma.setMinimumSize(new java.awt.Dimension(200, 12));
         containerProgramma.setName("containerProgramma"); // NOI18N
 
+        jScrollPane2.setBorder(null);
+        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
         programma.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "istruzione 1", "istruzione 2", "istruzione 3", "istruzione 4", "istruzione 5" };
             public int getSize() { return strings.length; }
@@ -85,11 +98,11 @@ public class TrainingGui extends javax.swing.JFrame {
         containerProgramma.setLayout(containerProgrammaLayout);
         containerProgrammaLayout.setHorizontalGroup(
             containerProgrammaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
         );
         containerProgrammaLayout.setVerticalGroup(
             containerProgrammaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 397, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
         );
 
         containerOpzioni.add(containerProgramma, java.awt.BorderLayout.CENTER);
@@ -97,7 +110,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerComandi.setBackground(new java.awt.Color(255, 255, 255));
         containerComandi.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         containerComandi.setName("containerComandi"); // NOI18N
-        containerComandi.setLayout(new java.awt.GridLayout());
+        containerComandi.setLayout(new java.awt.GridLayout(1, 0));
 
         btnBackward.setText("⏮");
         btnBackward.setToolTipText("go backward");
@@ -122,6 +135,75 @@ public class TrainingGui extends javax.swing.JFrame {
         containerComandi.add(btnStop);
 
         containerOpzioni.add(containerComandi, java.awt.BorderLayout.PAGE_START);
+
+        containerSettings.setBackground(new java.awt.Color(255, 204, 204));
+        java.awt.GridBagLayout containerSettingsLayout = new java.awt.GridBagLayout();
+        containerSettingsLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        containerSettingsLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        containerSettings.setLayout(containerSettingsLayout);
+
+        jLabel1.setText("Posizione e direzione");
+        jLabel1.setToolTipText("");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jLabel1, gridBagConstraints);
+
+        jLabel2.setText("Schede Istruzione");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jLabel2, gridBagConstraints);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jComboBox1, gridBagConstraints);
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jComboBox2, gridBagConstraints);
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jComboBox3, gridBagConstraints);
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jComboBox4, gridBagConstraints);
+
+        jButton1.setText("jButton1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jButton1, gridBagConstraints);
+
+        jButton2.setText("jButton2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        containerSettings.add(jButton2, gridBagConstraints);
+
+        containerOpzioni.add(containerSettings, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(containerOpzioni, java.awt.BorderLayout.LINE_START);
 
@@ -190,7 +272,16 @@ public class TrainingGui extends javax.swing.JFrame {
     protected javax.swing.JPanel containerComandi;
     protected javax.swing.JPanel containerOpzioni;
     protected javax.swing.JPanel containerProgramma;
+    private javax.swing.JPanel containerSettings;
     protected javax.swing.JPanel containerTabellone;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
+    private javax.swing.JComboBox<String> jComboBox4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
