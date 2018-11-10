@@ -31,7 +31,6 @@ public class TrainingController {
             public void run() {
                 theRobodrome = new Robodrome(rbdFileName);
                 theTraining.init(theRobodrome);
-
                 doSomething();
             }
         };
@@ -52,7 +51,7 @@ public class TrainingController {
         System.out.println("Robodromo " + theRobodrome.getName() +
                 "\nrighe e colonne, " + this.theRobodrome.getRowCount() +
                 ", " + this.theRobodrome.getColumnCount());
-        System.out.println("utente " + nome_utente);
+        System.out.println(theTraining.getDeck());
     }
     
     

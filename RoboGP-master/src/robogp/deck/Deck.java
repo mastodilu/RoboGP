@@ -33,16 +33,17 @@ public class Deck{
         for(int i = 0; i < 12; i++){
             InstructionCard card = new InstructionCard("move2");
             mazzo.add(card);
-            card = new InstructionCard("move1");
-            mazzo.add(card);
+            
         }
         for(int i = 0; i < 18; i++){
-            InstructionCard card = new InstructionCard("turnleft");
+            InstructionCard card = new InstructionCard("move1");
+            mazzo.add(card);
+            card = new InstructionCard("turnleft");
             mazzo.add(card);
             card = new InstructionCard("turnright");
             mazzo.add(card);
         }
-
+        this.shuffle();//mischia le carte
     }
 
 
