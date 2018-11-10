@@ -74,6 +74,28 @@ public class Deck{
         this.scarti.add(0, _card);
     }
     
+    /**
+     * preleva la carta specificata dal mazzo
+     * @param _tipo il tipo di carta
+     * @param _priorita la priorita della carta
+     * @return InstructionCard se la trova, altrimenti null
+    */
+    public InstructionCard pickSpecificCard(String _tipo, int _priorita){
+        InstructionCard card = null;
+        boolean trovato = false;
+        for(int i = 0; i < mazzo.size() && !trovato; i++){
+            InstructionCard tempCard = mazzo.get(i);
+            if(tempCard.getTipo().contentEquals(_tipo) && tempCard.getPriorita() == _priorita){ //true se viene trovata la carta corrispondente
+                trovato = true;
+                card = tempCard;
+                mazzo.remove(card); //tolgo la carta dal pazzo
+            }
+        }
+        //se non trova la carta allora non toglie niente da 'mazzo' e ritorna null
+        return card;
+    }
+    
+    
     @Override
     public String toString(){
         String s = "mazzo: ";
