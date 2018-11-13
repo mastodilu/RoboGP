@@ -551,7 +551,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
             //siamo qua se e' stato inserito un nome utente valido
             nome_utente = this.jTextField1.getText().trim();
             nome_robodromo = this.robodromeCombo1.getSelectedItem().toString();
-            this.traningController.init(nome_utente, nome_robodromo); //FIXME questo blocca la gui
+            this.traningController.init(nome_utente, nome_robodromo);
             
         }
     }//GEN-LAST:event_jButton1ActionPerformed

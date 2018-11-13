@@ -1,12 +1,21 @@
 package robogp.Training;
 
+import java.util.ArrayList;
+import javax.swing.JPanel;
+import robogp.deck.Deck;
+import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
 
 /**
  *
  * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
  */
+import robogp.deck.InstructionCardGui;
 public class TrainingGui extends javax.swing.JFrame {
+    
+    //elenco di istruzioni disponibili nella modalità allenamento
+    private ArrayList<InstructionCard> istruzioni = null;
+    private String[] labelIstruzioni;
     
     private static TrainingGui singleInstance;
 
@@ -29,6 +38,19 @@ public class TrainingGui extends javax.swing.JFrame {
         this.containerTabellone.add(robodromo);
     }
 
+    public ArrayList<InstructionCard> getIstruzioni() {
+        return istruzioni;
+    }
+
+    public void setIstruzioni(ArrayList<InstructionCard> istruzioni) {
+        this.istruzioni = istruzioni;
+    }
+
+    public void setLabelIstruzioni(String[] labelIstruzioni) {
+        this.labelIstruzioni = labelIstruzioni;
+    }
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +66,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerOpzioni = new javax.swing.JPanel();
         containerProgramma = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        programma = new javax.swing.JList<>();
+        panelCardGuiList = new javax.swing.JPanel();
         containerComandi = new javax.swing.JPanel();
         btnBackward = new javax.swing.JButton();
         btnPlayPause = new javax.swing.JButton();
@@ -55,13 +77,13 @@ public class TrainingGui extends javax.swing.JFrame {
         comboRighe = new javax.swing.JComboBox<>();
         comboColonne = new javax.swing.JComboBox<>();
         comboDirezione = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        menuListaTipiInstructionCard = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1100, 370));
@@ -85,15 +107,18 @@ public class TrainingGui extends javax.swing.JFrame {
         containerProgramma.setMinimumSize(new java.awt.Dimension(200, 12));
         containerProgramma.setName("containerProgramma"); // NOI18N
 
-        jScrollPane2.setBorder(null);
-        jScrollPane2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        javax.swing.GroupLayout panelCardGuiListLayout = new javax.swing.GroupLayout(panelCardGuiList);
+        panelCardGuiList.setLayout(panelCardGuiListLayout);
+        panelCardGuiListLayout.setHorizontalGroup(
+            panelCardGuiListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 215, Short.MAX_VALUE)
+        );
+        panelCardGuiListLayout.setVerticalGroup(
+            panelCardGuiListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 277, Short.MAX_VALUE)
+        );
 
-        programma.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "istruzione 1", "istruzione 2", "istruzione 3", "istruzione 4", "istruzione 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(programma);
+        jScrollPane2.setViewportView(panelCardGuiList);
 
         javax.swing.GroupLayout containerProgrammaLayout = new javax.swing.GroupLayout(containerProgramma);
         containerProgramma.setLayout(containerProgrammaLayout);
@@ -103,7 +128,7 @@ public class TrainingGui extends javax.swing.JFrame {
         );
         containerProgrammaLayout.setVerticalGroup(
             containerProgrammaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
         );
 
         containerOpzioni.add(containerProgramma, java.awt.BorderLayout.CENTER);
@@ -196,19 +221,19 @@ public class TrainingGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(comboDirezione, gridBagConstraints);
 
-        final int numeroIstruzioni = 50;
-        String[] tutteLeIstruzioni = new String[numeroIstruzioni];
-        for(int i = 0; i < numeroIstruzioni; i++){
-            tutteLeIstruzioni[i] = "Scheda " + (i+1);
-        }
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(tutteLeIstruzioni ));
-        jComboBox4.setToolTipText("Seleziona una scheda istruzione");
+        menuListaTipiInstructionCard.setModel(new javax.swing.DefaultComboBoxModel<>(Deck.tipi));
+        menuListaTipiInstructionCard.setToolTipText("Seleziona una scheda istruzione");
+        menuListaTipiInstructionCard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuListaTipiInstructionCardActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        containerSettings.add(jComboBox4, gridBagConstraints);
+        containerSettings.add(menuListaTipiInstructionCard, gridBagConstraints);
 
         jButton1.setText("Avvia Test");
         jButton1.setToolTipText("Avvia la sessione di allenamento con le impostazioni settate");
@@ -279,7 +304,17 @@ public class TrainingGui extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        // aggiunge la carta selezionata nel menu a tendina all'elenco di InstructionCardGui
+        int index = menuListaTipiInstructionCard.getSelectedIndex();
+        InstructionCard card = istruzioni.get(index);
+        InstructionCardGui cardGui = new InstructionCardGui(card);
+                
+        System.out.println(cardGui);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void menuListaTipiInstructionCardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuListaTipiInstructionCardActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuListaTipiInstructionCardActionPerformed
 
     
     public void start() {
@@ -334,12 +369,12 @@ public class TrainingGui extends javax.swing.JFrame {
     private javax.swing.Box.Filler filler2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    protected javax.swing.JList<String> programma;
+    private javax.swing.JComboBox<String> menuListaTipiInstructionCard;
+    private javax.swing.JPanel panelCardGuiList;
     // End of variables declaration//GEN-END:variables
 }

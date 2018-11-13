@@ -1,6 +1,7 @@
 package robogp.deck;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -9,8 +10,10 @@ import java.util.ArrayList;
 public class Deck{
     public static final int N_CARTE_MAX = 84;
     private static Deck singleInstance; //pattern singleton
-    ArrayList<InstructionCard> mazzo = new ArrayList(N_CARTE_MAX);//array carte nuove
-    ArrayList<InstructionCard> scarti = new ArrayList(N_CARTE_MAX);//array carte usate
+    private ArrayList<InstructionCard> mazzo = new ArrayList(N_CARTE_MAX);//array carte nuove
+    private ArrayList<InstructionCard> scarti = new ArrayList(N_CARTE_MAX);//array carte usate
+    public static final String[] tipi = {"uturn", "backup", "move3", "move2", "move1", "turnleft", "turnright"};
+    
 
     private Deck(){
         /*
@@ -22,6 +25,7 @@ public class Deck{
         18  x  turnleft
         18  x  turnright
         */
+        
         for(int i = 0; i < 6; i++){
             InstructionCard card = new InstructionCard("uturn"); 
             mazzo.add(card);
@@ -52,8 +56,15 @@ public class Deck{
             Deck.singleInstance = new Deck();
         return Deck.singleInstance;
     }
+    
+    
+    public ArrayList<InstructionCard> getMazzo() {
+        return mazzo;
+    }
 
-
+    public ArrayList<InstructionCard> getScarti() {
+        return scarti;
+    }
 
     //mischia il mazzo
     public void shuffle(){
