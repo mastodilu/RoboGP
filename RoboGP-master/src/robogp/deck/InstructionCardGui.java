@@ -7,11 +7,13 @@ import javax.swing.ImageIcon;
  * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
  */
 public class InstructionCardGui extends javax.swing.JPanel {
+    private InstructionCard card;
 
     /**
      * Creates new form InstructionCardGui
      */
     public InstructionCardGui(InstructionCard sorgente) {
+        card = sorgente;
         //crea la gui usando la scheda istruzione
         initComponents();
         //labelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(sorgente.getPath_icona())));
@@ -19,6 +21,11 @@ public class InstructionCardGui extends javax.swing.JPanel {
         //labelIcon.setIcon(image);
         labelPriorita.setText("" + sorgente.getPriorita());
         labelTipoCarta.setText(sorgente.getTipo());
+    }
+    
+    
+    public InstructionCard getSourceCard(){
+        return this.card;
     }
     
     
@@ -40,83 +47,96 @@ public class InstructionCardGui extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
-        panelPriorita = new javax.swing.JPanel();
-        labelPriorita = new javax.swing.JLabel();
-        panelTipoCarta = new javax.swing.JPanel();
-        labelTipoCarta = new javax.swing.JLabel();
         panelIcon = new javax.swing.JPanel();
         labelIcon = new javax.swing.JLabel();
+        panelTipoCarta = new javax.swing.JPanel();
+        labelTipoCarta = new javax.swing.JLabel();
+        panelPriorita = new javax.swing.JPanel();
+        labelPriorita = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(102, 102, 102));
+        setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        setMaximumSize(new java.awt.Dimension(200, 200));
+        setMinimumSize(new java.awt.Dimension(200, 200));
+        setPreferredSize(new java.awt.Dimension(200, 200));
         setLayout(new java.awt.BorderLayout());
 
-        labelPriorita.setText("priorita'");
+        panelIcon.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelIcon.setMaximumSize(new java.awt.Dimension(50, 50));
+        panelIcon.setMinimumSize(new java.awt.Dimension(50, 50));
+        panelIcon.setPreferredSize(new java.awt.Dimension(50, 50));
 
-        javax.swing.GroupLayout panelPrioritaLayout = new javax.swing.GroupLayout(panelPriorita);
-        panelPriorita.setLayout(panelPrioritaLayout);
-        panelPrioritaLayout.setHorizontalGroup(
-            panelPrioritaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrioritaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(labelPriorita)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        panelPrioritaLayout.setVerticalGroup(
-            panelPrioritaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPrioritaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(labelPriorita)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        add(panelPriorita, java.awt.BorderLayout.SOUTH);
-
-        labelTipoCarta.setText("tipo carta");
-
-        javax.swing.GroupLayout panelTipoCartaLayout = new javax.swing.GroupLayout(panelTipoCarta);
-        panelTipoCarta.setLayout(panelTipoCartaLayout);
-        panelTipoCartaLayout.setHorizontalGroup(
-            panelTipoCartaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTipoCartaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(labelTipoCarta)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        panelTipoCartaLayout.setVerticalGroup(
-            panelTipoCartaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTipoCartaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(labelTipoCarta)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        add(panelTipoCarta, java.awt.BorderLayout.CENTER);
-
+        labelIcon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         labelIcon.setText("immagine");
+        labelIcon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        labelIcon.setMaximumSize(new java.awt.Dimension(50, 50));
+        labelIcon.setMinimumSize(new java.awt.Dimension(50, 50));
+        labelIcon.setName(""); // NOI18N
+        labelIcon.setPreferredSize(new java.awt.Dimension(50, 50));
 
         javax.swing.GroupLayout panelIconLayout = new javax.swing.GroupLayout(panelIcon);
         panelIcon.setLayout(panelIconLayout);
         panelIconLayout.setHorizontalGroup(
             panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-            .addGroup(panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelIconLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(labelIcon)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(labelIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
         );
         panelIconLayout.setVerticalGroup(
             panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 324, Short.MAX_VALUE)
-            .addGroup(panelIconLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelIconLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(labelIcon)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+            .addComponent(labelIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        add(panelIcon, java.awt.BorderLayout.NORTH);
+        add(panelIcon, java.awt.BorderLayout.PAGE_START);
+
+        panelTipoCarta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelTipoCarta.setMaximumSize(new java.awt.Dimension(50, 20));
+        panelTipoCarta.setMinimumSize(new java.awt.Dimension(50, 20));
+        panelTipoCarta.setPreferredSize(new java.awt.Dimension(50, 20));
+
+        labelTipoCarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelTipoCarta.setText("tipo carta");
+        labelTipoCarta.setMaximumSize(new java.awt.Dimension(50, 20));
+        labelTipoCarta.setMinimumSize(new java.awt.Dimension(50, 20));
+        labelTipoCarta.setPreferredSize(new java.awt.Dimension(50, 20));
+
+        javax.swing.GroupLayout panelTipoCartaLayout = new javax.swing.GroupLayout(panelTipoCarta);
+        panelTipoCarta.setLayout(panelTipoCartaLayout);
+        panelTipoCartaLayout.setHorizontalGroup(
+            panelTipoCartaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelTipoCarta, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        );
+        panelTipoCartaLayout.setVerticalGroup(
+            panelTipoCartaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelTipoCarta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        add(panelTipoCarta, java.awt.BorderLayout.CENTER);
+
+        panelPriorita.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panelPriorita.setMaximumSize(new java.awt.Dimension(50, 20));
+        panelPriorita.setMinimumSize(new java.awt.Dimension(50, 20));
+        panelPriorita.setPreferredSize(new java.awt.Dimension(50, 20));
+
+        labelPriorita.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        labelPriorita.setText("priorita'");
+        labelPriorita.setMaximumSize(new java.awt.Dimension(50, 20));
+        labelPriorita.setMinimumSize(new java.awt.Dimension(50, 20));
+        labelPriorita.setPreferredSize(new java.awt.Dimension(50, 20));
+
+        javax.swing.GroupLayout panelPrioritaLayout = new javax.swing.GroupLayout(panelPriorita);
+        panelPriorita.setLayout(panelPrioritaLayout);
+        panelPrioritaLayout.setHorizontalGroup(
+            panelPrioritaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(labelPriorita, javax.swing.GroupLayout.DEFAULT_SIZE, 192, Short.MAX_VALUE)
+        );
+        panelPrioritaLayout.setVerticalGroup(
+            panelPrioritaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPrioritaLayout.createSequentialGroup()
+                .addComponent(labelPriorita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        add(panelPriorita, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
 
