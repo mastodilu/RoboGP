@@ -334,6 +334,7 @@ public class TrainingGui extends javax.swing.JFrame {
         this.indiceIstruzioneMostrata = this.istruzioniGui.size() -1;
         this.panelCardGui.add(this.istruzioniGui.get(this.indiceIstruzioneMostrata), BorderLayout.CENTER);
         this.panelCardGui.validate();
+        this.updateLabelIndiceIstruzioneMostrata();
         System.out.println("Programma: " + this.istruzioniGui);
         System.out.println( this.indiceIstruzioneMostrata + " Mostrata: " + this.istruzioniGui.get(this.indiceIstruzioneMostrata));
     }//GEN-LAST:event_btnAggiungiIstruzioneActionPerformed

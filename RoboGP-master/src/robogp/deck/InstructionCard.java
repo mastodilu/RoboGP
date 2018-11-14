@@ -51,7 +51,7 @@ public class InstructionCard{
         this.tipo = "uturn";
         this.priorita_min = 10;
         this.priorita_max = 60;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-uturn.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -59,7 +59,7 @@ public class InstructionCard{
         this.tipo = "turnleft";
         this.priorita_min = 70;
         this.priorita_max = 410;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-turnL.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -67,6 +67,7 @@ public class InstructionCard{
         this.tipo = "turnright";
         this.priorita_min = 80;
         this.priorita_max = 420;
+        this.path_icona = "./icons/card-turnR.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -74,7 +75,7 @@ public class InstructionCard{
         this.tipo = "backup";
         this.priorita_min = 430;
         this.priorita_max = 480;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-backup.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -82,7 +83,7 @@ public class InstructionCard{
         this.tipo = "move1";
         this.priorita_min = 490;
         this.priorita_max = 660;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-move1.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -90,7 +91,7 @@ public class InstructionCard{
         this.tipo = "move2";
         this.priorita_min = 670;
         this.priorita_max = 780;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-move2.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 
@@ -98,7 +99,7 @@ public class InstructionCard{
         this.tipo = "move3";
         this.priorita_min = 790;
         this.priorita_max = 840;
-        this.path_icona = "";
+        this.path_icona = "./icons/card-move3.png";
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 

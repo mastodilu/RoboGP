@@ -17,7 +17,7 @@ public class InstructionCardGui extends javax.swing.JPanel {
         //crea la gui usando la scheda istruzione
         initComponents();
         //labelIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource(sorgente.getPath_icona())));
-        ImageIcon image = new ImageIcon(getClass().getResource("./icons/card-turnR.png"));
+        ImageIcon image = new ImageIcon(getClass().getResource(sorgente.getPath_icona()));
         //labelIcon.setIcon(image);
         labelPriorita.setText("" + sorgente.getPriorita());
         labelTipoCarta.setText(sorgente.getTipo());

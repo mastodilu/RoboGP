@@ -175,7 +175,6 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="&gt;&gt;"/>
                         <Property name="toolTipText" type="java.lang.String" value="stop"/>
-                        <Property name="actionCommand" type="java.lang.String" value="&gt;&gt;"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIstruzioneSuccessivaActionPerformed"/>
