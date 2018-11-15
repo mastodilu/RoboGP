@@ -14,6 +14,15 @@ import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
 public class TrainingGui extends javax.swing.JFrame {
     
+    /*array per creare la JComboBox di righe*/
+    private static final String[] RIGHE = { "Row 1", "Row 2", "Row 3", "Row 4", "Row 5", "Row 6", "Row 7", "Row 8", "Row 9", "Row 10", "Row 11", "Row 12" };
+    
+    /*array per creare la JComboBox di righe*/
+    private static final String[] COLONNE = { "Col 1", "Col 2", "Col 3", "Col 4", "Col 5", "Col 6", "Col 7", "Col 8", "Col 9", "Col 10", "Col 11", "Col 12", "Col 13", "Col 14", "Col 15", "Col 16" };
+    
+    /*array per creare JComboBox di direzioni*/
+    private static final String[] DIREZIONI = { "Est", "Sud", "Ovest", "Nord" };
+    
     /*elenco delle InstructionCard esistenti, una per tipo.
         Non modificare la variabile*/
     private ArrayList<InstructionCard> ISTRUZIONI = null;
@@ -83,14 +92,13 @@ public class TrainingGui extends javax.swing.JFrame {
         btnPlayPause = new javax.swing.JButton();
         btnStop = new javax.swing.JButton();
         containerSettings = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         comboRighe = new javax.swing.JComboBox<>();
         comboColonne = new javax.swing.JComboBox<>();
         comboDirezione = new javax.swing.JComboBox<>();
         menuListaTipiInstructionCard = new javax.swing.JComboBox<>();
         btnAvviaTraining = new javax.swing.JButton();
         btnAggiungiIstruzione = new javax.swing.JButton();
+        btnAggiornaPosizione = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
 
@@ -123,7 +131,7 @@ public class TrainingGui extends javax.swing.JFrame {
 
         containerComandi1.setBackground(new java.awt.Color(255, 255, 255));
         containerComandi1.setName("containerComandi"); // NOI18N
-        containerComandi1.setLayout(new java.awt.GridLayout());
+        containerComandi1.setLayout(new java.awt.GridLayout(1, 0));
 
         btnIstruzionePrecedente.setText("<<");
         btnIstruzionePrecedente.setToolTipText("go backward");
@@ -135,12 +143,11 @@ public class TrainingGui extends javax.swing.JFrame {
         containerComandi1.add(btnIstruzionePrecedente);
 
         labelCardsCounter.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        labelCardsCounter.setText("7");
+        labelCardsCounter.setText("0/0");
         containerComandi1.add(labelCardsCounter);
 
         btnIstruzioneSuccessiva.setText(">>");
         btnIstruzioneSuccessiva.setToolTipText("stop");
-        btnIstruzioneSuccessiva.setActionCommand(">>");
         btnIstruzioneSuccessiva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIstruzioneSuccessivaActionPerformed(evt);
@@ -196,28 +203,16 @@ public class TrainingGui extends javax.swing.JFrame {
         containerSettings.setPreferredSize(new java.awt.Dimension(226, 119));
         java.awt.GridBagLayout containerSettingsLayout = new java.awt.GridBagLayout();
         containerSettingsLayout.columnWidths = new int[] {0, 0, 0, 0, 0};
-        containerSettingsLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        containerSettingsLayout.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
         containerSettings.setLayout(containerSettingsLayout);
 
-        jLabel1.setText("Posizione e direzione");
-        jLabel1.setToolTipText("");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        containerSettings.add(jLabel1, gridBagConstraints);
-
-        jLabel2.setText("Schede Istruzione");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        containerSettings.add(jLabel2, gridBagConstraints);
-
-        comboRighe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Row 1", "Row 2", "Row 3", "Row 4", "Row 5", "Row 6", "Row 7", "Row 8", "Row 9", "Row 10", "Row 11", "Row 12" }));
-        comboRighe.setToolTipText("La riga iniziale di partenza del robot");
+        comboRighe.setModel(new javax.swing.DefaultComboBoxModel<>(this.RIGHE));
+        comboRighe.setToolTipText("Imposta la riga iniziale di partenza del robot");
+        comboRighe.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboRigheItemStateChanged(evt);
+            }
+        });
         comboRighe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboRigheActionPerformed(evt);
@@ -229,16 +224,16 @@ public class TrainingGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(comboRighe, gridBagConstraints);
 
-        comboColonne.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Col 1", "Col 2", "Col 3", "Col 4", "Col 5", "Col 6", "Col 7", "Col 8", "Col 9", "Col 10", "Col 11", "Col 12", "Col 13", "Col 14", "Col 15", "Col 16" }));
-        comboColonne.setToolTipText("La colonna di partenza del robot nel robodromo");
+        comboColonne.setModel(new javax.swing.DefaultComboBoxModel<>(this.COLONNE));
+        comboColonne.setToolTipText("Imposta la colonna di partenza del robot nel robodromo");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(comboColonne, gridBagConstraints);
 
-        comboDirezione.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Est", "Sud", "Ovest", "Nord" }));
-        comboDirezione.setToolTipText("La direzione iniziale del robot");
+        comboDirezione.setModel(new javax.swing.DefaultComboBoxModel<>(this.DIREZIONI));
+        comboDirezione.setToolTipText("Imposta la direzione iniziale del robot");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -246,7 +241,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerSettings.add(comboDirezione, gridBagConstraints);
 
         menuListaTipiInstructionCard.setModel(new javax.swing.DefaultComboBoxModel<>(Deck.tipi));
-        menuListaTipiInstructionCard.setToolTipText("Seleziona una scheda istruzione");
+        menuListaTipiInstructionCard.setToolTipText("Seleziona una scheda istruzione da assegnare alla prorammazione del robot");
         menuListaTipiInstructionCard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuListaTipiInstructionCardActionPerformed(evt);
@@ -260,7 +255,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerSettings.add(menuListaTipiInstructionCard, gridBagConstraints);
 
         btnAvviaTraining.setText("Avvia simulazione");
-        btnAvviaTraining.setToolTipText("Avvia la sessione di allenamento con le impostazioni settate");
+        btnAvviaTraining.setToolTipText("Avvia l'allenamento con le impostazioni settate");
         btnAvviaTraining.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAvviaTrainingActionPerformed(evt);
@@ -268,9 +263,9 @@ public class TrainingGui extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(btnAvviaTraining, gridBagConstraints);
 
         btnAggiungiIstruzione.setText("Aggiungi");
@@ -285,6 +280,19 @@ public class TrainingGui extends javax.swing.JFrame {
         gridBagConstraints.gridy = 6;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(btnAggiungiIstruzione, gridBagConstraints);
+
+        btnAggiornaPosizione.setText("Posiziona robot");
+        btnAggiornaPosizione.setToolTipText("Posiziona il robot nella mappa con riga, colonna e direzioni scelti");
+        btnAggiornaPosizione.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAggiornaPosizioneActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 5;
+        containerSettings.add(btnAggiornaPosizione, gridBagConstraints);
 
         containerOpzioni.add(containerSettings, java.awt.BorderLayout.SOUTH);
 
@@ -356,6 +364,22 @@ public class TrainingGui extends javax.swing.JFrame {
         //incrementa l'indice
     }//GEN-LAST:event_btnIstruzioneSuccessivaActionPerformed
 
+    private void comboRigheItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboRigheItemStateChanged
+        
+    }//GEN-LAST:event_comboRigheItemStateChanged
+
+    private void btnAggiornaPosizioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiornaPosizioneActionPerformed
+        int indiceRiga, indiceColonna, indiceDirezione;
+        String direzione;
+        
+        indiceRiga = this.comboRighe.getSelectedIndex();
+        indiceColonna = this.comboColonne.getSelectedIndex();
+        indiceDirezione = this.comboDirezione.getSelectedIndex();
+        direzione = DIREZIONI[indiceDirezione];
+        
+        System.out.println("Posizione   r: " + indiceRiga + " c: " + indiceColonna + " " + direzione);
+    }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
+
     
     public void start() {
         /* Set the Nimbus look and feel */
@@ -395,6 +419,7 @@ public class TrainingGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAggiornaPosizione;
     private javax.swing.JButton btnAggiungiIstruzione;
     private javax.swing.JButton btnAvviaTraining;
     private javax.swing.JButton btnBackward;
@@ -412,8 +437,6 @@ public class TrainingGui extends javax.swing.JFrame {
     private javax.swing.JPanel containerSettings;
     protected javax.swing.JPanel containerTabellone;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
@@ -423,8 +446,8 @@ public class TrainingGui extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void updateLabelIndiceIstruzioneMostrata() {
-        System.out.println("Istruzione mostrata: " + this.indiceIstruzioneMostrata);
-        this.labelCardsCounter.setText(this.indiceIstruzioneMostrata + "");
+        System.out.println("Istruzione: " + this.indiceIstruzioneMostrata + "/" + this.istruzioniGui.size());
+        this.labelCardsCounter.setText(this.indiceIstruzioneMostrata + "/" + this.istruzioniGui.size());
     }
 
 
