@@ -2,7 +2,7 @@ package robogp.Training;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import javax.swing.JPanel;
+import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.deck.Deck;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
@@ -12,44 +12,64 @@ import robogp.robodrome.view.RobodromeView;
  * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
  */
 import robogp.deck.InstructionCardGui;
+import robogp.robodrome.Direction;
+import robogp.robodrome.Robodrome;
 public class TrainingGui extends javax.swing.JFrame {
     
-    /*array per creare la JComboBox di righe*/
+    /**
+     * array per creare la JComboBox di righe
+     */
     private static final String[] RIGHE = { "Row 1", "Row 2", "Row 3", "Row 4", "Row 5", "Row 6", "Row 7", "Row 8", "Row 9", "Row 10", "Row 11", "Row 12" };
     
-    /*array per creare la JComboBox di righe*/
+    /**
+     * array per creare la JComboBox di righe
+     */
     private static final String[] COLONNE = { "Col 1", "Col 2", "Col 3", "Col 4", "Col 5", "Col 6", "Col 7", "Col 8", "Col 9", "Col 10", "Col 11", "Col 12", "Col 13", "Col 14", "Col 15", "Col 16" };
     
-    /*array per creare JComboBox di direzioni*/
-    private static final String[] DIREZIONI = { "Est", "Sud", "Ovest", "Nord" };
+    /**
+     * array per creare JComboBox di direzioni
+     */
+    private static final String[] DIREZIONI = { "Ovest", "Nord", "Est", "Sud" };
     
-    /*elenco delle InstructionCard esistenti, una per tipo.
-        Non modificare la variabile*/
+    /**
+     * elenco delle InstructionCard esistenti, una per tipo.
+     */
     private ArrayList<InstructionCard> ISTRUZIONI = null;
     
-    //GUI delle InstructionCard aggiunte alla programmazione del robot
+    /**
+     * GUI delle InstructionCard aggiunte alla programmazione del robot
+     */
     private ArrayList<InstructionCardGui> istruzioniGui = null;
     
-    //indice dell'istrunction card correntemente visualizzata
+    /**
+     * indice dell'istrunction card correntemente visualizzata
+     */
     private int indiceIstruzioneMostrata;
     
+    /**
+     * segnalino del robot nella mappa
+     */
+    private RobotMarkerTraining robot = null;
+    
+    //single instance del pattern singleton
     private static TrainingGui singleInstance;
 
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo){
+    private TrainingGui(RobodromeView robodromo, RobotMarkerTraining robot){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
         istruzioniGui = new ArrayList<>();
         this.setTabellone(robodromo);
+        this.robot = robot;
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo){
+    public static TrainingGui getInstance(RobodromeView robodromo, RobotMarkerTraining robot){
         if(TrainingGui.singleInstance == null)
-            TrainingGui.singleInstance = new TrainingGui(robodromo);
+            TrainingGui.singleInstance = new TrainingGui(robodromo, robot);
         return TrainingGui.singleInstance;
     }
     
@@ -61,7 +81,9 @@ public class TrainingGui extends javax.swing.JFrame {
         return ISTRUZIONI;
     }
 
-    //usato per inizializzare la variabile, non usarlo più e non modificare più questa variabile
+    /**
+     * usato per inizializzare la variabile, non usarlo più e non modificare più questa variabile
+     */
     public void setIstruzioni(ArrayList<InstructionCard> istruzioni) {
         this.ISTRUZIONI = istruzioni;
     }
@@ -99,8 +121,9 @@ public class TrainingGui extends javax.swing.JFrame {
         btnAggiungiIstruzione = new javax.swing.JButton();
         btnAggiornaPosizione = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnRimuoviIstruzione = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        logTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -122,7 +145,7 @@ public class TrainingGui extends javax.swing.JFrame {
         containerOpzioni.setLayout(new java.awt.BorderLayout());
 
         containerProgramma.setBackground(new java.awt.Color(255, 255, 255));
-        containerProgramma.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Istruzioni", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(51, 51, 51))); // NOI18N
+        containerProgramma.setBorder(javax.swing.BorderFactory.createTitledBorder("Istruzioni"));
         containerProgramma.setMinimumSize(new java.awt.Dimension(200, 12));
         containerProgramma.setName("containerProgramma"); // NOI18N
         containerProgramma.setLayout(new java.awt.BorderLayout());
@@ -251,11 +274,10 @@ public class TrainingGui extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(menuListaTipiInstructionCard, gridBagConstraints);
 
-        btnAggiungiIstruzione.setText("Aggiungi");
+        btnAggiungiIstruzione.setText("➕");
         btnAggiungiIstruzione.setToolTipText("Aggiunge la scheda istruzione selezionata all'elenco di istruzioni del robot");
         btnAggiungiIstruzione.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -263,7 +285,7 @@ public class TrainingGui extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(btnAggiungiIstruzione, gridBagConstraints);
@@ -291,6 +313,19 @@ public class TrainingGui extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         containerSettings.add(jLabel1, gridBagConstraints);
 
+        btnRimuoviIstruzione.setText("➖");
+        btnRimuoviIstruzione.setToolTipText("rimuove l'ultima istruzione inserita");
+        btnRimuoviIstruzione.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRimuoviIstruzioneActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
+        containerSettings.add(btnRimuoviIstruzione, gridBagConstraints);
+
         containerOpzioni.add(containerSettings, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(containerOpzioni, java.awt.BorderLayout.LINE_START);
@@ -298,13 +333,12 @@ public class TrainingGui extends javax.swing.JFrame {
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Log"));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n◾ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus aliquet ligula quis augue faucibus lobortis. Etiam ultrices efficitur lectus, non venenatis diam ultricies et. Nullam ut tellus quis sapien efficitur.\n");
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        logTextArea.setEditable(false);
+        logTextArea.setColumns(20);
+        logTextArea.setLineWrap(true);
+        logTextArea.setRows(5);
+        logTextArea.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(logTextArea);
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.LINE_END);
 
@@ -328,37 +362,55 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackwardActionPerformed
 
     
-    //aggiunge alla view del programma del robot l'istruzione selezionata
+    /**
+     * aggiunge alla view del programma del robot l'istruzione selezionata
+     */
     private void btnAggiungiIstruzioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiungiIstruzioneActionPerformed
-        InstructionCard card = new InstructionCard(this.menuListaTipiInstructionCard.getSelectedItem().toString());
-        this.istruzioniGui.add(new InstructionCardGui(card));//crea la nuova GUI della instrution card e la aggiunge all'elenco
-        this.indiceIstruzioneMostrata++;
-        updateIstruzioneMostrata(this.indiceIstruzioneMostrata);
-        System.out.println("Programma: " + this.istruzioniGui);
-        System.out.println( this.indiceIstruzioneMostrata + " Mostrata: " + this.istruzioniGui.get(this.indiceIstruzioneMostrata));
+        this.aggiungiIstruzione();
     }//GEN-LAST:event_btnAggiungiIstruzioneActionPerformed
 
+    /**
+     * metodo synchronized per aggiungere un'istruzione al programma
+     */
+    private synchronized void aggiungiIstruzione(){
+        //crea un'istruzione
+        InstructionCard card = new InstructionCard(this.menuListaTipiInstructionCard.getSelectedItem().toString());
+        //aggiunge l'istruzione al programma
+        this.istruzioniGui.add(new InstructionCardGui(card));//crea la nuova GUI della instrution card e la aggiunge all'elenco
+        //aggiorna l'indice perche' cambia l'istruzione che viene mostrata
+        this.indiceIstruzioneMostrata++;
+        //aggiorna la GUI del programma
+        updateIstruzioneMostrata(this.indiceIstruzioneMostrata);
+        
+        System.out.println("Programma: " + this.istruzioniGui);
+        System.out.println( this.indiceIstruzioneMostrata + " Mostrata: " + this.istruzioniGui.get(this.indiceIstruzioneMostrata));
+        
+        this.sendToLog("Aggiunta l'istruzione " + card);
+    }
+    
+    /**
+     * restituisce il robodromo istanziato in RobodromeView
+     */
+    private Robodrome getDrome(){
+        return ((RobodromeView)this.containerTabellone.getComponent(0)).getDrome();
+    }
     
     /**
      * aggiorna la view della scheda istruzione mostrata
      * @param indice indice dell'istruzione che si vuole mostrare
      */
-    private void updateIstruzioneMostrata(int indice){
-        try{
-            if(indice < 0 || indice >= this.istruzioniGui.size()){ // indice sensa senso
-                throw new Exception("Indice dell'istruzione da mostrare non valido" + indice);
-            }
-        }catch(Exception e){
-            System.err.println("Indice istruzione da mostrare non valido: " + indice);
-        }
+    private synchronized void updateIstruzioneMostrata(int indice){
         
-        //aggiorna la view della carta istruzione e aggiorna l'indice
-        this.panelCardGui.removeAll();
-        this.indiceIstruzioneMostrata = indice; //mostra l'istruzione mostrata
-        this.panelCardGui.add(this.istruzioniGui.get(indice), BorderLayout.CENTER);
+        this.panelCardGui.removeAll(); // svuota il pannello che mostra il programma
+        if(indice > -1){
+            //aggiorna la view della carta istruzione (mostra la card precedente) e aggiorna l'indice
+            //solo se c'e' almeno un'istruzione nel programma
+            this.indiceIstruzioneMostrata = indice; //mostra l'istruzione mostrata
+            this.panelCardGui.add(this.istruzioniGui.get(indice), BorderLayout.CENTER);    
+        }
         this.panelCardGui.validate();
         this.panelCardGui.repaint();
-        this.updateLabelIndiceIstruzioneMostrata();
+        this.updateLabelIndiceIstruzioneMostrata(this.indiceIstruzioneMostrata);
     }
 
 
@@ -366,7 +418,9 @@ public class TrainingGui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_menuListaTipiInstructionCardActionPerformed
 
-    //Mostra la GUI della scheda istruzione precedente
+    /**
+     * Mostra la GUI della scheda istruzione precedente
+     */
     private void btnIstruzionePrecedenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIstruzionePrecedenteActionPerformed
         System.out.println("Vai indietro di una istruzione");
         if(this.indiceIstruzioneMostrata > 0){
@@ -379,6 +433,10 @@ public class TrainingGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnIstruzionePrecedenteActionPerformed
 
+    
+    /**
+     * mostra la GUI dell'istruzione successiva nel programma
+     */
     private void btnIstruzioneSuccessivaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIstruzioneSuccessivaActionPerformed
         System.out.println("Vai avanti di una istruzione");
         if(indiceIstruzioneMostrata < (istruzioniGui.size() - 1)){
@@ -395,18 +453,63 @@ public class TrainingGui extends javax.swing.JFrame {
         
     }//GEN-LAST:event_comboRigheItemStateChanged
 
+    /**
+     * cambia la posizione del segnalino del robot nel tabellone
+     */
     private void btnAggiornaPosizioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiornaPosizioneActionPerformed
+        this.aggiornaPosizioneRobot();
+    }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
+
+    /**
+     * metodo synchronized per cambiare la posizione del robot
+     */
+    private synchronized void aggiornaPosizioneRobot(){
         int indiceRiga, indiceColonna, indiceDirezione;
         String direzione;
         
         indiceRiga = this.comboRighe.getSelectedIndex();
         indiceColonna = this.comboColonne.getSelectedIndex();
         indiceDirezione = this.comboDirezione.getSelectedIndex();
-        direzione = DIREZIONI[indiceDirezione];
         
-        System.out.println("Posizione   r: " + indiceRiga + " c: " + indiceColonna + " " + direzione);
-    }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
+        this.getDromeView().placeRobot(robot, Direction.values()[indiceDirezione], indiceRiga, indiceColonna, true); // aggiunge il robot al tabellone        
+        this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
+    }
+    
+    /**
+     * rimuove l'ultima istruzione del programma
+     */
+    private void btnRimuoviIstruzioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRimuoviIstruzioneActionPerformed
+        this.rimuoviUltimaIstruzione();
+    }//GEN-LAST:event_btnRimuoviIstruzioneActionPerformed
 
+    /**
+     * chiama un metodo sinchronized per rimuovere l'ultima istruzione dal programma
+     */
+    private synchronized void rimuoviUltimaIstruzione(){
+        if(this.indiceIstruzioneMostrata > -1){
+            int ultima = this.istruzioniGui.size() - 1;
+            InstructionCard card = this.istruzioniGui.get(ultima).getSourceCard();
+            
+            this.istruzioniGui.remove(ultima);//rimuove l'ultima card
+            if(this.indiceIstruzioneMostrata == ultima){
+                this.indiceIstruzioneMostrata--;
+                this.updateIstruzioneMostrata(this.indiceIstruzioneMostrata); //mostra la penultima card
+            }            
+            this.sendToLog("Rimossa " + card);
+            this.updateLabelIndiceIstruzioneMostrata(this.indiceIstruzioneMostrata);
+        }
+        else System.out.println("Non hai istruzioni da rimuovere");
+    }
+    
+    /**
+     * aggiunge un messaggio visibile all'inizio del log
+     */
+    protected synchronized void sendToLog(String message){
+        String s = this.logTextArea.getText();
+        this.logTextArea.setText("◾ " + message + "\n");
+        this.logTextArea.append(s);
+    }
+    
     
     public void start() {
         /* Set the Nimbus look and feel */
@@ -452,6 +555,7 @@ public class TrainingGui extends javax.swing.JFrame {
     private javax.swing.JButton btnIstruzionePrecedente;
     private javax.swing.JButton btnIstruzioneSuccessiva;
     private javax.swing.JButton btnPlayPause;
+    private javax.swing.JButton btnRimuoviIstruzione;
     private javax.swing.JButton btnStop;
     private javax.swing.JComboBox<String> comboColonne;
     private javax.swing.JComboBox<String> comboDirezione;
@@ -466,16 +570,24 @@ public class TrainingGui extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel labelCardsCounter;
+    private javax.swing.JTextArea logTextArea;
     private javax.swing.JComboBox<String> menuListaTipiInstructionCard;
     private javax.swing.JPanel panelCardGui;
     // End of variables declaration//GEN-END:variables
 
-    private void updateLabelIndiceIstruzioneMostrata() {
-        int indice = this.indiceIstruzioneMostrata + 1;
+    /**
+     * aggiorna la label con istruzione mostrata / totale
+     * @param indice indice dell'istruzione mostrata da scrivere nel label
+     */
+    private void updateLabelIndiceIstruzioneMostrata(int n) {
+        int indice = n + 1;
         System.out.println("Istruzione: " + indice + "/" + this.istruzioniGui.size());
         this.labelCardsCounter.setText(indice + "/" + this.istruzioniGui.size());
+    }
+
+    private RobodromeView getDromeView() {
+        return (RobodromeView)this.containerTabellone.getComponent(0);
     }
 
 

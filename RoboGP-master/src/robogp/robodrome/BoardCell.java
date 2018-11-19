@@ -43,6 +43,12 @@ public class BoardCell {
         return b;
     }
 
+    /**
+     * F floor
+     * P pit
+     * B belt
+     * E 
+     */
     private final char type; // F-P-B-E, il tipo di cella
     private boolean hLaser; //true se ha un laser orizzontale
     private boolean vLaser; // true se ha un laser verticale

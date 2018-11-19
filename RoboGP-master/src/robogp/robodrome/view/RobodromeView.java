@@ -122,6 +122,13 @@ public class RobodromeView extends JComponent {
         return dragging;
     }
 
+    
+    public Robodrome getDrome() {
+        return drome;
+    }
+    
+    
+
     /**
      * Imposta la visualizzazione del robodromo in modo che segua
      * automaticamente l'elemento in movimento durante le animazioni, nel caso

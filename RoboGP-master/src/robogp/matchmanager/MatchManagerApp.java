@@ -12,6 +12,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import robogp.Training.*;
+import robogp.robodrome.Robodrome;
 
 /**
  *
@@ -630,7 +631,9 @@ public class MatchManagerApp extends javax.swing.JFrame {
         this.robodromeCombo.setModel(new DefaultComboBoxModel<>(opts));
     }
     
-    //disegna il menu' a tendina dal quale scegliere il robodromo
+    /**
+     * disegna il menu' a tendina dal quale scegliere il robodromo
+     */
     private void setupRobodromeCombo(){
         File robodromeDir = new File("robodromes");
         File[] robodromeFiles = robodromeDir.listFiles();

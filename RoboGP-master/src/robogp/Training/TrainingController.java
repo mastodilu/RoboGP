@@ -18,7 +18,6 @@ public class TrainingController {
     //costruttore
     private TrainingController(){
         theTraining = Training.getInstance();
-        // System.out.println("creato training controller.");
     }
     
     //inizializza l'istanza usando nome utente e nome robodromo

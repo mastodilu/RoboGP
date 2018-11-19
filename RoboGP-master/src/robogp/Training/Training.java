@@ -34,10 +34,9 @@ public class Training {
     //inizializza
     public void init(Robodrome rb){
         deck = Deck.getInstance(); // mazzo di carte
-        robodromo = new RobodromeView(rb, 35); // gui del tabellone del robodromo
+        robodromo = new RobodromeView(rb, 35); // GUI del robodromo
         robot = new RobotMarkerTraining('e', "robot-emerald", "red", "default", -1); // gui del robot nel tabellone
-        robodromo.placeRobot(robot, Direction.E, 5, 1, true); // aggiunge il robot al tabellone
-        trainingGui = TrainingGui.getInstance(robodromo); // crea la gui generale
+        trainingGui = TrainingGui.getInstance(robodromo, robot); // crea la gui generale
         trainingGui.start(); //rende visibile la finestra di gioco
         
         buildCardSelection();
