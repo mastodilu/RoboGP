@@ -99,7 +99,6 @@ public class TrainingGui extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10), new java.awt.Dimension(10, 10));
         containerTabellone = new javax.swing.JPanel();
         containerOpzioni = new javax.swing.JPanel();
         containerProgramma = new javax.swing.JPanel();
@@ -125,11 +124,16 @@ public class TrainingGui extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         logTextArea = new javax.swing.JTextArea();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1100, 370));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         containerTabellone.setBackground(new java.awt.Color(255, 255, 255));
         containerTabellone.setForeground(new java.awt.Color(255, 255, 255));
@@ -482,6 +486,10 @@ public class TrainingGui extends javax.swing.JFrame {
         this.rimuoviUltimaIstruzione();
     }//GEN-LAST:event_btnRimuoviIstruzioneActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        this.singleInstance = null;
+    }//GEN-LAST:event_formWindowClosed
+
     /**
      * chiama un metodo sinchronized per rimuovere l'ultima istruzione dal programma
      */
@@ -566,7 +574,6 @@ public class TrainingGui extends javax.swing.JFrame {
     protected javax.swing.JPanel containerProgramma;
     private javax.swing.JPanel containerSettings;
     protected javax.swing.JPanel containerTabellone;
-    private javax.swing.Box.Filler filler2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
