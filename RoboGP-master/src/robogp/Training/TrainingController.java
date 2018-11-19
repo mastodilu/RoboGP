@@ -10,9 +10,7 @@ public class TrainingController {
     
     private static TrainingController singleInstance;
     private final Training theTraining;
-    private Robodrome theRobodrome = null;
-    private String nome_utente = null;
-    
+    private Robodrome theRobodrome = null;    
     
     
     //costruttore
@@ -20,10 +18,9 @@ public class TrainingController {
         theTraining = Training.getInstance();
     }
     
-    //inizializza l'istanza usando nome utente e nome robodromo
-    public void init(String nome_utente, String robodromo){
+    //inizializza l'istanza usando nome robodromo
+    public void init(String robodromo){
         final String rbdFileName = "robodromes/" + robodromo + ".txt"; // compone il filename del robodromo;
-        this.nome_utente = nome_utente;
 
         //uso un thread per non bloccare la gui
         Thread t = new Thread() {

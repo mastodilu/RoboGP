@@ -103,8 +103,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
         javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
         robodromeCombo1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
-        javax.swing.JLabel jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RoboGP Match Manager");
@@ -140,7 +138,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
         });
         jPanel2.add(portField, java.awt.BorderLayout.CENTER);
 
-        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         jSeparator1.setMinimumSize(new java.awt.Dimension(100, 120));
         jSeparator1.setPreferredSize(new java.awt.Dimension(100, 120));
@@ -387,11 +384,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        jLabel9.setText("Nome utente:");
-
-        jTextField1.setToolTipText("inserisci il tuo alias");
-
         javax.swing.GroupLayout trainingPanelLayout = new javax.swing.GroupLayout(trainingPanel);
         trainingPanel.setLayout(trainingPanelLayout);
         trainingPanelLayout.setHorizontalGroup(
@@ -402,14 +394,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
                         .addGap(219, 219, 219)
                         .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(trainingPanelLayout.createSequentialGroup()
-                        .addGap(212, 212, 212)
-                        .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8))
+                        .addGap(218, 218, 218)
+                        .addComponent(jLabel8)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(robodromeCombo1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                        .addComponent(robodromeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(219, 219, 219))
         );
         trainingPanelLayout.setVerticalGroup(
@@ -419,11 +407,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
                 .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(robodromeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(18, 18, 18)
-                .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
@@ -541,20 +525,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
     //inizializza l'istanza di TrainingController passando nome utente e nome robodromo
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String nome_utente = null;
         String nome_robodromo = null;
-        // se non e' stato inserito un nome utente o se contiene solo spazi
-        if(this.jTextField1.getText() == null || this.jTextField1.getText().trim().equals("")){
-            this.jTextField1.setText(""); // cancella quanto scritto
-            JOptionPane.showMessageDialog(this, "Inserisci un nome utente");
-        }else{
-            
-            //siamo qua se e' stato inserito un nome utente valido
-            nome_utente = this.jTextField1.getText().trim();
-            nome_robodromo = this.robodromeCombo1.getSelectedItem().toString();
-            this.traningController.init(nome_utente, nome_robodromo);
-            
-        }
+        nome_robodromo = this.robodromeCombo1.getSelectedItem().toString();
+        this.traningController.init(nome_robodromo);     
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -603,7 +577,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField keyField;
     private javax.swing.JPanel matchPanel;
     private javax.swing.JComboBox<String> maxPlayersCombo;
