@@ -33,8 +33,8 @@ public class InstructionCardGui extends javax.swing.JPanel {
     public String toString(){
         String s = "";
         s += "[CardGui"
-                + " " + this.labelTipoCarta.getText()
-                + " " + this.labelPriorita.getText()
+                + ":" + this.labelTipoCarta.getText()
+                + ":" + this.labelPriorita.getText()
                 + "]";
         return s;
     }
