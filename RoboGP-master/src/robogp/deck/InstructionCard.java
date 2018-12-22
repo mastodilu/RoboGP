@@ -9,9 +9,14 @@ import robogp.robodrome.Rotation;
 public class InstructionCard{
 
     private String tipo;//uturn backup move3 move2 move1 turnleft turnright
+
+    /**
+     * priorita' della carta
+     */
+    private int priorita;
     private int priorita_min; //usato per calcolare 'priorita'
     private int priorita_max; //usato per calcolare 'priorita'
-    private int priorita; // priorita' della carta
+    
     private String path_icona;
     
     /**
