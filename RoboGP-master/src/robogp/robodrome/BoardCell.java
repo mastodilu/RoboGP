@@ -31,14 +31,14 @@ public class BoardCell {
         BoardCell b = null; // il costruttore e' 'protected'
         switch (t) { // a seconda del tipo
             case 'F':
-                b = new FloorCell(recomps, riga, colonna);
+                b = new FloorCell(recomps, riga, colonna);//cella normale
                 break;
             case 'P':
-                b = new PitCell(recomps, riga, colonna);
+                b = new PitCell(recomps, riga, colonna);//buco nero
                 break;
             case 'B':
             case 'E':
-                b = new BeltCell(recomps, t, riga, colonna);
+                b = new BeltCell(recomps, t, riga, colonna); // nastro trasportatore (entrambi i tipi)
         }
         return b;
     }
@@ -47,12 +47,13 @@ public class BoardCell {
      * F floor
      * P pit
      * B belt
-     * E 
+     * E belt
      */
     private final char type; // F-P-B-E, il tipo di cella
     private boolean hLaser; //true se ha un laser orizzontale
     private boolean vLaser; // true se ha un laser verticale
     private int c, r; // numeri di riga e colonna della cella nel tabellone
+    private boolean hasRobot = false; // true quando e' occupata da un robot
     
     @Override
     public String toString(){
@@ -178,5 +179,13 @@ public class BoardCell {
             wallset[3] = false;
         }
         return result;
+    }
+    
+    
+    /**
+     * Vale true quando un robot la occupa, false altrimenti;
+     */
+    public boolean hasRobot(){
+        return hasRobot;
     }
 }

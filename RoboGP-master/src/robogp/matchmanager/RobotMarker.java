@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
 
 /**
@@ -26,7 +27,10 @@ public class RobotMarker implements Serializable {
     private int riga; //posizione corrente del robot
     private int colonna; //posizione corrente del robot
     private int salute, vite; //salute e vita correnti del robot
-    private char direction;
+    /**
+     * Direzione del robot.
+     */
+    Direction direction = Direction.E;
 
     public RobotMarker(String name, String color) {
         this.name = name;
@@ -45,6 +49,33 @@ public class RobotMarker implements Serializable {
         }
         return ImageUtil.scale(ImageUtil.superImpose(null, this.robotImage),size, size);
     }
+    
+    /**
+     * Gira il robot a sinistra.
+     */
+    public void sinistra(){
+        if(direction == Direction.E)
+            direction = Direction.N;
+        else if(direction == Direction.W)
+            direction = Direction.S;
+        else if(direction == Direction.N)
+            direction = Direction.W;
+        else if(direction == Direction.S)
+            direction = Direction.E;
+    }
+    
+    /**
+     * Gira il robot a destra.
+     */
+    public void destra(){
+        if(direction == Direction.E)
+            direction = Direction.S;
+        else if(direction == Direction.W)
+            direction = Direction.N;
+        else if(direction == Direction.N)
+            direction = Direction.E;
+        else if(direction == Direction.S)
+            direction = Direction.W;}
 
 //    assegna il robot al giocatore
     public void assign(String nickname, int dock) {
@@ -97,11 +128,11 @@ public class RobotMarker implements Serializable {
         this.vite = vite;
     }
     
-    public void setDirection(char c){
-        this.direction = c;
+    public void setDirection(Direction d){
+        this.direction = d;
     }
     
-    public char getDirection(){
+    public Direction getDirection(){
         return this.direction;
     }
     
