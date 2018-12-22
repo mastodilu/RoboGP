@@ -14,6 +14,15 @@ public class CellLaser {
   private int col;
   private final Direction wall;
   
+  @Override
+  public String toString(){
+      String result = "";
+      result += (this.row+1)
+              + "x" + (this.col+1)
+              + " CellLaser.java wall " + this.wall;
+      return result;
+  }
+  
   public CellLaser(Direction d) {
       wall = d;
   }

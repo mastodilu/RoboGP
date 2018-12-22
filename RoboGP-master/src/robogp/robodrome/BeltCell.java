@@ -20,7 +20,21 @@ public class BeltCell extends BoardCell {
     };
     private final boolean[] inputs;
     private Direction output;
-
+    
+    @Override
+    public String toString(){
+        String result = "BeltCell.java", inputs = " inputs", output = " output";
+        result = super.toString().concat(" " + result);
+        //inputs
+        for(int i = 0; i < this.inputs.length; i++)
+            inputs += this.inputs[i]? "+":"-";
+        //output
+        output += this.output;
+        
+        result += inputs + output;
+        return result;
+    }
+            
     BeltCell(String[] comps, char subtype, int riga, int colonna) {
         super(subtype, riga, colonna);
         inputs = new boolean[3];

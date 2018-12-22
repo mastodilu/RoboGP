@@ -23,6 +23,26 @@ public class Robodrome {
     private final int columns;
     private final java.util.ArrayList<CellLaser> allLasers;
     private int docksCount;
+    
+    @Override
+    public String toString(){
+        String result = "" ;
+        result += this.name + " "
+                + this.rows + "x" + this.columns
+                + " nDocks " + this.docksCount + "\n";
+        //laser
+        for(int i = 0; i < this.allLasers.size(); i++){
+            result += this.allLasers.get(i).toString();
+        }
+        result += "\n";
+        //tabella
+        for(int i = 0; i < this.board.length; i++){
+            for(int j = 0; j < this.board[i].length; j++){
+                result += board[i][j].toString() + "\n";
+            }
+        }
+        return result + "\n";
+    }
 
     /**
      * Costruisce un robodromo a partire da un file che lo descrive.
@@ -55,13 +75,15 @@ public class Robodrome {
             for (int c = 0; c < columns; c++) {
                 if (!endfile) {
                     if (countcell + 2 < all.length) {
+                        //crea la cella passando anche tutti i parametri che la riguardano: laser, muri, ecc
                         board[r][c] = BoardCell.createBoardCell(all[countcell + 2].trim().split("-"), r, c);
 //                        stampa la cella come [riga colonna tipo]
-//                        System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
+                        //System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
                         countcell++;
                         if (countcell + 2 >= all.length) {
                             endfile = true;
                         }
+                        // disegna tutti i laser definita sulla cella
                         java.util.ArrayList<CellLaser> cellLasers = board[r][c].getLasers();
                         for (CellLaser las : cellLasers) {
                             las.setPosition(r, c);
@@ -69,10 +91,11 @@ public class Robodrome {
                         }
                     }
                 } else {
+                    // ? aggiunge una cella alla fine di tutto ?
                     board[r][c] = new FloorCell(new String[0], r, c);
                 }
                 if (board[r][c] instanceof FloorCell && ((FloorCell)board[r][c]).isDock()) {
-                    this.docksCount++;
+                    this.docksCount++; // conta le postazioni di partenza dei robot
                 }
             }
         }
@@ -164,5 +187,5 @@ public class Robodrome {
 
     public int getDocksCount() {
         return this.docksCount;
-    }
+    }    
 }

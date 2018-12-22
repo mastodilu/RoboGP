@@ -53,6 +53,17 @@ public class BoardCell {
     private boolean hLaser; //true se ha un laser orizzontale
     private boolean vLaser; // true se ha un laser verticale
     private int c, r; // numeri di riga e colonna della cella nel tabellone
+    
+    @Override
+    public String toString(){
+        String result = "";
+        result += (this.r+1) + "x" + (this.c+1) + " " + type
+                + " BoardCell.java hLaser";
+        result += this.hLaser? "+":"-";
+        result += " vLaser" + (this.vLaser? "+":"-" + " ");
+        
+        return result;
+    }
 
     public boolean hasHorizontalLaser() {
         return hLaser;

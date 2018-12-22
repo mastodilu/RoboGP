@@ -27,6 +27,46 @@ public class FloorCell extends BoardCell {
   private int dockNumber;
   private Direction dockDir;
   
+  @Override
+  public String toString(){
+    String walls = " walls", lasers = " lasers", allLasers = " allLasers",
+            pusher = " pusher", pusherDir = " pusherDir ", rotator = " rotator",
+            upgrade = " upgrade", repair = " repair", checkpoint = " checkpoint",
+            dockNumber = " dockNumber", dockDir = " dockDir ";
+    String result = super.toString() + " FloorCell.java:";
+    //walls
+    for(int i = 0; i < this.walls.length; i++)
+        walls += this.walls[i]? "+":"-";
+    //lasers
+    for(int i = 0; i < this.lasers.length; i++)
+        lasers += this.lasers[i]? "+":"-";
+    //allLasers
+    for(int i = 0; i < this.allLasers.size(); i++){
+        allLasers += this.allLasers.get(i).toString() + " ";
+    }
+    pusher += this.pusher;
+    pusherDir += this.pusherDir;
+    rotator += this.rotator;
+    upgrade += this.upgrade? "+":"-";
+    repair += this.repair? "+":"-";
+    checkpoint += this.checkpoint + "";
+    dockNumber += this.dockNumber + "";
+    dockDir += this.dockDir;
+    
+    result += walls
+            + lasers
+            + allLasers
+            + pusher
+            + pusherDir
+            + rotator
+            + upgrade
+            + repair
+            + checkpoint
+            + dockNumber
+            + dockDir;
+    return result;
+  }
+  
   FloorCell(String[] comps, int riga, int colonna) {
     super('F', riga, colonna);
     boolean wset = false;
@@ -103,6 +143,9 @@ public class FloorCell extends BoardCell {
     return checkpoint > 0;
   }
   
+  /**
+   * @return il numero del checkpoint nella mappa
+   */
   public int getCheckpoint() {
     return checkpoint;
   }
