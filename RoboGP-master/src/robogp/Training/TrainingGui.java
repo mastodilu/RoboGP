@@ -1,16 +1,15 @@
 package robogp.Training;
 
+/**
+ *
+ * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
+ */
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.deck.Deck;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
-
-/**
- *
- * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
- */
 import robogp.deck.InstructionCardGui;
 import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
@@ -354,7 +353,7 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
-        // TODO add your handling code here:
+        System.out.println( this.getDrome().toString() );
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
     private void comboRigheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRigheActionPerformed
@@ -593,6 +592,9 @@ public class TrainingGui extends javax.swing.JFrame {
         this.labelCardsCounter.setText(indice + "/" + this.istruzioniGui.size());
     }
 
+    /**
+     * ritorna l'istanza di RobodromeView
+     */
     private RobodromeView getDromeView() {
         return (RobodromeView)this.containerTabellone.getComponent(0);
     }

@@ -19,7 +19,12 @@ public class RobotMarker implements Serializable {
     private final String name;
     private final String color;
     private String owner;
-    private int dockNumber; //posizione corrente del robot
+    /**
+     * dock di partenza assegnato al robot
+     */
+    private int dockNumber;
+    private int riga; //posizione corrente del robot
+    private int colonna; //posizione corrente del robot
     private int salute, vite; //salute e vita correnti del robot
     private char direction;
 
@@ -49,21 +54,17 @@ public class RobotMarker implements Serializable {
 
     public void free() {
         this.owner = null;
-        this.dockNumber = 0;
+        this.dockNumber = -1;
     }
 
     public boolean isAssigned() {
-        return (this.dockNumber > 0);
+        return (this.owner != null);
     }
 
     public String getOwner() {
         return this.owner;
     }
 
-    public int getDock() {
-        return this.dockNumber;
-    }
-    
     public String getName() {
         return name;
     }
@@ -74,6 +75,18 @@ public class RobotMarker implements Serializable {
 
     public int getVite() {
         return vite;
+    }
+
+    public int getDock() {
+        return dockNumber;
+    }
+
+    public int getRiga() {
+        return riga;
+    }
+
+    public int getColonna() {
+        return colonna;
     }
 
     public void setSalute(int salute) {
@@ -90,6 +103,11 @@ public class RobotMarker implements Serializable {
     
     public char getDirection(){
         return this.direction;
+    }
+    
+    public void setPosizione(int r, int c){
+        this.riga = r;
+        this.colonna = c;
     }
     
 }

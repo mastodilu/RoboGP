@@ -3,7 +3,6 @@ package robogp.Training;
 import java.util.ArrayList;
 import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.deck.*;
-import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
@@ -13,18 +12,26 @@ import robogp.robodrome.view.RobodromeView;
  */
 public class Training {
     
-    private RobotMarkerTraining robot = null;
-    private RobodromeView robodromo = null;
+    /**
+     * istanza della GUI dell'allenamento
+     */
     private TrainingGui trainingGui = null;
+    
+    /**
+     * usato solo per creare un'istanza di carta per tipo
+     */
     private Deck deck = null;
+    
+    /**
+     * pattern singleton
+     */
     private static Training singleInstance;
     
-    //costruttore
     private Training(){
         System.out.println("Training constructor Singleton");
     }
     
-    //pattern singleton
+    //gestione pattern singleton
     public static Training getInstance(){
         if(Training.singleInstance == null)
             Training.singleInstance = new Training();
@@ -34,8 +41,8 @@ public class Training {
     //inizializza
     public void init(Robodrome rb){
         deck = Deck.getInstance(); // mazzo di carte
-        robodromo = new RobodromeView(rb, 35); // GUI del robodromo
-        robot = new RobotMarkerTraining('e', "robot-emerald", "red", "default", -1); // gui del robot nel tabellone
+        RobodromeView robodromo = new RobodromeView(rb, 35); // GUI del robodromo
+        RobotMarkerTraining robot = new RobotMarkerTraining("robot-emerald", "green"); // gui del robot nel tabellone
         trainingGui = TrainingGui.getInstance(robodromo, robot); // crea la gui generale
         trainingGui.start(); //rende visibile la finestra di gioco
         
