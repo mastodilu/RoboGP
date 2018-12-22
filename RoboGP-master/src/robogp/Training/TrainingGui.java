@@ -583,7 +583,7 @@ public class TrainingGui extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * aggiorna la label con istruzione mostrata / totale
+     * Aggiorna la label con istruzione mostrata / totale.
      * @param indice indice dell'istruzione mostrata da scrivere nel label
      */
     private void updateLabelIndiceIstruzioneMostrata(int n) {
@@ -593,7 +593,7 @@ public class TrainingGui extends javax.swing.JFrame {
     }
 
     /**
-     * ritorna l'istanza di RobodromeView
+     * Restituisce l'istanza di RobodromeView.
      */
     private RobodromeView getDromeView() {
         return (RobodromeView)this.containerTabellone.getComponent(0);
