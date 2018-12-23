@@ -15,10 +15,7 @@ public class DontMessWithRobodromes {
     }
     
     
-    public void main(String args[]){
-        int r = robodrome.getRowCount();
-        int c = robodrome.getColumnCount();
-        System.out.println("r " + r + " c " + c);
+    public static void main(String args[]){
     }
     
 }

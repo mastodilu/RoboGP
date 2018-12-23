@@ -99,8 +99,8 @@ public class InstructionCard{
         this.priorita_min = 430;
         this.priorita_max = 480;
         this.path_icona = "./icons/card-backup.png";
-        this.movimento = -1; // si muove indietro di 1 casella
-        this.rotazione = Rotation.NO;// non c'e' rotazione
+        this.movimento = 1; // si muove indietro di 1 casella
+        this.rotazione = Rotation.NO;
         this.priorita = randomWithRange(priorita_min, priorita_max);
     }
 

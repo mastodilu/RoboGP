@@ -361,11 +361,10 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
-        System.out.println(this.robot.toString());
+        //TODO metodo synchronized per evitare cazzi in culo?
         for(InstructionCardGui ic : this.istruzioniGui){
-            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), robot);
+            robot = (RobotMarkerTraining)this.movimentoCtrl.muoviRobot(ic.getSourceCard(), robot);
         }
-        System.out.println(this.robot.toString());
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
     private void comboRigheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRigheActionPerformed

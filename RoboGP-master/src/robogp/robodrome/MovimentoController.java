@@ -67,7 +67,7 @@ public class MovimentoController {
         rigaCorrente = this.rm.getRiga();
         colonnaCorrente = this.rm.getColonna();
         cellaCorrente = this.rb.getCell(rigaCorrente, colonnaCorrente);
-        direzioneCorrente = this.rm.getCurrentDirection();
+        direzioneCorrente = this.rm.getDirection();
     }
     
     /**
@@ -79,12 +79,10 @@ public class MovimentoController {
         this.ic = ic;
         this.rm = rm;
         initVariabili();
-        
+        BoardCell cellaSuccessiva;
         int movimento = ic.getMovimento();//di quanto dovrebbe muoversi
         int passiEffettuati;
-        Rotation rotazione = ic.getRotazione();
         boolean backup = ic.getTipo().equals("backup");//se ic e' backup card deve gestire il movimento all'indietro
-        BoardCell cellaSuccessiva;
         
         cellaCorrente.robotOutside();
         
@@ -94,23 +92,26 @@ public class MovimentoController {
         
         //movimentoAmmissibile controlla di poter avanzare di una casella in avanti
         while(movimento > 0 && movimentoAmmissibile()){
+            System.out.println("Movimento ammissibile");
             movimento--;
-            cellaSuccessiva = this.cellaSuccessiva(rigaCorrente, colonnaCorrente, direzioneCorrente);
-            this.rigaCorrente = cellaSuccessiva.getRiga();
-            this.colonnaCorrente = cellaSuccessiva.getColonna();
+            cellaSuccessiva = this.cellaSuccessiva();
+            if(cellaSuccessiva == null)
+                break;
+            cellaCorrente = cellaSuccessiva;
+            this.rigaCorrente = cellaCorrente.getRiga();
+            this.colonnaCorrente = cellaCorrente.getColonna();
         }
+        passiEffettuati = ic.getMovimento() - movimento;
+        
+        //esegue l'animazione del movimento
+        this.rv.addRobotMove(rm, passiEffettuati, direzioneCorrente, ic.getRotazione());
+        rv.play();
         
         //ripristina la direzione originale del robot
         if(backup)  direzioneCorrente = direzioneOpposta(direzioneCorrente);
-        
-        passiEffettuati = ic.getMovimento() - movimento;
-        
-        aggiornaVariabiliRobot();
-        
-        //esegue l'animazione del movimento
-        this.rv.addRobotMove(rm, passiEffettuati, direzioneCorrente, rotazione);
-        
-        System.out.println("Mosso di " + passiEffettuati + " in avanti verso "
+
+        aggiornaVariabiliRobot(ic.getRotazione());
+        System.out.println("Mosso di " + passiEffettuati + " passi verso "
                 + direzioneCorrente);
         
         return this.rm;
@@ -122,11 +123,10 @@ public class MovimentoController {
      * @param finale la cella finale raggiunta dal robot
      * @param direzioneFinale
      */
-    private void aggiornaVariabiliRobot(){
+    private void aggiornaVariabiliRobot(Rotation rotazione){
         //robot
-        System.out.println("Posizione finale " + rigaCorrente + " " + colonnaCorrente);
         rm.setPosizione(rigaCorrente, colonnaCorrente);
-        rm.setDirection(direzioneCorrente);
+        rm.setDirection(Rotation.changeDirection(direzioneCorrente, rotazione));
         rm.updateStoricoPosizioni(rigaCorrente, colonnaCorrente);
         rm.updateStoricoDirezioni(direzioneCorrente);
         
@@ -161,7 +161,6 @@ public class MovimentoController {
             return true;
         else if(direzioneCorrente == Direction.S && rigaCorrente == rb.getRowCount()-1)
             return true;
-        
         return false;
     }
 
@@ -174,59 +173,27 @@ public class MovimentoController {
      */
     private boolean bloccatoDaMuri() {
         Direction opposta = direzioneOpposta(direzioneCorrente);
-
-        BoardCell successiva = cellaSuccessiva(rigaCorrente, colonnaCorrente, direzioneCorrente);
+        BoardCell successiva = cellaSuccessiva();
         
         //controlla muro in questa cella
         if(cellaCorrente.hasWall(direzioneCorrente))     return true;
-        
         //controlla muri nella cella successiva
         if(successiva == null || successiva.hasWall(opposta))
             return true;
-        
+
         return false;
     }
     
-    
-    /**
-     * Restituisce la cella raggiunta dopo tot passi.
-     * @param iniziale cella iniziale
-     * @param dir direziona seguita
-     * @param passi di quante celle ci si vuole muovere
-     * @return la cella finale dopo tot passi
-     */
-    private BoardCell cellaFinale(BoardCell iniziale, Direction dir, int passi){
-        BoardCell temp = iniziale, finale = iniziale;
-        
-        if(passi<0) passi = -passi;
-        
-        while(temp != null && passi > 0){
-            finale = temp;
-            temp = cellaSuccessiva(iniziale.getRiga(), iniziale.getColonna(), dir);
-            passi--;
-        }
-        
-        return finale;
-    }
-
     /**
      * Restituisce la cella successiva del robodromo rispetto alla posizione
      * e alla direzione corrente del robot.
-     * @param riga riga corrente
-     * @param colonna colonna corrente
-     * @param d direzione corrente
-     * @return la cella successiva se esistente, altrimenti null
+     * @return la cella successiva
      */
-    private BoardCell cellaSuccessiva(int riga, int colonna, Direction d) {
-        try{
-            if(d == Direction.W)        return this.rb.getCell(riga, colonna--);
-            else if(d == Direction.N)   return this.rb.getCell(riga++, colonna);
-            else if(d == Direction.E)   return this.rb.getCell(riga, colonna++);
-            else                        return this.rb.getCell(riga--, colonna);
-        }catch(NullPointerException e){
-            //se la cella successiva esce dalla mappa
-            return null;
-        }
+    private BoardCell cellaSuccessiva() {
+        if(direzioneCorrente == Direction.W)        return this.rb.getCell(rigaCorrente, colonnaCorrente-1);
+        else if(direzioneCorrente == Direction.N)   return this.rb.getCell(rigaCorrente-1, colonnaCorrente);
+        else if(direzioneCorrente == Direction.E)   return this.rb.getCell(rigaCorrente, colonnaCorrente+1);
+        else                                        return this.rb.getCell(rigaCorrente+1, colonnaCorrente);
     }
 
     /**
@@ -247,7 +214,7 @@ public class MovimentoController {
      *      false altrimenti
      */
     private boolean robotInCellaSuccessiva() {
-        return cellaSuccessiva(rigaCorrente, colonnaCorrente, direzioneCorrente).hasRobot();
+        return cellaSuccessiva().hasRobot();
     }
     
     
