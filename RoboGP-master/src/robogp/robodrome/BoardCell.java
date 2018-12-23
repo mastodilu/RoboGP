@@ -188,4 +188,12 @@ public class BoardCell {
     public boolean hasRobot(){
         return hasRobot;
     }
+    
+    
+    /**
+     * Setta a true hasRobot per indicare che un robot la occupa.
+     */
+    public void setRobot(){
+        this.hasRobot = true;
+    }
 }

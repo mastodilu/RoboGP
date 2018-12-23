@@ -179,6 +179,11 @@ public class RobotMarker implements Serializable {
     }
     
     
+    public void updateStoricoDirezioni(Direction dir){
+        this.storicoDirezioni.add(dir);
+    }
+    
+    
     public Posizione getCurrentPos(){
         return this.storicoPosizioni.get(this.storicoPosizioni.size() - 1);
     }

@@ -11,6 +11,10 @@ import robogp.robodrome.view.RobodromeView;
 public class MovimentoController {
     
     /**
+     * Istanza della view del robodromo.
+     */
+    RobodromeView rv;
+    /**
      * Istanza del robodromo.
      */
     Robodrome rb;
@@ -27,21 +31,68 @@ public class MovimentoController {
      * Costruttore parametrico.
      * @param rb istanza del robodromo.
      */
-    public MovimentoController(Robodrome rb){
-        this.rb = rb;
+    public MovimentoController(RobodromeView rv){
+        this.rv = rv;
+        this.rb = rv.getDrome();
     }
     
     /**
-     * Controlla passo per passo che il movimento sia ammissibile.
+     * Muove il robot finche' il movimento e' ammissibile.
      * @param ic la scheda istruzione dal quale leggere la mossa
      * @param rm il robot da muovere
      */
     public void addRobotMove(InstructionCard ic, RobotMarker rm){
         this.ic = ic;
         this.rm = rm;
-        if(movimentoAmmissibile()){
-            eseguiMovimento();
+        
+        int movimento = ic.getMovimento();
+        int passi = 0;//conta quanti passi puo' effettuare il robot
+        Rotation rotazione = ic.getRotazione();
+        boolean backup = ic.getTipo().equals("backup");//indietro di un passo
+        BoardCell iniziale, finale;
+            iniziale = rb.getCell(rm.getRiga(), rm.getColonna());
+        
+        //inverte MOMENTANEAMENTE la direzione del robot in modo da farlo camminare in avanti
+        //per sfruttare il metodo 'movimentoAmmissibile()'
+        if(backup)  this.rm.setDirection(this.direzioneOpposta(this.rm.getDirection()));
+        
+        //movimentoAmmissibile controlla di poter avanzare di una casella in avanti
+        while(movimento > 0 && movimentoAmmissibile()){
+            movimento--;
+            passi++;
         }
+        
+        //ripristina la direzione originale del robot
+        if(backup)  this.rm.setDirection(this.direzioneOpposta(this.rm.getDirection()));
+        
+        //esegue l'animazione del movimento
+        this.rv.addRobotMove(rm, passi, rm.getDirection(), rotazione);
+        
+        //calcola la cella raggiunta dopo n passi
+        finale = cellaFinale(iniziale, rm.getDirection(), passi);
+        
+        aggiornaVariabili(finale, rm.getDirection());
+    }
+    
+    
+    /**
+     * Aggiorna le variabili del robot dopo che e' stato compiuto tutto il movimento.
+     * @param finale la cella finale raggiunta dal robot
+     * @param direzioneFinale
+     */
+    private void aggiornaVariabili( BoardCell finale,
+                                             Direction direzioneFinale){
+        int rigaFinale = finale.getRiga();
+        int colonnaFinale = finale.getColonna();
+        
+        //robot
+        rm.setPosizione(rigaFinale, colonnaFinale);
+        rm.setDirection(direzioneFinale);
+        rm.updateStoricoPosizioni(rigaFinale, colonnaFinale);
+        rm.updateStoricoDirezioni(direzioneFinale);
+        
+        //cella
+        finale.setRobot();
     }
     
     
@@ -55,12 +106,6 @@ public class MovimentoController {
         return true;
     }
 
-    /**
-     * Aggiorna le variabili di posizione e direzione del robot.
-     */
-    private void eseguiMovimento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      * Controlla la presenza di muri nella cella corrente e nella cella successiva
@@ -82,9 +127,32 @@ public class MovimentoController {
         if(corrente.hasWall(d))     return true;
         
         //controlla muri nella cella successiva
-        if(successiva.hasWall(opposta))     return true;
+        if(successiva == null || successiva.hasWall(opposta))
+            return true;
         
         return false;
+    }
+    
+    
+    /**
+     * Restituisce la cella raggiunta dopo tot passi.
+     * @param iniziale cella iniziale
+     * @param dir direziona seguita
+     * @param passi di quante celle ci si vuole muovere
+     * @return la cella finale dopo tot passi
+     */
+    private BoardCell cellaFinale(BoardCell iniziale, Direction dir, int passi){
+        BoardCell temp = iniziale, finale = iniziale;
+        
+        if(passi<0) passi = -passi;
+        
+        while(temp != null && passi > 0){
+            finale = temp;
+            temp = cellaSuccessiva(iniziale.getRiga(), iniziale.getColonna(), dir);
+            passi--;
+        }
+        
+        return finale;
     }
 
     /**
