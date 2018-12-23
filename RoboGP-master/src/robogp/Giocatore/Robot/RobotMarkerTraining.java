@@ -7,7 +7,7 @@ import robogp.robodrome.Direction;
 
 
 public class RobotMarkerTraining extends RobotMarker {
-    private ArrayList<Direction> storicoDirections;
+    private ArrayList<Direction> storicoDirezioni;
     private ArrayList<Posizione> storicoPosizioni;
 
     /**
@@ -17,20 +17,20 @@ public class RobotMarkerTraining extends RobotMarker {
      */
     public RobotMarkerTraining( String name, String color) {
         super(name, color);
-        storicoDirections = new ArrayList();
+        storicoDirezioni = new ArrayList();
         storicoPosizioni = new ArrayList();
     }
 
     public ArrayList getStoricoDirections() {
-        return storicoDirections;
+        return storicoDirezioni;
     }
 
     public ArrayList getStoricoPosizioni() {
         return storicoPosizioni;
     }
 
-    public void setStoricoDirections(ArrayList storicoDirections) {
-        this.storicoDirections = storicoDirections;
+    public void setStoricoDirezioni(ArrayList storicoDirezioni) {
+        this.storicoDirezioni = storicoDirezioni;
     }
 
     public void setStoricoPosizioni(ArrayList storicoPosizioni) {
@@ -52,7 +52,7 @@ public class RobotMarkerTraining extends RobotMarker {
     }
     
     public Direction getCurrentDirection(){
-        return this.storicoDirections.get(this.storicoDirections.size() - 1);
+        return this.storicoDirezioni.get(this.storicoDirezioni.size() - 1);
     }
     
     
