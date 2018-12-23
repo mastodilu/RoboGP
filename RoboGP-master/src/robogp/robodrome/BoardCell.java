@@ -193,7 +193,14 @@ public class BoardCell {
     /**
      * Setta a true hasRobot per indicare che un robot la occupa.
      */
-    public void setRobot(){
+    public void robotInside(){
         this.hasRobot = true;
+    }
+    
+    /**
+     * Setta a false hasRobot per indicare che il robot e' uscito dalla cella.
+     */
+    public void robotOutside(){
+        this.hasRobot = false;
     }
 }

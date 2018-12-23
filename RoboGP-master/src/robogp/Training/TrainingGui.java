@@ -12,6 +12,7 @@ import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
 import robogp.robodrome.Direction;
+import robogp.robodrome.MovimentoController;
 import robogp.robodrome.Robodrome;
 public class TrainingGui extends javax.swing.JFrame {
     
@@ -50,25 +51,32 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private RobotMarkerTraining robot = null;
     
+    /**
+     * Controller del movimento
+     */
+    MovimentoController movimentoCtrl;
+    
     //single instance del pattern singleton
     private static TrainingGui singleInstance;
 
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo, RobotMarkerTraining robot){
+    private TrainingGui(RobodromeView robodromo, RobotMarkerTraining robot, MovimentoController movimentoCtrl){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
         istruzioniGui = new ArrayList<>();
+        this.movimentoCtrl = movimentoCtrl;
         this.setTabellone(robodromo);
         this.robot = robot;
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo, RobotMarkerTraining robot){
-        if(TrainingGui.singleInstance == null)
-            TrainingGui.singleInstance = new TrainingGui(robodromo, robot);
+    public static TrainingGui getInstance(RobodromeView robodromo, RobotMarkerTraining robot, MovimentoController movimentoCtrl){
+        if(TrainingGui.singleInstance == null){
+            TrainingGui.singleInstance = new TrainingGui(robodromo, robot, movimentoCtrl);
+        }
         return TrainingGui.singleInstance;
     }
     
@@ -353,7 +361,11 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
-        System.out.println( this.getDrome().toString() );
+        System.out.println(this.robot.toString());
+        for(InstructionCardGui ic : this.istruzioniGui){
+            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), robot);
+        }
+        System.out.println(this.robot.toString());
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
     private void comboRigheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRigheActionPerformed
@@ -460,21 +472,23 @@ public class TrainingGui extends javax.swing.JFrame {
      * cambia la posizione del segnalino del robot nel tabellone
      */
     private void btnAggiornaPosizioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiornaPosizioneActionPerformed
-        this.aggiornaPosizioneRobot();
+        this.placeRobot();
     }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
 
     /**
      * metodo synchronized per cambiare la posizione del robot
      */
-    private synchronized void aggiornaPosizioneRobot(){
+    private synchronized void placeRobot(){
         int indiceRiga, indiceColonna, indiceDirezione;
         String direzione;
         
         indiceRiga = this.comboRighe.getSelectedIndex();
         indiceColonna = this.comboColonne.getSelectedIndex();
         indiceDirezione = this.comboDirezione.getSelectedIndex();
+        Direction d = Direction.values()[indiceDirezione];
         
-        this.getDromeView().placeRobot(robot, Direction.values()[indiceDirezione], indiceRiga, indiceColonna, true); // aggiunge il robot al tabellone        
+        movimentoCtrl.placeRobot(robot, d, indiceRiga, indiceColonna); // aggiunge il robot al tabellone        
+        //this.getDromeView().placeRobot(robot, d, indiceRiga, indiceColonna, true);
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
     }
     
