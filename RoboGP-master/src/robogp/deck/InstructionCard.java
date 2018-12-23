@@ -27,11 +27,6 @@ public class InstructionCard{
     /**
      * la direzione del movimento
      */
-    private Direction direzione;
-    
-    /**
-     * la direzione del movimento
-     */
     private Rotation rotazione;
     
 
@@ -74,7 +69,6 @@ public class InstructionCard{
         this.priorita_min = 10;
         this.priorita_max = 60;
         this.path_icona = "./icons/card-uturn.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 0; // si muove di 0 caselle
         this.rotazione = Rotation.CW180;// ruota a sinistra di 90 gradi
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -85,7 +79,6 @@ public class InstructionCard{
         this.priorita_min = 70;
         this.priorita_max = 410;
         this.path_icona = "./icons/card-turnL.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 0; // si muove di 0 caselle
         this.rotazione = Rotation.CCW90;// ruota a sinistra di 90 gradi
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -96,7 +89,6 @@ public class InstructionCard{
         this.priorita_min = 80;
         this.priorita_max = 420;
         this.path_icona = "./icons/card-turnR.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 0; // si muove di 0 caselle
         this.rotazione = Rotation.CW90;// ruota a destra di 90 gradi
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -107,7 +99,6 @@ public class InstructionCard{
         this.priorita_min = 430;
         this.priorita_max = 480;
         this.path_icona = "./icons/card-backup.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = -1; // si muove indietro di 1 casella
         this.rotazione = Rotation.NO;// non c'e' rotazione
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -118,7 +109,6 @@ public class InstructionCard{
         this.priorita_min = 490;
         this.priorita_max = 660;
         this.path_icona = "./icons/card-move1.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 1; // si muove di 1 casella
         this.rotazione = Rotation.NO;// non c'e' rotazione
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -129,7 +119,6 @@ public class InstructionCard{
         this.priorita_min = 670;
         this.priorita_max = 780;
         this.path_icona = "./icons/card-move2.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 2; // si muove di 2 caselle
         this.rotazione = Rotation.NO;// non c'e' rotazione
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -140,7 +129,6 @@ public class InstructionCard{
         this.priorita_min = 790;
         this.priorita_max = 840;
         this.path_icona = "./icons/card-move3.png";
-        this.direzione = null; // non viene modificata la direzione del robot
         this.movimento = 3; // si muove di 3 caselle
         this.rotazione = Rotation.NO;// non c'e' rotazione
         this.priorita = randomWithRange(priorita_min, priorita_max);
@@ -167,10 +155,6 @@ public class InstructionCard{
 
     public int getMovimento() {
         return movimento;
-    }
-
-    public Direction getDirezione() {
-        return direzione;
     }
 
     public Rotation getRotazione() {
