@@ -1,4 +1,4 @@
-package robogp.Giocatore.Robot;
+package robogp.matchmanager;
 
 /**
  *

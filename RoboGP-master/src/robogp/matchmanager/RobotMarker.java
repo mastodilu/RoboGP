@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -31,11 +32,21 @@ public class RobotMarker implements Serializable {
      * Direzione del robot.
      */
     Direction direction = Direction.E;
+    /**
+     * Le direzioni assunte dal robot in ordine cronologico.
+     */
+    private ArrayList<Direction> storicoDirezioni;
+    /**
+     * Le posizioni assunte dal robot in ordine cronologico.
+     */
+    private ArrayList<Posizione> storicoPosizioni;
 
     public RobotMarker(String name, String color) {
         this.name = name;
         this.color = color;
         this.dockNumber = 0;
+        storicoDirezioni = new ArrayList();
+        storicoPosizioni = new ArrayList();
     }
 
     public BufferedImage getImage(int size) {
@@ -75,7 +86,8 @@ public class RobotMarker implements Serializable {
         else if(direction == Direction.N)
             direction = Direction.E;
         else if(direction == Direction.S)
-            direction = Direction.W;}
+            direction = Direction.W;
+    }
 
 //    assegna il robot al giocatore
     public void assign(String nickname, int dock) {
@@ -139,6 +151,40 @@ public class RobotMarker implements Serializable {
     public void setPosizione(int r, int c){
         this.riga = r;
         this.colonna = c;
+    }
+    
+    public ArrayList getStoricoDirections() {
+        return storicoDirezioni;
+    }
+
+    public ArrayList getStoricoPosizioni() {
+        return storicoPosizioni;
+    }
+
+    public void setStoricoDirezioni(ArrayList storicoDirezioni) {
+        this.storicoDirezioni = storicoDirezioni;
+    }
+
+    public void setStoricoPosizioni(ArrayList storicoPosizioni) {
+        this.storicoPosizioni = storicoPosizioni;
+    }
+    
+    /**
+     * salva la posizione corrente del robot nell'array
+     * @param r indice della riga da salvare
+     * @param c indice della colonna da salvare
+     */
+    public void updateStoricoPosizioni(int r, int c){
+        this.storicoPosizioni.add(new Posizione(r, c));
+    }
+    
+    
+    public Posizione getCurrentPos(){
+        return this.storicoPosizioni.get(this.storicoPosizioni.size() - 1);
+    }
+    
+    public Direction getCurrentDirection(){
+        return this.storicoDirezioni.get(this.storicoDirezioni.size() - 1);
     }
     
 }
