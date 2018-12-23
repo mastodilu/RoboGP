@@ -192,4 +192,13 @@ public class RobotMarker implements Serializable {
         return this.storicoDirezioni.get(this.storicoDirezioni.size() - 1);
     }
     
+    @Override
+    public String toString(){
+        String s = "";
+        s += this.color + ""
+                + this.riga + "x" + this.colonna
+                + this.direction;
+        return s;
+    }
+    
 }
