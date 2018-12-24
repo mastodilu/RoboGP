@@ -20,6 +20,9 @@ public class RobotMarker implements Serializable {
     private transient BufferedImage robotImage; // transient dice al compilatore che la variabile non viene serializzata
     private final String name;
     private final String color;
+    /**
+     * Nome del giocatore al quale e' stato assegnato il robot.
+     */
     private String owner;
     /**
      * dock di partenza assegnato al robot
@@ -89,15 +92,21 @@ public class RobotMarker implements Serializable {
             direction = Direction.W;
     }
 
-//    assegna il robot al giocatore
+    /**
+     * Assegna il robot corrente al giocatore specificato e gli assegna un dock.
+     * @param nickname giocatore
+     * @param dock numero di dock
+     */
     public void assign(String nickname, int dock) {
         this.owner = nickname;
         this.dockNumber = dock;
     }
 
+    /**
+     * Rimuove l'assegnatario dal robot.
+     */
     public void free() {
         this.owner = null;
-        this.dockNumber = -1;
     }
 
     public boolean isAssigned() {
@@ -148,10 +157,10 @@ public class RobotMarker implements Serializable {
         return this.direction;
     }
     
-    public void setPosizione(int r, int c){
-        this.riga = r;
-        this.colonna = c;
-    }
+//    public void setPosizione(int r, int c){
+//        this.riga = r;
+//        this.colonna = c;
+//    }
     
     public ArrayList getStoricoDirections() {
         return storicoDirezioni;
@@ -161,35 +170,50 @@ public class RobotMarker implements Serializable {
         return storicoPosizioni;
     }
 
-    public void setStoricoDirezioni(ArrayList storicoDirezioni) {
-        this.storicoDirezioni = storicoDirezioni;
-    }
-
-    public void setStoricoPosizioni(ArrayList storicoPosizioni) {
-        this.storicoPosizioni = storicoPosizioni;
-    }
+//    public void setStoricoDirezioni(ArrayList storicoDirezioni) {
+//        this.storicoDirezioni = storicoDirezioni;
+//    }
+//
+//    public void setStoricoPosizioni(ArrayList storicoPosizioni) {
+//        this.storicoPosizioni = storicoPosizioni;
+//    }
     
-    /**
-     * salva la posizione corrente del robot nell'array
-     * @param r indice della riga da salvare
-     * @param c indice della colonna da salvare
-     */
-    public void updateStoricoPosizioni(int r, int c){
-        this.storicoPosizioni.add(new Posizione(r, c));
-    }
+//    /**
+//     * salva la posizione corrente del robot nell'array
+//     * @param r indice della riga da salvare
+//     * @param c indice della colonna da salvare
+//     */
+//    public void updateStoricoPosizioni(int r, int c){
+//        this.storicoPosizioni.add(new Posizione(r, c));
+//    }
+//    
+//    
+//    public void updateStoricoDirezioni(Direction dir){
+//        this.storicoDirezioni.add(dir);
+//    }
+//    
     
-    
-    public void updateStoricoDirezioni(Direction dir){
-        this.storicoDirezioni.add(dir);
-    }
-    
-    
-    public Posizione getCurrentPos(){
+    public Posizione getLastPosition(){
         return this.storicoPosizioni.get(this.storicoPosizioni.size() - 1);
     }
     
-    public Direction getCurrentDirection(){
+    public Direction getLastDirection(){
         return this.storicoDirezioni.get(this.storicoDirezioni.size() - 1);
+    }
+    
+    
+    /**
+     * Aggiorna posizione e direzione del robot e li aggiunge allo storico.
+     * @param riga riga corrente
+     * @param colonna colonna corrente
+     * @param dir direzione corrente
+     */
+    public void updatePosizione(int riga, int colonna, Direction dir){
+        this.riga = riga;
+        this.colonna = colonna;
+        this.direction = dir;
+        storicoPosizioni.add(new Posizione(riga, colonna));
+        storicoDirezioni.add(dir);
     }
     
     @Override

@@ -124,13 +124,8 @@ public class MovimentoController {
      * @param direzioneFinale
      */
     private void aggiornaVariabiliRobot(Rotation rotazione){
-        //robot
-        rm.setPosizione(rigaCorrente, colonnaCorrente);
-        rm.setDirection(Rotation.changeDirection(direzioneCorrente, rotazione));
-        rm.updateStoricoPosizioni(rigaCorrente, colonnaCorrente);
-        rm.updateStoricoDirezioni(direzioneCorrente);
-        
-        //cella
+        direzioneCorrente = Rotation.changeDirection(direzioneCorrente, rotazione);
+        rm.updatePosizione(rigaCorrente, colonnaCorrente, direzioneCorrente);
         this.rb.getCell(rigaCorrente, colonnaCorrente).robotInside();
     }
     
