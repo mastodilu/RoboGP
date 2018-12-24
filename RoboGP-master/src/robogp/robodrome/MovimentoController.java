@@ -222,11 +222,9 @@ public class MovimentoController {
      * @param c colonna
      */
     public void placeRobot(RobotMarker rm, Direction d, int r, int c){
-        rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone        
+        rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
+        rm.updatePosizione(r, c, d);
         rm.setDirection(d);
-        rm.setPosizione(r, c);
-        rm.updateStoricoDirezioni(d);
-        rm.updateStoricoPosizioni(r, c);
     }
 
 }
