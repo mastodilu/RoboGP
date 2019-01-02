@@ -361,12 +361,7 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
-        for(InstructionCardGui ic : this.istruzioniGui){
-            eseguiIstruzione(ic.getSourceCard());
-        }
-        this.movimentoCtrl.play();
-       
-
+        avviaAllenamento();
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
     private void comboRigheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRigheActionPerformed
@@ -615,13 +610,25 @@ public class TrainingGui extends javax.swing.JFrame {
     }
     
     
+    /**
+     * Avvia l'esecuzione delle fasi di allenamento
+     */
+    private void avviaAllenamento(){
+        for(InstructionCardGui ic : this.istruzioniGui){
+            eseguiIstruzione(ic.getSourceCard());
+        }
+        this.movimentoCtrl.play();
+    }
     
+    
+    /**
+     * Esegue una singola istruzione
+     * @param ic istruzione da eseguire
+     */
     private synchronized void eseguiIstruzione(InstructionCard ic){
         this.movimentoCtrl.muoviRobot(ic, robot);
         System.out.println("Mosso: " + this.robot.toString());
         
     }
 
-
-    
 }
