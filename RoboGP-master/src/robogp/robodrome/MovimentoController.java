@@ -75,7 +75,7 @@ public class MovimentoController {
      * @param ic la scheda istruzione dal quale leggere la mossa
      * @param rm il robot da muovere
      */
-    public RobotMarker muoviRobot(InstructionCard ic, RobotMarker rm){
+    public void muoviRobot(InstructionCard ic, RobotMarker rm){
         this.ic = ic;
         this.rm = rm;
         initVariabili();
@@ -103,9 +103,9 @@ public class MovimentoController {
         }
         passiEffettuati = ic.getMovimento() - movimento;
         
-        //esegue l'animazione del movimento
+        //aggiunge (senza eseguire) l'animazione del movimento
         this.rv.addRobotMove(rm, passiEffettuati, direzioneCorrente, ic.getRotazione());
-        rv.play();
+        //l'animazione va eseguita chiamando il metodo play() quando tutte le istruzioni sono state aggiunte
         
         //ripristina la direzione originale del robot
         if(backup)  direzioneCorrente = direzioneOpposta(direzioneCorrente);
@@ -113,8 +113,14 @@ public class MovimentoController {
         aggiornaVariabiliRobot(ic.getRotazione());
         System.out.println("Mosso di " + passiEffettuati + " passi verso "
                 + direzioneCorrente);
-        
-        return this.rm;
+    }
+    
+    
+    /**
+     * Avvia l'esecuzione delle animazioni
+     */
+    public void play(){
+        rv.play();
     }
     
     

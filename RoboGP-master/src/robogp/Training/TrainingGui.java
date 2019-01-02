@@ -361,10 +361,12 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
-        //TODO metodo synchronized per evitare cazzi in culo?
         for(InstructionCardGui ic : this.istruzioniGui){
-            robot = (RobotMarkerTraining)this.movimentoCtrl.muoviRobot(ic.getSourceCard(), robot);
+            eseguiIstruzione(ic.getSourceCard());
         }
+        this.movimentoCtrl.play();
+       
+
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
     private void comboRigheActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboRigheActionPerformed
@@ -472,6 +474,7 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void btnAggiornaPosizioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiornaPosizioneActionPerformed
         this.placeRobot();
+        System.out.println("placeRobot: " + this.robot.toString());
     }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
 
     /**
@@ -487,7 +490,6 @@ public class TrainingGui extends javax.swing.JFrame {
         Direction d = Direction.values()[indiceDirezione];
         
         movimentoCtrl.placeRobot(robot, d, indiceRiga, indiceColonna); // aggiunge il robot al tabellone        
-        //this.getDromeView().placeRobot(robot, d, indiceRiga, indiceColonna, true);
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
     }
     
@@ -610,6 +612,14 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private RobodromeView getDromeView() {
         return (RobodromeView)this.containerTabellone.getComponent(0);
+    }
+    
+    
+    
+    private synchronized void eseguiIstruzione(InstructionCard ic){
+        this.movimentoCtrl.muoviRobot(ic, robot);
+        System.out.println("Mosso: " + this.robot.toString());
+        
     }
 
 

@@ -1,5 +1,4 @@
 package robogp.deck;
-import robogp.robodrome.Direction;
 import robogp.robodrome.Rotation;
 
 /**
