@@ -358,6 +358,7 @@ public class TrainingGui extends javax.swing.JFrame {
 
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
         // TODO add your handling code here:
+        System.out.println(this.getDrome().toString());
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
@@ -614,21 +615,24 @@ public class TrainingGui extends javax.swing.JFrame {
      * Avvia l'esecuzione delle fasi di allenamento
      */
     private void avviaAllenamento(){
-        for(InstructionCardGui ic : this.istruzioniGui){
-            eseguiIstruzione(ic.getSourceCard());
-        }
+        //TODO controlla che il robot sia posizionato prima di eseguire le mosse
+        //TODO controlla che le schede istruzione siano state aggiunte prima di avviare l'allenamento
+        
+        eseguiTutteIstruzioni();
+        this.movimentoCtrl.nastriTrasportatori(robot);
+        System.out.printf("Robot in: %s\n", this.robot.getLastPosition().toString());
+        
         this.movimentoCtrl.play();
     }
     
     
     /**
-     * Esegue una singola istruzione
-     * @param ic istruzione da eseguire
+     * Esegue ogni istruzione aggiunta alla gui di allenamento.
      */
-    private synchronized void eseguiIstruzione(InstructionCard ic){
-        this.movimentoCtrl.muoviRobot(ic, robot);
-        System.out.println("Mosso: " + this.robot.toString());
-        
+    private void eseguiTutteIstruzioni(){
+        for(InstructionCardGui ic : this.istruzioniGui){
+            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), this.robot);
+        }
     }
 
 }

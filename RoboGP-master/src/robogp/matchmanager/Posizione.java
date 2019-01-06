@@ -34,5 +34,10 @@ public class Posizione{
         this.colonna = colonna;
     }
     
+    @Override
+    public String toString(){
+        return "R:" + riga + " C:" + colonna;
+    }
+    
     
 }

@@ -1,6 +1,7 @@
 package robogp.robodrome;
 
 import robogp.deck.InstructionCard;
+import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.view.RobodromeView;
 
@@ -63,7 +64,9 @@ public class MovimentoController {
      * Inizializza le variabili coi valori correnti del robot
      * passato come parametro.
      */
-    private void initVariabili(){
+    private void initVariabili(InstructionCard ic, RobotMarker rm){
+        this.ic = ic;
+        this.rm = rm;
         rigaCorrente = this.rm.getRiga();
         colonnaCorrente = this.rm.getColonna();
         cellaCorrente = this.rb.getCell(rigaCorrente, colonnaCorrente);
@@ -76,9 +79,7 @@ public class MovimentoController {
      * @param rm il robot da muovere
      */
     public void muoviRobot(InstructionCard ic, RobotMarker rm){
-        this.ic = ic;
-        this.rm = rm;
-        initVariabili();
+        initVariabili(ic, rm);
         BoardCell cellaSuccessiva;
         int movimento = ic.getMovimento();//di quanto dovrebbe muoversi
         int passiEffettuati;
@@ -109,8 +110,10 @@ public class MovimentoController {
         
         //ripristina la direzione originale del robot
         if(backup)  direzioneCorrente = direzioneOpposta(direzioneCorrente);
-
-        aggiornaVariabiliRobot(ic.getRotazione());
+        
+        direzioneCorrente = Rotation.changeDirection(direzioneCorrente, ic.getRotazione());
+        aggiornaVariabiliRobot(rigaCorrente, colonnaCorrente, direzioneCorrente);
+        
         System.out.println("Mosso di " + passiEffettuati + " passi verso "
                 + direzioneCorrente);
     }
@@ -129,10 +132,9 @@ public class MovimentoController {
      * @param finale la cella finale raggiunta dal robot
      * @param direzioneFinale
      */
-    private void aggiornaVariabiliRobot(Rotation rotazione){
-        direzioneCorrente = Rotation.changeDirection(direzioneCorrente, rotazione);
-        rm.updatePosizione(rigaCorrente, colonnaCorrente, direzioneCorrente);
-        this.rb.getCell(rigaCorrente, colonnaCorrente).robotInside();
+    private void aggiornaVariabiliRobot(int riga, int colonna, Direction direzione){
+        rm.updatePosizione(riga, colonna, direzione);
+        this.rb.getCell(riga, colonna).robotInside();
     }
     
     
@@ -232,5 +234,34 @@ public class MovimentoController {
         rm.updatePosizione(r, c, d);
         rm.setDirection(d);
     }
-
+    
+    
+    /**
+     * Avvia i nastri trasportatori semplici o express se il robot è posizionato
+     * sopra ad uno di essi.
+     * @param rb robot
+     */
+    public void nastriTrasportatori(RobotMarker rm){
+        initVariabili(null, rm);
+        
+        if(this.rb.getCell(rigaCorrente, colonnaCorrente).getType() == 'B')
+            nastroTrasportatoreSemplice();
+//        else if(this.rb.getCell(rigaCorrente, colonnaCorrente).getType() == 'E')
+//            nastroTrasportatoreExpress();
+    }
+    
+    
+    /**
+     * Muove il robot di una posizione nella direzione del nastro trasportatore.
+     */
+    private void nastroTrasportatoreSemplice(){
+        BeltCell beltcell = (BeltCell)this.rb.getCell(rigaCorrente, colonnaCorrente);
+        direzioneCorrente = beltcell.getOutputDirection();
+        if(movimentoAmmissibile()){
+            this.rv.addRobotMove(rm, 1, direzioneCorrente, Rotation.NO);
+            this.cellaCorrente.robotOutside();
+            this.cellaCorrente = cellaSuccessiva();
+            aggiornaVariabiliRobot(cellaCorrente.getRiga(), cellaCorrente.getColonna(), rm.getDirection());
+        }
+    }
 }
