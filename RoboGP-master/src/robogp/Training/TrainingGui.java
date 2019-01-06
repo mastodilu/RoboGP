@@ -362,6 +362,9 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_btnStopActionPerformed
 
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
+        //controlla che il robot sia nella mappa
+        if(this.robot.getLastPosition() == null)
+            this.placeRobot();
         avviaAllenamento();
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
@@ -478,7 +481,6 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private synchronized void placeRobot(){
         int indiceRiga, indiceColonna, indiceDirezione;
-        String direzione;
         
         indiceRiga = this.comboRighe.getSelectedIndex();
         indiceColonna = this.comboColonne.getSelectedIndex();
@@ -615,7 +617,6 @@ public class TrainingGui extends javax.swing.JFrame {
      * Avvia l'esecuzione delle fasi di allenamento
      */
     private void avviaAllenamento(){
-        //TODO controlla che il robot sia posizionato prima di eseguire le mosse
         //TODO controlla che le schede istruzione siano state aggiunte prima di avviare l'allenamento
         
         eseguiTutteIstruzioni();

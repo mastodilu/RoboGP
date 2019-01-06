@@ -194,6 +194,8 @@ public class RobotMarker implements Serializable {
 //    
     
     public Posizione getLastPosition(){
+        if(this.storicoPosizioni.size() == 0)
+            return null;
         return this.storicoPosizioni.get(this.storicoPosizioni.size() - 1);
     }
     
