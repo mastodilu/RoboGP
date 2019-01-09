@@ -72,6 +72,8 @@ public class MovimentoController {
         int movimento = ic.getMovimento();//di quanto dovrebbe muoversi
         int passiEffettuati;
         boolean backup = ic.getTipo().equals("backup");//se ic e' backup card deve gestire il movimento all'indietro
+        boolean bucoNero = this.bucoNero(cellaCorrente);
+        
         
         cellaCorrente.robotOutside();
         
@@ -80,13 +82,14 @@ public class MovimentoController {
         if(backup)  direzioneCorrente = direzioneOpposta(direzioneCorrente);
         
         //movimentoAmmissibile controlla di poter avanzare di una casella in avanti
-        while(movimento > 0 && movimentoAmmissibile()){
+        while(!bucoNero && movimento > 0 && movimentoAmmissibile()){
             System.out.println("Movimento ammissibile");
             movimento--;
             cellaSuccessiva = this.cellaSuccessiva();
             if(cellaSuccessiva == null)
                 break;
             cellaCorrente = cellaSuccessiva;
+            bucoNero = this.bucoNero(cellaCorrente);
         }
         passiEffettuati = ic.getMovimento() - movimento;
         
@@ -282,7 +285,15 @@ public class MovimentoController {
                 }
             }
         }
-        
-            
     }
+    
+    
+    /**
+     * @return true se la cella corrente è un buco nero,
+     *  false altrimenti
+     */
+    private boolean bucoNero(BoardCell cella){
+        return cella.getType() == 'P';
+    }
+    
 }
