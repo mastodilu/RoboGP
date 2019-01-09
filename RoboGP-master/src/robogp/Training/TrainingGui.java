@@ -617,8 +617,6 @@ public class TrainingGui extends javax.swing.JFrame {
      * Avvia l'esecuzione delle fasi di allenamento
      */
     private void avviaAllenamento(){
-        //TODO controlla che le schede istruzione siano state aggiunte prima di avviare l'allenamento
-        
         eseguiTutteIstruzioni();
         this.movimentoCtrl.nastriTrasportatori(robot);
         System.out.printf("Robot in: %s\n", this.robot.getLastPosition().toString());
