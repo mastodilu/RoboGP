@@ -359,8 +359,9 @@ public class TrainingGui extends javax.swing.JFrame {
     private void btnStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopActionPerformed
         // TODO add your handling code here:
         System.out.println(this.getDrome().toString());
+        this.resetTrainingGui();
     }//GEN-LAST:event_btnStopActionPerformed
-
+    
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
         //controlla che il robot sia nella mappa
         if(this.robot.getLastPosition() == null)
@@ -525,9 +526,7 @@ public class TrainingGui extends javax.swing.JFrame {
      * aggiunge un messaggio visibile all'inizio del log
      */
     protected synchronized void sendToLog(String message){
-        String s = this.logTextArea.getText();
-        this.logTextArea.setText("◾ " + message + "\n");
-        this.logTextArea.append(s);
+        this.logTextArea.append("◾ " + message + "\n");
     }
     
     
@@ -619,7 +618,7 @@ public class TrainingGui extends javax.swing.JFrame {
     private void avviaAllenamento(){
         eseguiTutteIstruzioni();
         this.movimentoCtrl.nastriTrasportatori(robot);
-        System.out.printf("Robot in: %s\n", this.robot.getLastPosition().toString());
+        this.sendToLog("Robot in: " + this.robot.getLastPosition().toString());
         
         this.movimentoCtrl.play();
     }
@@ -634,4 +633,20 @@ public class TrainingGui extends javax.swing.JFrame {
         }
     }
 
+    
+    /**
+     * Resetta a gui di gioco
+     */
+    private void resetTrainingGui(){
+        
+        this.getDrome().getCell(robot.getRiga(), robot.getColonna()).robotOutside();
+        this.getDromeView().removeRobot(robot);
+        this.logTextArea.setText("");
+        
+        this.istruzioniGui = new ArrayList<InstructionCardGui>();//svuota l'elenco di schede istruzione
+        this.panelCardGui.removeAll(); // svuota il pannello che mostra il programma
+        this.indiceIstruzioneMostrata = -1;
+        this.updateLabelIndiceIstruzioneMostrata(this.indiceIstruzioneMostrata);
+        this.panelCardGui.repaint();
+    }
 }

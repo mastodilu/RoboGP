@@ -193,6 +193,9 @@ public class RobotMarker implements Serializable {
 //    }
 //    
     
+    /**
+     * @return la posizione corrente occupata dal robot
+     */
     public Posizione getLastPosition(){
         if(this.storicoPosizioni.size() == 0)
             return null;

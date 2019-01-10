@@ -36,7 +36,7 @@ public class Posizione{
     
     @Override
     public String toString(){
-        return "R:" + riga + " C:" + colonna;
+        return "R:" + (riga+1) + " C:" + (colonna+1);
     }
     
     
