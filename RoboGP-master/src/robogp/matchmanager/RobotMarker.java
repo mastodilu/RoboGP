@@ -203,6 +203,8 @@ public class RobotMarker implements Serializable {
     }
     
     public Direction getLastDirection(){
+        if(this.storicoDirezioni.size() == 0)
+            return null;
         return this.storicoDirezioni.get(this.storicoDirezioni.size() - 1);
     }
     
@@ -219,6 +221,25 @@ public class RobotMarker implements Serializable {
         this.direction = dir;
         storicoPosizioni.add(new Posizione(riga, colonna));
         storicoDirezioni.add(dir);
+    }
+    
+    
+    /**
+     * Cancella l'ultima posizione raggiunta dal robot.
+     */
+    public void cancellaUltimaPosizione(){
+        if(this.storicoPosizioni.size() > 0){
+            this.storicoPosizioni.remove(this.storicoPosizioni.size()-1);
+        }
+    }
+    
+    
+    /**
+     * Cancella l'ultima direzione assunta dal robot.
+     */
+    public void cancellaUltimaDirezione(){
+        if(this.storicoDirezioni.size() > 0)
+            this.storicoDirezioni.remove(this.storicoDirezioni.size()-1);
     }
     
     @Override
