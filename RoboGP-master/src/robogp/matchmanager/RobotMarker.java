@@ -242,6 +242,18 @@ public class RobotMarker implements Serializable {
             this.storicoDirezioni.remove(this.storicoDirezioni.size()-1);
     }
     
+    
+    /**
+     * Resetta alcune variabili del robot.
+     */
+    public void reset(){
+        this.colonna = 0;
+        this.riga = 0;
+        this.direction = Direction.W;
+        this.storicoDirezioni = new ArrayList<Direction>();
+        this.storicoPosizioni = new ArrayList<Posizione>();
+    }
+    
     @Override
     public String toString(){
         String s = "";
