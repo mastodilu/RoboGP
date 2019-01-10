@@ -348,6 +348,20 @@ public class RobodromeView extends JComponent {
         }
     }
     
+    
+    /**
+     * Cancella dalla view il robot passato come parametro.
+     * @param robot il robot da cancellare
+     */
+    public void removeRobot(RobotMarker robot){
+        if (!this.isPlayingAnimation()) {
+            this.robotMarkers.remove(robot.getName());
+            repaint();
+        }else {
+            throw new RobodromeException("Cannot add robot during animation.");
+        }
+    }
+    
     /**
      * Posiziona sul robodromo un robot gi&agrave; precedentemente inserito con
      * addRobot. Attenzione: non pu&ograve; essere invocato quando c'&egrave;
