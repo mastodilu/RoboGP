@@ -57,8 +57,8 @@ public class MovimentoController {
     private void initVariabili(InstructionCard ic, RobotMarker rm){
         this.ic = ic;
         this.rm = rm;
-        cellaCorrente = this.rb.getCell(this.rm.getRiga(), this.rm.getColonna());
-        direzioneCorrente = this.rm.getDirection();
+        cellaCorrente = this.rb.getCell(this.rm.getLastPosition().getRiga(), this.rm.getLastPosition().getColonna());
+        direzioneCorrente = this.rm.getLastDirection();
     }
     
     /**
@@ -227,7 +227,6 @@ public class MovimentoController {
     public void placeRobot(RobotMarker rm, Direction d, int r, int c){
         rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
         rm.updatePosizione(r, c, d);
-        rm.setDirection(d);
     }
     
     
@@ -258,7 +257,7 @@ public class MovimentoController {
             this.rv.addRobotMove(rm, 1, direzioneCorrente, Rotation.NO);
             this.cellaCorrente.robotOutside();
             this.cellaCorrente = cellaSuccessiva();
-            aggiornaVariabiliRobot(cellaCorrente, rm.getDirection());
+            aggiornaVariabiliRobot(cellaCorrente, rm.getLastDirection());
         }
     }
     
@@ -281,7 +280,7 @@ public class MovimentoController {
                     riga = cellaCorrente.getRiga();
                     colonna = this.cellaCorrente.getColonna();
                     this.rv.addRobotMove(rm, 1, direzioneCorrente, Rotation.NO);
-                    aggiornaVariabiliRobot(cellaCorrente, rm.getDirection());
+                    aggiornaVariabiliRobot(cellaCorrente, rm.getLastDirection());
                 }
             }
         }

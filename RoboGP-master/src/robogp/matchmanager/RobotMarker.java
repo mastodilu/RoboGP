@@ -20,25 +20,23 @@ public class RobotMarker implements Serializable {
     private transient BufferedImage robotImage; // transient dice al compilatore che la variabile non viene serializzata
     private final String name;
     private final String color;
+    
     /**
      * Nome del giocatore al quale e' stato assegnato il robot.
      */
     private String owner;
+    
     /**
      * dock di partenza assegnato al robot
      */
     private int dockNumber;
-    private int riga; //posizione corrente del robot
-    private int colonna; //posizione corrente del robot
     private int salute, vite; //salute e vita correnti del robot
-    /**
-     * Direzione del robot.
-     */
-    Direction direction = Direction.E;
+
     /**
      * Le direzioni assunte dal robot in ordine cronologico.
      */
     private ArrayList<Direction> storicoDirezioni;
+    
     /**
      * Le posizioni assunte dal robot in ordine cronologico.
      */
@@ -64,33 +62,6 @@ public class RobotMarker implements Serializable {
         return ImageUtil.scale(ImageUtil.superImpose(null, this.robotImage),size, size);
     }
     
-    /**
-     * Gira il robot a sinistra.
-     */
-    public void sinistra(){
-        if(direction == Direction.E)
-            direction = Direction.N;
-        else if(direction == Direction.W)
-            direction = Direction.S;
-        else if(direction == Direction.N)
-            direction = Direction.W;
-        else if(direction == Direction.S)
-            direction = Direction.E;
-    }
-    
-    /**
-     * Gira il robot a destra.
-     */
-    public void destra(){
-        if(direction == Direction.E)
-            direction = Direction.S;
-        else if(direction == Direction.W)
-            direction = Direction.N;
-        else if(direction == Direction.N)
-            direction = Direction.E;
-        else if(direction == Direction.S)
-            direction = Direction.W;
-    }
 
     /**
      * Assegna il robot corrente al giocatore specificato e gli assegna un dock.
@@ -133,14 +104,6 @@ public class RobotMarker implements Serializable {
         return dockNumber;
     }
 
-    public int getRiga() {
-        return riga;
-    }
-
-    public int getColonna() {
-        return colonna;
-    }
-
     public void setSalute(int salute) {
         this.salute = salute;
     }
@@ -149,13 +112,6 @@ public class RobotMarker implements Serializable {
         this.vite = vite;
     }
     
-    public void setDirection(Direction d){
-        this.direction = d;
-    }
-    
-    public Direction getDirection(){
-        return this.direction;
-    }
     
 //    public void setPosizione(int r, int c){
 //        this.riga = r;
@@ -216,9 +172,6 @@ public class RobotMarker implements Serializable {
      * @param dir direzione corrente
      */
     public void updatePosizione(int riga, int colonna, Direction dir){
-        this.riga = riga;
-        this.colonna = colonna;
-        this.direction = dir;
         storicoPosizioni.add(new Posizione(riga, colonna));
         storicoDirezioni.add(dir);
     }
@@ -247,9 +200,6 @@ public class RobotMarker implements Serializable {
      * Resetta alcune variabili del robot.
      */
     public void reset(){
-        this.colonna = 0;
-        this.riga = 0;
-        this.direction = Direction.W;
         this.storicoDirezioni = new ArrayList<Direction>();
         this.storicoPosizioni = new ArrayList<Posizione>();
     }
@@ -258,8 +208,8 @@ public class RobotMarker implements Serializable {
     public String toString(){
         String s = "";
         s += this.color + ""
-                + this.riga + "x" + this.colonna
-                + this.direction;
+                + this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna()
+                + this.getLastDirection();
         return s;
     }
     

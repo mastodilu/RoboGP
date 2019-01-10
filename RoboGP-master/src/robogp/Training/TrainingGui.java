@@ -11,6 +11,7 @@ import robogp.deck.Deck;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
+import robogp.matchmanager.Posizione;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoController;
 import robogp.robodrome.Robodrome;
@@ -374,7 +375,7 @@ public class TrainingGui extends javax.swing.JFrame {
     }//GEN-LAST:event_comboRigheActionPerformed
 
     private void btnBackwardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackwardActionPerformed
-        // TODO add your handling code here:
+        indietroDiUno();
     }//GEN-LAST:event_btnBackwardActionPerformed
 
     
@@ -635,12 +636,13 @@ public class TrainingGui extends javax.swing.JFrame {
 
     
     /**
-     * Resetta a gui di gioco
+     * Resetta la gui di gioco
      */
     private void resetTrainingGui(){
         
-        this.getDrome().getCell(robot.getRiga(), robot.getColonna()).robotOutside();
+        this.getDrome().getCell(robot.getLastPosition().getRiga(), robot.getLastPosition().getColonna()).robotOutside();
         this.getDromeView().removeRobot(robot);
+        this.robot.reset();
         this.logTextArea.setText("");
         
         this.istruzioniGui = new ArrayList<InstructionCardGui>();//svuota l'elenco di schede istruzione
@@ -648,5 +650,38 @@ public class TrainingGui extends javax.swing.JFrame {
         this.indiceIstruzioneMostrata = -1;
         this.updateLabelIndiceIstruzioneMostrata(this.indiceIstruzioneMostrata);
         this.panelCardGui.repaint();
+    }
+    
+    
+    /**
+     * Riposiziona il robot alla posizione precedente.
+     */
+    private void indietroDiUno(){
+        System.out.printf("storico posizioni %d - storico direzioni: %d\n",
+                this.robot.getStoricoPosizioni().size(), this.robot.getStoricoDirections().size());
+        Posizione posizione = this.robot.getLastPosition();
+        Direction direzione;
+        int riga, colonna;
+        
+        if( this.robot.getStoricoPosizioni().size() < 2){//se non ci sono posizioni da cancellare  
+            System.out.println("Non puoi andare più indietro di così");
+        }else{
+            this.getDrome().getCell(posizione.getRiga(), posizione.getColonna()).robotOutside();
+            
+            this.robot.cancellaUltimaPosizione();//cancella posizione corrente
+            this.robot.cancellaUltimaDirezione();//cancella direzione corrente
+            
+            posizione = this.robot.getLastPosition();
+            riga = posizione.getRiga();
+            colonna = posizione.getColonna();
+            direzione = this.robot.getLastDirection();
+            
+            // riposiziona il robot nella giusta cella
+            this.getDromeView().changeRobotPosition(robot, direzione, riga, colonna, true);
+
+            
+            this.getDrome().getCell(posizione.getRiga(), posizione.getColonna()).robotInside();
+            this.sendToLog("Indietro di una mossa");
+        }
     }
 }
