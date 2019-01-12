@@ -12,6 +12,7 @@ import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
 import robogp.matchmanager.Posizione;
+import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoController;
 import robogp.robodrome.Robodrome;
@@ -50,7 +51,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * segnalino del robot nella mappa
      */
-    private RobotMarkerTraining robot = null;
+    private ArrayList<RobotMarkerTraining> arrayRobot = null;
     
     /**
      * Controller del movimento
@@ -63,20 +64,22 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo, RobotMarkerTraining robot, MovimentoController movimentoCtrl){
+    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoController movimentoCtrl){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
         istruzioniGui = new ArrayList<>();
         this.movimentoCtrl = movimentoCtrl;
         this.setTabellone(robodromo);
-        this.robot = robot;
+        this.arrayRobot = new ArrayList<RobotMarkerTraining>();
+        for(RobotMarker r : arrayRobot)
+            this.arrayRobot.add((RobotMarkerTraining)r);
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo, RobotMarkerTraining robot, MovimentoController movimentoCtrl){
+    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoController movimentoCtrl){
         if(TrainingGui.singleInstance == null){
-            TrainingGui.singleInstance = new TrainingGui(robodromo, robot, movimentoCtrl);
+            TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl);
         }
         return TrainingGui.singleInstance;
     }
@@ -365,8 +368,8 @@ public class TrainingGui extends javax.swing.JFrame {
     
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
         //controlla che il robot sia nella mappa
-        if(this.robot.getLastPosition() == null)
-            this.placeRobot();
+        if(this.arrayRobot.get(0).getLastPosition() == null) // se non è stato posizionato il primo robot
+            this.placeRobots();
         avviaAllenamento();
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
@@ -474,14 +477,14 @@ public class TrainingGui extends javax.swing.JFrame {
      * cambia la posizione del segnalino del robot nel tabellone
      */
     private void btnAggiornaPosizioneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAggiornaPosizioneActionPerformed
-        this.placeRobot();
-        System.out.println("placeRobot: " + this.robot.toString());
+        this.placeRobots();
+        System.out.println("placeRobot: " + this.arrayRobot.get(0).toString());
     }//GEN-LAST:event_btnAggiornaPosizioneActionPerformed
 
     /**
      * metodo synchronized per cambiare la posizione del robot
      */
-    private synchronized void placeRobot(){
+    private synchronized void placeRobots(){
         int indiceRiga, indiceColonna, indiceDirezione;
         
         indiceRiga = this.comboRighe.getSelectedIndex();
@@ -489,7 +492,8 @@ public class TrainingGui extends javax.swing.JFrame {
         indiceDirezione = this.comboDirezione.getSelectedIndex();
         Direction d = Direction.values()[indiceDirezione];
         
-        movimentoCtrl.placeRobot(robot, d, indiceRiga, indiceColonna); // aggiunge il robot al tabellone        
+        movimentoCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
+        movimentoCtrl.placeRobot(arrayRobot.get(1), d, 4, 4); // aggiunge il robot2 al tabellone
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
     }
     
@@ -618,8 +622,8 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void avviaAllenamento(){
         eseguiTutteIstruzioni();
-        this.movimentoCtrl.nastriTrasportatori(robot);
-        this.sendToLog("Robot in: " + this.robot.getLastPosition().toString());
+        this.movimentoCtrl.nastriTrasportatori();
+        this.sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
         
         this.movimentoCtrl.play();
     }
@@ -630,7 +634,7 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void eseguiTutteIstruzioni(){
         for(InstructionCardGui ic : this.istruzioniGui){
-            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), this.robot);
+            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), this.arrayRobot.get(0));
         }
     }
 
@@ -640,9 +644,9 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void resetTrainingGui(){
         
-        this.getDrome().getCell(robot.getLastPosition().getRiga(), robot.getLastPosition().getColonna()).robotOutside();
-        this.getDromeView().removeRobot(robot);
-        this.robot.reset();
+        this.getDrome().getCell(arrayRobot.get(0).getLastPosition().getRiga(), arrayRobot.get(0).getLastPosition().getColonna()).robotOutside();
+        this.getDromeView().removeRobot(arrayRobot.get(0));
+        this.arrayRobot.get(0).reset();
         this.logTextArea.setText("");
         
         this.istruzioniGui = new ArrayList<InstructionCardGui>();//svuota l'elenco di schede istruzione
@@ -658,26 +662,26 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void indietroDiUno(){
         System.out.printf("storico posizioni %d - storico direzioni: %d\n",
-                this.robot.getStoricoPosizioni().size(), this.robot.getStoricoDirections().size());
-        Posizione posizione = this.robot.getLastPosition();
+                this.arrayRobot.get(0).getStoricoPosizioni().size(), this.arrayRobot.get(0).getStoricoDirections().size());
+        Posizione posizione = this.arrayRobot.get(0).getLastPosition();
         Direction direzione;
         int riga, colonna;
         
-        if( this.robot.getStoricoPosizioni().size() < 2){//se non ci sono posizioni da cancellare  
+        if( this.arrayRobot.get(0).getStoricoPosizioni().size() < 2){//se non ci sono posizioni da cancellare  
             System.out.println("Non puoi andare più indietro di così");
         }else{
             this.getDrome().getCell(posizione.getRiga(), posizione.getColonna()).robotOutside();
             
-            this.robot.cancellaUltimaPosizione();//cancella posizione corrente
-            this.robot.cancellaUltimaDirezione();//cancella direzione corrente
+            this.arrayRobot.get(0).cancellaUltimaPosizione();//cancella posizione corrente
+            this.arrayRobot.get(0).cancellaUltimaDirezione();//cancella direzione corrente
             
-            posizione = this.robot.getLastPosition();
+            posizione = this.arrayRobot.get(0).getLastPosition();
             riga = posizione.getRiga();
             colonna = posizione.getColonna();
-            direzione = this.robot.getLastDirection();
+            direzione = this.arrayRobot.get(0).getLastDirection();
             
             // riposiziona il robot nella giusta cella
-            this.getDromeView().changeRobotPosition(robot, direzione, riga, colonna, true);
+            this.getDromeView().changeRobotPosition(arrayRobot.get(0), direzione, riga, colonna, true);
 
             
             this.getDrome().getCell(posizione.getRiga(), posizione.getColonna()).robotInside();
