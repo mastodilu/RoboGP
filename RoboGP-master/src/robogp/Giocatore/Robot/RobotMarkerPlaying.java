@@ -17,7 +17,6 @@ private int contatoreDanni;
         super(name, color); // usiamo il costruttore che ci hanno dato
         this.assign(owner, startDock); //assegna owner e posizione iniziale
         this.startDirection = startDirection;   //teniamo in memoria la direzione iniziale e
-        this.setDirection(startDirection);      // aggiorniamo la posizione corrente
         this.saluteMax = saluteMax;
         this.spento = false; //cominciano con un robot accesso, eventualmente si spegne durante il turno
         this.contatoreDanni = 0;
