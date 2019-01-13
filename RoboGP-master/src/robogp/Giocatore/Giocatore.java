@@ -1,41 +1,44 @@
 package robogp.Giocatore;
 
 import java.util.ArrayList;
+import robogp.Giocatore.Robot.RobotMarkerPlaying;
 
 
 public class Giocatore {
     private String nickname;
-    private ArrayList RobotList;
+    private ArrayList<RobotMarkerPlaying> robotList;
     private Upgrade upgrade;
-
-    public Giocatore(String nickname, ArrayList RobotList) {
+    
+    public Giocatore(String nickname){
         this.nickname = nickname;
-        this.RobotList = RobotList;
-        upgrade = null;
-    }
-
-    public String getNickname() {
-        return nickname;
+        this.upgrade = null;
+        this.robotList = new ArrayList<RobotMarkerPlaying>();
     }
     
-    public Upgrade getUpgrade() {
-        return upgrade;
-    }
-
-    public ArrayList getRobotList() {
-        return RobotList;
-    }
-
-    public void setNickname(String nickname) {
+    public Giocatore(String nickname, RobotMarkerPlaying robot){
         this.nickname = nickname;
+        this.robotList = new ArrayList<RobotMarkerPlaying>();
+        this.robotList.add(robot);
+        this.upgrade = null;
     }
 
-    public void setRobotList(ArrayList RobotList) {
-        this.RobotList = RobotList;
+    public Giocatore(String nickname, ArrayList<RobotMarkerPlaying> RobotList) {
+        this.nickname = nickname;
+        this.robotList = RobotList;
+        this.upgrade = null;
     }
-
-    public void setUpgrade(Upgrade upgrade) {
-        this.upgrade = upgrade;
+    
+    
+    public void assegnaRobot(RobotMarkerPlaying robot){
+        this.robotList.add(robot);
+    }
+    
+    public void rimuoviRobot(RobotMarkerPlaying robot){
+        this.robotList.remove(robot);
+    }
+    
+    public String getNickname(){
+        return this.nickname;
     }
     
 }
