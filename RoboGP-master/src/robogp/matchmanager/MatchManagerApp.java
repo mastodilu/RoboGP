@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import robogp.Training.*;
 import robogp.robodrome.Robodrome;
+import robogp.robodrome.view.RobodromeView;
 
 /**
  *
@@ -26,7 +27,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
     /**
      * Creates new form MatchManager
      */
-    private MatchManagerApp() {
+    MatchManagerApp() {
         initComponents();
         this.traningController = TrainingController.getInstance();
         this.inizPartCtrl = IniziarePartitaController.getInstance();
@@ -53,7 +54,38 @@ public class MatchManagerApp extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
+        programmaRobotJFrame = new javax.swing.JFrame();
+        jPanel24 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jPanel25 = new javax.swing.JPanel();
+        jPanel26 = new javax.swing.JPanel();
+        jPanel27 = new javax.swing.JPanel();
+        jPanel28 = new javax.swing.JPanel();
+        jPanel29 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        scegliIstruzione = new javax.swing.JFrame();
+        jPanel30 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
         initPanel = new javax.swing.JPanel();
         javax.swing.JPanel jPanel4 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
@@ -75,21 +107,21 @@ public class MatchManagerApp extends javax.swing.JFrame {
         javax.swing.JPanel jPanel10 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel11 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
-        robodromeCombo = new javax.swing.JComboBox<>();
+        robodromeCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel12 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
-        endGameCombo = new javax.swing.JComboBox<>();
+        endGameCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel13 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel5 = new javax.swing.JLabel();
-        maxPlayersCombo = new javax.swing.JComboBox<>();
+        maxPlayersCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel14 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
-        nRobotsCombo = new javax.swing.JComboBox<>();
+        nRobotsCombo = new javax.swing.JComboBox<String>();
         upgradeCheck = new javax.swing.JCheckBox();
         playersPanel = new javax.swing.JPanel();
         javax.swing.JPanel jPanel8 = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        requestList = new javax.swing.JList<>();
+        requestList = new javax.swing.JList<String>();
         javax.swing.JPanel jPanel15 = new javax.swing.JPanel();
         acceptRequestButton = new javax.swing.JButton();
         rejectRequestButton = new javax.swing.JButton();
@@ -98,15 +130,364 @@ public class MatchManagerApp extends javax.swing.JFrame {
         startMatchButton = new javax.swing.JButton();
         cancelMatchButton = new javax.swing.JButton();
         ongoingMatchPanel = new javax.swing.JPanel();
-        javax.swing.JLabel jLabel7 = new javax.swing.JLabel();
+        jPanel17 = new javax.swing.JPanel();
+        jPanel19 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
+        jPanel20 = new javax.swing.JPanel();
+        jPanel21 = new javax.swing.JPanel();
+        jPanel22 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        infoRobot1 = new robogp.matchmanager.infoRobot();
+        infoRobot2 = new robogp.matchmanager.infoRobot();
+        infoRobot3 = new robogp.matchmanager.infoRobot();
+        jPanel18 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        logTextArea = new javax.swing.JTextArea();
         trainingPanel = new javax.swing.JPanel();
         javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
-        robodromeCombo1 = new javax.swing.JComboBox<>();
+        robodromeCombo1 = new javax.swing.JComboBox<String>();
         jButton1 = new javax.swing.JButton();
+
+        programmaRobotJFrame.setTitle("PROGRAMMAZIONE ROBOT");
+        programmaRobotJFrame.setMaximumSize(new java.awt.Dimension(800, 650));
+        programmaRobotJFrame.setMinimumSize(new java.awt.Dimension(800, 650));
+        programmaRobotJFrame.setPreferredSize(new java.awt.Dimension(800, 650));
+        programmaRobotJFrame.setSize(new java.awt.Dimension(800, 650));
+
+        jPanel24.setMaximumSize(new java.awt.Dimension(800, 650));
+        jPanel24.setMinimumSize(new java.awt.Dimension(800, 650));
+        jPanel24.setPreferredSize(new java.awt.Dimension(800, 650));
+        java.awt.GridBagLayout jPanel24Layout = new java.awt.GridBagLayout();
+        jPanel24Layout.columnWidths = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel24Layout.rowHeights = new int[] {0, 10, 0, 10, 0, 10, 0, 10, 0, 10, 0};
+        jPanel24.setLayout(jPanel24Layout);
+
+        jLabel11.setText("Registro 1");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jLabel11, gridBagConstraints);
+
+        jLabel12.setText("Registro 2");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jLabel12, gridBagConstraints);
+
+        jLabel13.setText("Registro 3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jLabel13, gridBagConstraints);
+
+        jLabel14.setText("Registro 4");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jLabel14, gridBagConstraints);
+
+        jLabel15.setText("Registro 5");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jLabel15, gridBagConstraints);
+
+        jButton3.setText("ANNULLA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 10;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 0);
+        jPanel24.add(jButton3, gridBagConstraints);
+
+        jPanel25.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel25.setMaximumSize(new java.awt.Dimension(100, 100));
+        jPanel25.setMinimumSize(new java.awt.Dimension(100, 100));
+        jPanel25.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+        jPanel25.setLayout(jPanel25Layout);
+        jPanel25Layout.setHorizontalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+        jPanel25Layout.setVerticalGroup(
+            jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        jPanel24.add(jPanel25, gridBagConstraints);
+
+        jPanel26.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel26.setMaximumSize(new java.awt.Dimension(100, 100));
+        jPanel26.setMinimumSize(new java.awt.Dimension(100, 100));
+        jPanel26.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        jPanel24.add(jPanel26, gridBagConstraints);
+
+        jPanel27.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel27.setMaximumSize(new java.awt.Dimension(100, 100));
+        jPanel27.setMinimumSize(new java.awt.Dimension(100, 100));
+        jPanel27.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout jPanel27Layout = new javax.swing.GroupLayout(jPanel27);
+        jPanel27.setLayout(jPanel27Layout);
+        jPanel27Layout.setHorizontalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+        jPanel27Layout.setVerticalGroup(
+            jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        jPanel24.add(jPanel27, gridBagConstraints);
+
+        jPanel28.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel28.setMaximumSize(new java.awt.Dimension(100, 100));
+        jPanel28.setMinimumSize(new java.awt.Dimension(100, 100));
+        jPanel28.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout jPanel28Layout = new javax.swing.GroupLayout(jPanel28);
+        jPanel28.setLayout(jPanel28Layout);
+        jPanel28Layout.setHorizontalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+        jPanel28Layout.setVerticalGroup(
+            jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        jPanel24.add(jPanel28, gridBagConstraints);
+
+        jPanel29.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel29.setMaximumSize(new java.awt.Dimension(100, 100));
+        jPanel29.setMinimumSize(new java.awt.Dimension(100, 100));
+        jPanel29.setPreferredSize(new java.awt.Dimension(100, 100));
+
+        javax.swing.GroupLayout jPanel29Layout = new javax.swing.GroupLayout(jPanel29);
+        jPanel29.setLayout(jPanel29Layout);
+        jPanel29Layout.setHorizontalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+        jPanel29Layout.setVerticalGroup(
+            jPanel29Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 96, Short.MAX_VALUE)
+        );
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        jPanel24.add(jPanel29, gridBagConstraints);
+
+        jButton4.setText("Scegli...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton4, gridBagConstraints);
+
+        jButton5.setText("Rimuovi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton5, gridBagConstraints);
+
+        jButton6.setText("Scegli...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton6, gridBagConstraints);
+
+        jButton7.setText("Rimuovi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton7, gridBagConstraints);
+
+        jButton8.setText("Scegli...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton8, gridBagConstraints);
+
+        jButton9.setText("Rimuovi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton9, gridBagConstraints);
+
+        jButton10.setText("Scegli...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton10, gridBagConstraints);
+
+        jButton11.setText("Rimuovi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton11, gridBagConstraints);
+
+        jButton12.setText("Scegli...");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton12, gridBagConstraints);
+
+        jButton13.setText("Rimuovi");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel24.add(jButton13, gridBagConstraints);
+
+        jButton2.setText("CONFERMA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 0);
+        jPanel24.add(jButton2, gridBagConstraints);
+
+        programmaRobotJFrame.getContentPane().add(jPanel24, java.awt.BorderLayout.CENTER);
+
+        programmaRobotJFrame.getAccessibleContext().setAccessibleDescription("");
+        programmaRobotJFrame.getAccessibleContext().setAccessibleParent(this);
+
+        scegliIstruzione.setTitle("SCEGLI UN'INSTRUZIONE");
+        scegliIstruzione.setMinimumSize(new java.awt.Dimension(400, 180));
+        scegliIstruzione.setSize(new java.awt.Dimension(400, 180));
+        scegliIstruzione.getContentPane().setLayout(new java.awt.FlowLayout());
+
+        jPanel30.setMaximumSize(new java.awt.Dimension(400, 120));
+        jPanel30.setMinimumSize(new java.awt.Dimension(400, 120));
+        jPanel30.setPreferredSize(new java.awt.Dimension(400, 120));
+        java.awt.GridBagLayout jPanel30Layout = new java.awt.GridBagLayout();
+        jPanel30Layout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        jPanel30Layout.rowHeights = new int[] {0, 10, 0};
+        jPanel30.setLayout(jPanel30Layout);
+
+        jLabel16.setText("Scheda:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel30.add(jLabel16, gridBagConstraints);
+
+        jButton14.setText("Conferma");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        jPanel30.add(jButton14, gridBagConstraints);
+
+        jButton15.setText("Annulla");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 20);
+        jPanel30.add(jButton15, gridBagConstraints);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
+        jPanel30.add(jComboBox1, gridBagConstraints);
+
+        scegliIstruzione.getContentPane().add(jPanel30);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("RoboGP Match Manager");
         setName("main frame"); // NOI18N
+        setSize(new java.awt.Dimension(1376, 768));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -226,6 +607,11 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         robodromeCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         robodromeCombo.setPreferredSize(new java.awt.Dimension(200, 33));
+        robodromeCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                robodromeComboActionPerformed(evt);
+            }
+        });
         jPanel11.add(robodromeCombo, java.awt.BorderLayout.CENTER);
 
         jPanel10.add(jPanel11);
@@ -239,7 +625,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel12.add(jLabel4, java.awt.BorderLayout.WEST);
 
         endGameCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
+        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
         endGameCombo.setMinimumSize(new java.awt.Dimension(152, 27));
         endGameCombo.setPreferredSize(new java.awt.Dimension(152, 33));
         jPanel12.add(endGameCombo, java.awt.BorderLayout.CENTER);
@@ -255,7 +641,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel13.add(jLabel5, java.awt.BorderLayout.WEST);
 
         maxPlayersCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
+        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
         maxPlayersCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel13.add(maxPlayersCombo, java.awt.BorderLayout.CENTER);
 
@@ -270,7 +656,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel14.add(jLabel6, java.awt.BorderLayout.WEST);
 
         nRobotsCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
         nRobotsCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel14.add(nRobotsCombo, java.awt.BorderLayout.CENTER);
 
@@ -357,8 +743,126 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         getContentPane().add(playersPanel, "players");
 
-        jLabel7.setText("Qui dovrebbe comparire la GUI di gestione della partita in corso");
-        ongoingMatchPanel.add(jLabel7);
+        ongoingMatchPanel.setMinimumSize(new java.awt.Dimension(1376, 768));
+        ongoingMatchPanel.setPreferredSize(new java.awt.Dimension(1376, 768));
+        ongoingMatchPanel.setLayout(new javax.swing.BoxLayout(ongoingMatchPanel, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel17.setMinimumSize(new java.awt.Dimension(916, 768));
+        jPanel17.setLayout(new java.awt.BorderLayout());
+
+        jPanel19.setMinimumSize(new java.awt.Dimension(914, 100));
+        jPanel19.setPreferredSize(new java.awt.Dimension(914, 100));
+        jPanel19.setLayout(new java.awt.BorderLayout());
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("TURNO DI GIOCO");
+        jPanel19.add(jLabel7, java.awt.BorderLayout.CENTER);
+
+        jPanel17.add(jPanel19, java.awt.BorderLayout.NORTH);
+
+        jPanel20.setLayout(new java.awt.BorderLayout());
+        jPanel17.add(jPanel20, java.awt.BorderLayout.CENTER);
+
+        jPanel21.setLayout(new javax.swing.BoxLayout(jPanel21, javax.swing.BoxLayout.LINE_AXIS));
+
+        jPanel22.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel22.setMinimumSize(new java.awt.Dimension(914, 200));
+        jPanel22.setPreferredSize(new java.awt.Dimension(914, 200));
+        jPanel22.setLayout(new java.awt.BorderLayout());
+
+        jTabbedPane1.setMinimumSize(new java.awt.Dimension(914, 200));
+        jTabbedPane1.setPreferredSize(new java.awt.Dimension(914, 200));
+        jTabbedPane1.addTab("Robot 1", infoRobot1);
+        jTabbedPane1.addTab("Robot 2", infoRobot2);
+        jTabbedPane1.addTab("Robot 3", infoRobot3);
+
+        jPanel22.add(jTabbedPane1, java.awt.BorderLayout.PAGE_END);
+        jTabbedPane1.getAccessibleContext().setAccessibleName("");
+
+        jPanel21.add(jPanel22);
+
+        jPanel17.add(jPanel21, java.awt.BorderLayout.SOUTH);
+
+        ongoingMatchPanel.add(jPanel17);
+
+        jPanel18.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel18.setMaximumSize(new java.awt.Dimension(458, 10000));
+        jPanel18.setMinimumSize(new java.awt.Dimension(458, 768));
+        jPanel18.setPreferredSize(new java.awt.Dimension(458, 768));
+        jPanel18.setRequestFocusEnabled(false);
+        jPanel18.setLayout(new java.awt.BorderLayout());
+
+        jPanel23.setMaximumSize(new java.awt.Dimension(32767, 500));
+        jPanel23.setMinimumSize(new java.awt.Dimension(458, 500));
+        jPanel23.setPreferredSize(new java.awt.Dimension(458, 500));
+        jPanel23.setLayout(new java.awt.GridBagLayout());
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("INFORMAZIONI PARTITA");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        jPanel23.add(jLabel9, gridBagConstraints);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        jLabel10.setText("Classifica parziale:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
+        jPanel23.add(jLabel10, gridBagConstraints);
+
+        jScrollPane4.setMaximumSize(new java.awt.Dimension(458, 400));
+        jScrollPane4.setMinimumSize(new java.awt.Dimension(458, 400));
+        jScrollPane4.setPreferredSize(new java.awt.Dimension(458, 400));
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jTextArea1.setMinimumSize(new java.awt.Dimension(400, 400));
+        jTextArea1.setName(""); // NOI18N
+        jTextArea1.setPreferredSize(new java.awt.Dimension(400, 400));
+        jScrollPane4.setViewportView(jTextArea1);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        jPanel23.add(jScrollPane4, gridBagConstraints);
+
+        jPanel18.add(jPanel23, java.awt.BorderLayout.NORTH);
+
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Log"));
+        jScrollPane2.setMinimumSize(new java.awt.Dimension(458, 468));
+        jScrollPane2.setPreferredSize(new java.awt.Dimension(458, 468));
+
+        logTextArea.setEditable(false);
+        logTextArea.setColumns(20);
+        logTextArea.setLineWrap(true);
+        logTextArea.setRows(5);
+        logTextArea.setWrapStyleWord(true);
+        logTextArea.setMinimumSize(new java.awt.Dimension(458, 468));
+        logTextArea.setPreferredSize(new java.awt.Dimension(458, 468));
+        jScrollPane2.setViewportView(logTextArea);
+
+        jPanel18.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+
+        ongoingMatchPanel.add(jPanel18);
 
         getContentPane().add(ongoingMatchPanel, "ongoing");
 
@@ -392,7 +896,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
                 .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(trainingPanelLayout.createSequentialGroup()
                         .addGap(219, 219, 219)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 622, Short.MAX_VALUE))
                     .addGroup(trainingPanelLayout.createSequentialGroup()
                         .addGap(218, 218, 218)
                         .addComponent(jLabel8)
@@ -407,14 +911,14 @@ public class MatchManagerApp extends javax.swing.JFrame {
                 .addGroup(trainingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(robodromeCombo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54))
         );
 
         getContentPane().add(trainingPanel, "initTraining");
 
-        setBounds(0, 0, 737, 373);
+        setBounds(0, 0, 1078, 373);
     }// </editor-fold>//GEN-END:initComponents
 
     private void initButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_initButtonActionPerformed
@@ -506,6 +1010,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
     private void startMatchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startMatchButtonActionPerformed
         this.inizPartCtrl.avviaPartita();
+        RobodromeView rv = new RobodromeView(new Robodrome("./robodromes/" + (String)robodromeCombo.getSelectedItem() + ".txt"), 55);
+        jPanel20.add(rv);
+        this.inizPartCtrl.setRobodromeView(rv);
+        
         ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "ongoing");
     }//GEN-LAST:event_startMatchButtonActionPerformed
 
@@ -530,6 +1038,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
         this.traningController.init(nome_robodromo);     
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void robodromeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robodromeComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_robodromeComboActionPerformed
 
     /**
      * @param args the command line arguments
@@ -558,6 +1070,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -572,23 +1086,71 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JButton cancelMatchButton;
     private javax.swing.JButton createButton;
     private javax.swing.JComboBox<String> endGameCombo;
+    private robogp.matchmanager.infoRobot infoRobot1;
+    private robogp.matchmanager.infoRobot infoRobot2;
+    private robogp.matchmanager.infoRobot infoRobot3;
     private javax.swing.JButton initButton;
     private javax.swing.JPanel initPanel;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel17;
+    private javax.swing.JPanel jPanel18;
+    private javax.swing.JPanel jPanel19;
+    private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
+    private javax.swing.JPanel jPanel27;
+    private javax.swing.JPanel jPanel28;
+    private javax.swing.JPanel jPanel29;
+    private javax.swing.JPanel jPanel30;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField keyField;
+    private javax.swing.JTextArea logTextArea;
     private javax.swing.JPanel matchPanel;
     private javax.swing.JComboBox<String> maxPlayersCombo;
     private javax.swing.JComboBox<String> nRobotsCombo;
     private javax.swing.JPanel ongoingMatchPanel;
     private javax.swing.JPanel playersPanel;
     private javax.swing.JTextField portField;
+    private javax.swing.JFrame programmaRobotJFrame;
     private javax.swing.JButton rejectRequestButton;
     private javax.swing.JList<String> requestList;
     private javax.swing.JComboBox<String> robodromeCombo;
     private javax.swing.JComboBox<String> robodromeCombo1;
     private javax.swing.JPanel robotRecapPanel;
+    private javax.swing.JFrame scegliIstruzione;
     private javax.swing.JButton startMatchButton;
     private javax.swing.JPanel trainingPanel;
     private javax.swing.JCheckBox upgradeCheck;

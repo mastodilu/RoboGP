@@ -4,6 +4,8 @@ import connection.Message;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import robogp.robodrome.Robodrome;
+import robogp.robodrome.view.RobodromeView;
 
 /**
  * GRASP Controller dell'UC Iniziare Partita
@@ -18,7 +20,7 @@ public class IniziarePartitaController {
     private String serverAccessKey;
     private Server theServer;
     private Match theMatch;
-
+    private RobodromeView theRobodromeView;
     private DefaultListModel<String> requests;
 
     /* Gestione Pattern Singleton */
@@ -105,5 +107,13 @@ public class IniziarePartitaController {
     public void annullaPartita() {
         this.theMatch.cancel();
         this.theServer.stop();
+    }
+    
+    public void setRobodromeView(RobodromeView rv){
+        this.theRobodromeView = rv;
+    }
+    
+    public RobodromeView getRobodromeView(){
+        return this.theRobodromeView;
     }
 }
