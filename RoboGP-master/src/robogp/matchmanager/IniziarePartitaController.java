@@ -116,4 +116,8 @@ public class IniziarePartitaController {
     public RobodromeView getRobodromeView(){
         return this.theRobodromeView;
     }
+    
+    public void printGiocatori(){
+        this.theMatch.printGiocatori();
+    }
 }

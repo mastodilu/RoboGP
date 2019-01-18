@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
+import robogp.Giocatore.Giocatore;
 import robogp.robodrome.Robodrome;
 
 /**
@@ -41,6 +41,8 @@ public class Match implements MessageObserver {
     private final int nRobotsXPlayer;
     private final boolean initUpgrades;
     private State status;
+    
+    public ArrayList<Giocatore> giocatori;
 
     private final HashMap<String, Connection> waiting;
     private final HashMap<String, Connection> players;
@@ -59,6 +61,7 @@ public class Match implements MessageObserver {
         for (int i = 0; i < Match.ROBOT_NAMES.length; i++) {
             this.robots[i] = new RobotMarker(Match.ROBOT_NAMES[i], Match.ROBOT_COLORS[i]);
         }
+        this.giocatori = new ArrayList<Giocatore>();
         waiting = new HashMap<>();
         players = new HashMap<>();
         this.status = State.Created;
@@ -170,9 +173,11 @@ public class Match implements MessageObserver {
     public boolean addPlayer(String nickname, List<RobotMarker> selection) {
         boolean added = false;
         try {
+            Giocatore g = new Giocatore(nickname); // crea un nuovo giocatore
             for (RobotMarker rob : selection) {
                 int dock = this.getFreeDock();
                 rob.assign(nickname, dock);
+                g.assegnaRobot(rob); // assegna robot al giocatore
             }
 
             Connection conn = this.waiting.get(nickname);
@@ -185,6 +190,7 @@ public class Match implements MessageObserver {
 
             conn.sendMessage(reply);
             this.players.put(nickname, conn);
+            this.giocatori.add(g); // aggiunge il giocatore all'elenco di giocatori in partita
             added = true;
         } catch (PartnerShutDownException ex) {
             Logger.getLogger(Match.class.getName()).log(Level.SEVERE, null, ex);
@@ -219,4 +225,10 @@ public class Match implements MessageObserver {
     public int getMaxPlayers() {
         return this.nMaxPlayers;
     }
+    
+    public void printGiocatori() {
+        for(Giocatore g : this.giocatori){
+            System.out.println("> "+g.toString());
+        }
+    }  
 }

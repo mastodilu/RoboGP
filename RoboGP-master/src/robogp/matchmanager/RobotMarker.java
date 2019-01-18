@@ -20,6 +20,7 @@ public class RobotMarker implements Serializable {
     private transient BufferedImage robotImage; // transient dice al compilatore che la variabile non viene serializzata
     private final String name;
     private final String color;
+    private final int saluteMax;
     
     /**
      * Nome del giocatore al quale e' stato assegnato il robot.
@@ -43,6 +44,7 @@ public class RobotMarker implements Serializable {
     private ArrayList<Posizione> storicoPosizioni;
 
     public RobotMarker(String name, String color) {
+        this.saluteMax = 10;
         this.name = name;
         this.color = color;
         this.dockNumber = 0;
@@ -207,9 +209,11 @@ public class RobotMarker implements Serializable {
     @Override
     public String toString(){
         String s = "";
-        s += this.color + ""
-                + this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna()
-                + this.getLastDirection();
+        s += this.color;
+        if(this.getStoricoPosizioni().size() > 0) 
+            s += this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna();
+        if(this.getStoricoDirections().size() > 0)
+            s += this.getLastDirection();
         return s;
     }
     

@@ -1013,7 +1013,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
         RobodromeView rv = new RobodromeView(new Robodrome("./robodromes/" + (String)robodromeCombo.getSelectedItem() + ".txt"), 55);
         jPanel20.add(rv);
         this.inizPartCtrl.setRobodromeView(rv);
-        
+        this.inizPartCtrl.printGiocatori(); // TODO cancellami
+        //gui di partita
         ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "ongoing");
     }//GEN-LAST:event_startMatchButtonActionPerformed
 
