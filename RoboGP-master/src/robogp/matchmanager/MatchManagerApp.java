@@ -107,21 +107,21 @@ public class MatchManagerApp extends javax.swing.JFrame {
         javax.swing.JPanel jPanel10 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel11 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
-        robodromeCombo = new javax.swing.JComboBox<String>();
+        robodromeCombo = new javax.swing.JComboBox<>();
         javax.swing.JPanel jPanel12 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
-        endGameCombo = new javax.swing.JComboBox<String>();
+        endGameCombo = new javax.swing.JComboBox<>();
         javax.swing.JPanel jPanel13 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel5 = new javax.swing.JLabel();
-        maxPlayersCombo = new javax.swing.JComboBox<String>();
+        maxPlayersCombo = new javax.swing.JComboBox<>();
         javax.swing.JPanel jPanel14 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
-        nRobotsCombo = new javax.swing.JComboBox<String>();
+        nRobotsCombo = new javax.swing.JComboBox<>();
         upgradeCheck = new javax.swing.JCheckBox();
         playersPanel = new javax.swing.JPanel();
         javax.swing.JPanel jPanel8 = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        requestList = new javax.swing.JList<String>();
+        requestList = new javax.swing.JList<>();
         javax.swing.JPanel jPanel15 = new javax.swing.JPanel();
         acceptRequestButton = new javax.swing.JButton();
         rejectRequestButton = new javax.swing.JButton();
@@ -150,7 +150,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         logTextArea = new javax.swing.JTextArea();
         trainingPanel = new javax.swing.JPanel();
         javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
-        robodromeCombo1 = new javax.swing.JComboBox<String>();
+        robodromeCombo1 = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
 
         programmaRobotJFrame.setTitle("PROGRAMMAZIONE ROBOT");
@@ -625,7 +625,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel12.add(jLabel4, java.awt.BorderLayout.WEST);
 
         endGameCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
+        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
         endGameCombo.setMinimumSize(new java.awt.Dimension(152, 27));
         endGameCombo.setPreferredSize(new java.awt.Dimension(152, 33));
         jPanel12.add(endGameCombo, java.awt.BorderLayout.CENTER);
@@ -641,7 +641,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel13.add(jLabel5, java.awt.BorderLayout.WEST);
 
         maxPlayersCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
+        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
         maxPlayersCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel13.add(maxPlayersCombo, java.awt.BorderLayout.CENTER);
 
@@ -656,7 +656,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel14.add(jLabel6, java.awt.BorderLayout.WEST);
 
         nRobotsCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
+        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
         nRobotsCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel14.add(nRobotsCombo, java.awt.BorderLayout.CENTER);
 
@@ -664,6 +664,11 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         upgradeCheck.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         upgradeCheck.setText("Dotazione iniziale upgrade");
+        upgradeCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                upgradeCheckActionPerformed(evt);
+            }
+        });
         jPanel10.add(upgradeCheck);
 
         jPanel7.add(jPanel10);
@@ -1043,6 +1048,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private void robodromeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robodromeComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_robodromeComboActionPerformed
+
+    private void upgradeCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeCheckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_upgradeCheckActionPerformed
 
     /**
      * @param args the command line arguments
