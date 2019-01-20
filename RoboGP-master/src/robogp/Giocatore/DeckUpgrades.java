@@ -8,6 +8,8 @@ import java.util.ArrayList;
  */
 public class DeckUpgrades {
     
+    private static DeckUpgrades singleInstance;
+    
     /**
      * Upgrade disponibili per l'assegnamento
      */
@@ -18,7 +20,10 @@ public class DeckUpgrades {
      */
     private ArrayList<Upgrade> scarti;
     
-    public DeckUpgrades(){
+    
+    
+    
+    private DeckUpgrades(){
         this.reset();
     }
     
@@ -228,5 +233,12 @@ public class DeckUpgrades {
      */
     public void scarta(Upgrade up){
         this.scarti.add(up);
+    }
+    
+    
+    public static DeckUpgrades getInstance(){
+        if(singleInstance == null)
+            singleInstance = new DeckUpgrades();
+        return singleInstance;
     }
 }
