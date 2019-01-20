@@ -217,7 +217,7 @@ public class DeckUpgrades {
     
     /**
      * Pesca il primo upgrade.
-     * @return l'upgrade pescato se disponibile, altrimenti null.
+     * @return l'upgrade pescato, altrimenti null.
      */
     public Upgrade pickOne(){
         if(this.upgradeList.size() > 0){

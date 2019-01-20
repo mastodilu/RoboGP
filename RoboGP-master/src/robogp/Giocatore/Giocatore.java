@@ -41,6 +41,14 @@ public class Giocatore {
         return this.nickname;
     }
     
+    /**
+     * Assegna un upgrade al giocatore.
+     * @param up l'upgrade da assegnare.
+     */
+    public void assegnaUpgrade(Upgrade up){
+        this.upgrade = up;
+    }
+    
     @Override
     public String toString(){
         String result = nickname+" upgrade: ";
