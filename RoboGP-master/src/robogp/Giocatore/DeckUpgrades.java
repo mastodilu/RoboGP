@@ -238,7 +238,7 @@ public class DeckUpgrades {
     
     public static DeckUpgrades getInstance(){
         if(singleInstance == null)
-            singleInstance = new DeckUpgrades();
+            DeckUpgrades.singleInstance = new DeckUpgrades();
         return singleInstance;
     }
 }
