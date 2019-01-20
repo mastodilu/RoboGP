@@ -213,6 +213,7 @@ public class DeckUpgrades {
         retroLaser();
         
         this.shuffle();
+        System.out.println(this.toString());
     }
     
     /**
@@ -240,5 +241,16 @@ public class DeckUpgrades {
         if(singleInstance == null)
             DeckUpgrades.singleInstance = new DeckUpgrades();
         return singleInstance;
+    }
+    
+    @Override
+    public String toString() {
+        String upgrade = "" + this.upgradeList.size() + " upgrades: ";
+        String scarti = "" + this.scarti.size() + " upgrades scartati: ";
+        for(Upgrade up : this.upgradeList)
+            upgrade += up.toString() + "; ";
+        for(Upgrade up : this.scarti)
+            scarti += up.toString() + "; ";
+        return upgrade + scarti;
     }
 }
