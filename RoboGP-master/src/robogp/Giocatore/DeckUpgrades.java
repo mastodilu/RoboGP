@@ -20,6 +20,11 @@ public class DeckUpgrades {
      */
     private ArrayList<Upgrade> scarti;
     
+    /**
+     * Indice della carta in cima al mazzo
+     */
+    private int indicePrimaCarta;
+    
     
     
     
@@ -185,6 +190,7 @@ public class DeckUpgrades {
      * Mischia il mazzo.
      */
     private void shuffle(){
+        indicePrimaCarta = 0;
         java.util.Collections.shuffle(this.upgradeList);
     }
     
@@ -221,12 +227,15 @@ public class DeckUpgrades {
      * @return l'upgrade pescato, altrimenti null.
      */
     public Upgrade pickOne(){
-        if(this.upgradeList.size() > 0){
-            Upgrade up = this.upgradeList.get(0);
-            this.upgradeList.remove(0);
-            return up;
-        }
-        return null;
+        //se l'ultima carta del mazzo e' gia' stata pescata
+        if(indicePrimaCarta == upgradeList.size())
+            shuffle();
+        
+        Upgrade up = upgradeList.get(indicePrimaCarta);
+        indicePrimaCarta++;
+        System.out.println(toString());
+        return up;
+        
     }
     
     /**
@@ -243,14 +252,20 @@ public class DeckUpgrades {
         return singleInstance;
     }
     
+    
+    
+    
     @Override
     public String toString() {
+        
+        String prima = "[" + this.indicePrimaCarta + "] ";
         String upgrade = "" + this.upgradeList.size() + " upgrades: ";
         String scarti = "" + this.scarti.size() + " upgrades scartati: ";
+        
         for(Upgrade up : this.upgradeList)
             upgrade += up.toString() + "; ";
         for(Upgrade up : this.scarti)
             scarti += up.toString() + "; ";
-        return upgrade + scarti;
+        return prima + upgrade + scarti;
     }
 }
