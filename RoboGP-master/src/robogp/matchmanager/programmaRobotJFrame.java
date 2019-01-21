@@ -1,18 +1,41 @@
 package robogp.matchmanager;
 
+import java.awt.Robot;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Alessio
  */
 public class programmaRobotJFrame extends javax.swing.JFrame {
-
+    
+    private final IniziarePartitaController controllerPartita;
+    private final RobotMarker robot;
     /**
      * Creates new form programmaRobotJFrame
+     * @param ctrPartita
      */
-    public programmaRobotJFrame() {
+    public programmaRobotJFrame(IniziarePartitaController ctrPartita, RobotMarker robot) {
         initComponents();
+        this.controllerPartita = ctrPartita;
+        this.robot = robot;
+        //BufferedImage immagine;
+        //try {
+        //    immagine = ImageIO.read(new File("./tiles/card-move1.png"));
+        //} catch (IOException ex) {
+        //    Logger.getLogger(programmaRobotJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        //    immagine = null;
+        //}
+        //JLabel labelImg1 = new JLabel(new ImageIcon(immagine));
+        //this.jPanel25.add(labelImg1);
     }
 
     /**
@@ -49,10 +72,9 @@ public class programmaRobotJFrame extends javax.swing.JFrame {
         jButton13 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(800, 650));
         setMinimumSize(new java.awt.Dimension(800, 650));
-        setPreferredSize(new java.awt.Dimension(800, 650));
         setSize(new java.awt.Dimension(800, 650));
 
         jPanel24.setMaximumSize(new java.awt.Dimension(800, 650));
@@ -116,6 +138,11 @@ public class programmaRobotJFrame extends javax.swing.JFrame {
         jPanel24.add(jLabel15, gridBagConstraints);
 
         jButton3.setText("ANNULLA");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 10;
         gridBagConstraints.gridy = 10;
@@ -331,6 +358,11 @@ public class programmaRobotJFrame extends javax.swing.JFrame {
         jPanel24.add(jButton13, gridBagConstraints);
 
         jButton2.setText("CONFERMA");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 8;
         gridBagConstraints.gridy = 10;
@@ -343,40 +375,48 @@ public class programmaRobotJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JFrame frame = new robogp.matchmanager.scegliScheda();
+        JFrame frame = new robogp.matchmanager.scegliScheda(this.controllerPartita, this.robot, 0);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        JFrame frame = new robogp.matchmanager.scegliScheda();
+        JFrame frame = new robogp.matchmanager.scegliScheda(this.controllerPartita, this.robot, 1);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        JFrame frame = new robogp.matchmanager.scegliScheda();
+        JFrame frame = new robogp.matchmanager.scegliScheda(this.controllerPartita, this.robot, 2);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        JFrame frame = new robogp.matchmanager.scegliScheda();
+        JFrame frame = new robogp.matchmanager.scegliScheda(this.controllerPartita, this.robot, 3);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        JFrame frame = new robogp.matchmanager.scegliScheda();
+        JFrame frame = new robogp.matchmanager.scegliScheda(this.controllerPartita, this.robot, 4);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+    //public static void main(String args[]) {
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+       /* try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -391,16 +431,16 @@ public class programmaRobotJFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(programmaRobotJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(programmaRobotJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        }*/
         //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new programmaRobotJFrame().setVisible(true);
-            }
-        });
-    }
+        //java.awt.EventQueue.invokeLater(new Runnable() {
+            //public void run() {
+                
+                   // new programmaRobotJFrame().setVisible(true);
+                
+         //   }
+       // });
+   // }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;

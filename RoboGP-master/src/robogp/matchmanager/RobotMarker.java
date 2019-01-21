@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import robogp.deck.InstructionCard;
 import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
 
@@ -20,8 +21,26 @@ public class RobotMarker implements Serializable {
     private transient BufferedImage robotImage; // transient dice al compilatore che la variabile non viene serializzata
     private final String name;
     private final String color;
-    private final int saluteMax;
-    
+    private final Direction startDirection; //direzione iniziale
+private final int saluteMax;
+private boolean spento;
+private int contatoreDanni;
+private final InstructionCard[] registri = new InstructionCard[5];
+
+    public RobotMarker(int startDock, Direction startDirection,int saluteMax, int vite,String name, String color, String owner ){
+        this.assign(owner, startDock); //assegna owner e posizione iniziale
+        this.startDirection = startDirection;   //teniamo in memoria la direzione iniziale e
+        this.saluteMax = saluteMax;
+        this.spento = false; //cominciano con un robot accesso, eventualmente si spegne durante il turno
+        this.contatoreDanni = 0;
+        this.setSalute(saluteMax);
+        this.setVite(vite);
+        this.name = name;
+        this.color=color;
+        this.dockNumber = 0;
+        storicoDirezioni = new ArrayList();
+        storicoPosizioni = new ArrayList();
+    }
     /**
      * Nome del giocatore al quale e' stato assegnato il robot.
      */
@@ -44,9 +63,14 @@ public class RobotMarker implements Serializable {
     private ArrayList<Posizione> storicoPosizioni;
 
     public RobotMarker(String name, String color) {
+        this.startDirection = Direction.E;   //teniamo in memoria la direzione iniziale e
         this.saluteMax = 10;
+        this.spento = false; //cominciano con un robot accesso, eventualmente si spegne durante il turno
+        this.contatoreDanni = 0;
+        this.setSalute(saluteMax);
+        this.setVite(vite);
         this.name = name;
-        this.color = color;
+        this.color=color;
         this.dockNumber = 0;
         storicoDirezioni = new ArrayList();
         storicoPosizioni = new ArrayList();
@@ -91,7 +115,7 @@ public class RobotMarker implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
     
     public int getSalute() {
@@ -209,11 +233,9 @@ public class RobotMarker implements Serializable {
     @Override
     public String toString(){
         String s = "";
-        s += this.color;
-        if(this.getStoricoPosizioni().size() > 0) 
-            s += this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna();
-        if(this.getStoricoDirections().size() > 0)
-            s += this.getLastDirection();
+        s += this.color + ""
+                + this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna()
+                + this.getLastDirection();
         return s;
     }
     

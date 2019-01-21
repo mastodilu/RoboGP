@@ -1,6 +1,5 @@
 package robogp.robodrome;
 
-import java.util.ArrayList;
 import robogp.deck.InstructionCard;
 import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
@@ -42,20 +41,13 @@ public class MovimentoController {
      */
     BoardCell cellaCorrente;
     
-    
-    /**
-     * Array di robot nella mappa
-     */
-    ArrayList<RobotMarker> arrayRobot;
-    
     /**
      * Costruttore parametrico.
      * @param rb istanza del robodromo.
      */
-    public MovimentoController(RobodromeView rv, ArrayList<RobotMarker> arrayRobot){
+    public MovimentoController(RobodromeView rv){
         this.rv = rv; // RobodromeView
         this.rb = rv.getDrome(); // Robodrome
-        this.arrayRobot = arrayRobot;
     }
     
     /**
@@ -142,6 +134,7 @@ public class MovimentoController {
     public boolean movimentoAmmissibile(){
         if(bloccatoDaBordi())           return false;
         if(bloccatoDaMuri())            return false;
+        if(robotInCellaSuccessiva())    return false;
         return true;
     }
     
@@ -211,28 +204,15 @@ public class MovimentoController {
         else                        return Direction.N;
     }
 
-    
     /**
-     * @return il robot nella cella successiva a quello corrente, altrimenti null
+     * Controlla che non ci siano robot nella cella successiva.
+     * @return true se ci sono robot nella cella successiva,
+     *      false altrimenti
      */
-    public RobotMarker robotInCellaSuccessiva() {
-        BoardCell next = cellaSuccessiva();
-        boolean flag = next.hasRobot();
-        
+    private boolean robotInCellaSuccessiva() {
+        boolean flag = cellaSuccessiva().hasRobot();
         System.out.printf("Cella successiva has robot: %b\n", flag);
-        
-        if(flag){
-            int nextR, nextC, r, c;
-            nextR = next.getRiga();
-            nextC = next.getColonna();
-            for(RobotMarker robotmarker : this.arrayRobot){
-                    r = robotmarker.getLastPosition().getRiga();
-                    c = robotmarker.getLastPosition().getColonna();
-                if(nextR == r && nextC == c)
-                    return robotmarker;
-            }
-        }
-        return null;
+        return flag;
     }
     
     
@@ -255,16 +235,14 @@ public class MovimentoController {
      * sopra ad uno di essi.
      * @param rb robot
      */
-    public void nastriTrasportatori(){
-        for(RobotMarker rm : this.arrayRobot){
-            initVariabili(null, rm);
-
-            if(this.cellaCorrente.getType() == 'B'){
-                nastroTrasportatoreSemplice();
-            }
-            else {
-                nastroTrasportatoreExpress();
-            }
+    public void nastriTrasportatori(RobotMarker rm){
+        initVariabili(null, rm);
+        
+        if(this.cellaCorrente.getType() == 'B'){
+            nastroTrasportatoreSemplice();
+        }
+        else {
+            nastroTrasportatoreExpress();
         }
     }
     

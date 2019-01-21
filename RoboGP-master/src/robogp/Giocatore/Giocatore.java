@@ -32,6 +32,10 @@ public class Giocatore {
     public void assegnaRobot(RobotMarker robot){
         this.robotList.add(robot);
     }
+
+    public ArrayList<RobotMarker> getRobotList() {
+        return robotList;
+    }
     
     public void rimuoviRobot(RobotMarker robot){
         this.robotList.remove(robot);

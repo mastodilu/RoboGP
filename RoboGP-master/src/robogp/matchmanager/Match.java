@@ -4,13 +4,18 @@ import connection.Connection;
 import connection.Message;
 import connection.MessageObserver;
 import connection.PartnerShutDownException;
+import java.awt.AWTException;
+import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import robogp.Giocatore.DeckUpgrades;
 import robogp.Giocatore.Giocatore;
+import robogp.Giocatore.Robot.RobotMarkerPlaying;
+import robogp.deck.Deck;
 import robogp.robodrome.Robodrome;
 
 /**
@@ -37,20 +42,39 @@ public class Match implements MessageObserver {
     private static final String[] ROBOT_NAMES = {"robot-blue", "robot-red", "robot-yellow", "robot-emerald", "robot-violet", "robot-orange", "robot-turquoise", "robot-green"};
     private final Robodrome theRobodrome;
     private final RobotMarker[] robots;
+    //private final ArrayList<RobotMarkerPlaying> robotInPartita = new ArrayList<>();
     private final EndGame endGameCondition;
     private final int nMaxPlayers;
     private final int nRobotsXPlayer;
-    private final boolean initUpgrades; //dotazione iniziale di upgrades
+    private final boolean initUpgrades;
     private State status;
+    private Deck mazzo;
+    
+    //NUOVE VARIABILI
     private DeckUpgrades deckUpgrades; // mazzo degli upgrade
     
     public ArrayList<Giocatore> giocatori;
-
+    //
+    
     private final HashMap<String, Connection> waiting;
     private final HashMap<String, Connection> players;
 
     /* Gestione pattern singleton */
     private static Match singleInstance;
+
+    public ArrayList<Giocatore> getGiocatoriInPartita() {
+        return this.giocatori;
+    }
+    
+    public ArrayList<RobotMarker> getRobotInPartita() {
+        ArrayList<RobotMarker> robotInPartita = new ArrayList<>();
+        for (Giocatore player:giocatori){
+            for(RobotMarker rb:player.getRobotList()){
+                robotInPartita.add(rb);
+            }
+        }
+        return robotInPartita;
+    }
 
     private Match(String rbdName, int nMaxPlayers, int nRobotsXPlayer, EndGame endGameCond, boolean initUpg) {
         this.nMaxPlayers = nMaxPlayers;
@@ -66,12 +90,17 @@ public class Match implements MessageObserver {
         this.giocatori = new ArrayList<Giocatore>();
         waiting = new HashMap<>();
         players = new HashMap<>();
+        this.mazzo = Deck.getInstance();
         this.deckUpgrades = deckUpgrades.getInstance();
         this.status = State.Created;
     }
-
+    
+    public int numeroRobot(){
+        return this.giocatori.size();
+    }
+            
     public static Match getInstance(String rbdName, int nMaxPlayers,
-        int nRobotsXPlayer, EndGame endGameCond, boolean initUpg) {
+        int nRobotsXPlayer, EndGame endGameCond, boolean initUpg){
         if (Match.singleInstance == null || Match.singleInstance.status == Match.State.Canceled) {
             Match.singleInstance = new Match(rbdName, nMaxPlayers, nRobotsXPlayer, endGameCond, initUpg);
         }
@@ -232,9 +261,13 @@ public class Match implements MessageObserver {
         return this.nMaxPlayers;
     }
     
-    public void printGiocatori() {
-        for(Giocatore g : this.giocatori){
-            System.out.println("> "+g.toString());
+    public RobotMarker trovaRobot(String nome){
+        RobotMarker robot = null;
+        for(RobotMarker rb:this.getRobotInPartita()){
+            if (rb.getName() == nome){
+                robot = rb;
+            }
         }
-    }  
+        return robot;
+    }
 }

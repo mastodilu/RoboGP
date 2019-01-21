@@ -10,6 +10,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import robogp.Giocatore.Giocatore;
+import robogp.Giocatore.Robot.RobotMarkerPlaying;
+import robogp.robodrome.Direction;
 
 /**
  *
@@ -18,18 +21,20 @@ import javax.swing.JOptionPane;
 public class RobotChooser extends javax.swing.JDialog {
 
     private final DefaultListModel<RobotMarker> model;
+    private final Match partita;
     private int closeStatus;
     private int nRobots;
     /**
      * Creates new form RobotChooser
      */
-    public RobotChooser(java.awt.Frame parent, boolean modal) {
+    public RobotChooser(java.awt.Frame parent, boolean modal, Match partita) {
         super(parent, modal);
         initComponents();
         model = new DefaultListModel<>();
         this.robotList.setModel(model);
         this.robotList.setCellRenderer(new RobotCellRenderer());
         this.closeStatus = JOptionPane.CANCEL_OPTION;
+        this.partita = partita;
     }
     
     public void setup(ArrayList<RobotMarker> availableRobots, int nRobots) {
@@ -109,6 +114,7 @@ public class RobotChooser extends javax.swing.JDialog {
             return;
         }
         this.closeStatus = JOptionPane.OK_OPTION;
+        
         this.setVisible(false);
     }//GEN-LAST:event_okButtonActionPerformed
 

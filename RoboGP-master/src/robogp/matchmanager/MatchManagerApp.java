@@ -6,12 +6,15 @@
 package robogp.matchmanager;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import robogp.Giocatore.Robot.RobotMarkerPlaying;
 import robogp.Training.*;
+import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
@@ -31,7 +34,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         initComponents();
         this.traningController = TrainingController.getInstance();
         this.inizPartCtrl = IniziarePartitaController.getInstance();
-        this.robotChooser = new RobotChooser(this, true);
+        this.robotChooser = null;
     }
 
     public static MatchManagerApp getAppInstance() {
@@ -40,8 +43,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
     private final IniziarePartitaController inizPartCtrl;
     private final TrainingController traningController;
-    private final RobotChooser robotChooser;
-
+    private RobotChooser robotChooser;
+    
     public IniziarePartitaController getIniziarePartitaController() {
         return this.inizPartCtrl;
     }
@@ -107,21 +110,21 @@ public class MatchManagerApp extends javax.swing.JFrame {
         javax.swing.JPanel jPanel10 = new javax.swing.JPanel();
         javax.swing.JPanel jPanel11 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel3 = new javax.swing.JLabel();
-        robodromeCombo = new javax.swing.JComboBox<>();
+        robodromeCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel12 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel4 = new javax.swing.JLabel();
-        endGameCombo = new javax.swing.JComboBox<>();
+        endGameCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel13 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel5 = new javax.swing.JLabel();
-        maxPlayersCombo = new javax.swing.JComboBox<>();
+        maxPlayersCombo = new javax.swing.JComboBox<String>();
         javax.swing.JPanel jPanel14 = new javax.swing.JPanel();
         javax.swing.JLabel jLabel6 = new javax.swing.JLabel();
-        nRobotsCombo = new javax.swing.JComboBox<>();
+        nRobotsCombo = new javax.swing.JComboBox<String>();
         upgradeCheck = new javax.swing.JCheckBox();
         playersPanel = new javax.swing.JPanel();
         javax.swing.JPanel jPanel8 = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
-        requestList = new javax.swing.JList<>();
+        requestList = new javax.swing.JList<String>();
         javax.swing.JPanel jPanel15 = new javax.swing.JPanel();
         acceptRequestButton = new javax.swing.JButton();
         rejectRequestButton = new javax.swing.JButton();
@@ -137,9 +140,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel21 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        infoRobot1 = new robogp.matchmanager.infoRobot();
-        infoRobot2 = new robogp.matchmanager.infoRobot();
-        infoRobot3 = new robogp.matchmanager.infoRobot();
         jPanel18 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
@@ -150,7 +150,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         logTextArea = new javax.swing.JTextArea();
         trainingPanel = new javax.swing.JPanel();
         javax.swing.JLabel jLabel8 = new javax.swing.JLabel();
-        robodromeCombo1 = new javax.swing.JComboBox<>();
+        robodromeCombo1 = new javax.swing.JComboBox<String>();
         jButton1 = new javax.swing.JButton();
 
         programmaRobotJFrame.setTitle("PROGRAMMAZIONE ROBOT");
@@ -625,7 +625,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel12.add(jLabel4, java.awt.BorderLayout.WEST);
 
         endGameCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
+        endGameCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "primo arrivato", "primi 3 arrivati", "tutti tranne l'ultimo" }));
         endGameCombo.setMinimumSize(new java.awt.Dimension(152, 27));
         endGameCombo.setPreferredSize(new java.awt.Dimension(152, 33));
         jPanel12.add(endGameCombo, java.awt.BorderLayout.CENTER);
@@ -641,7 +641,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel13.add(jLabel5, java.awt.BorderLayout.WEST);
 
         maxPlayersCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
+        maxPlayersCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2", "3", "4", "5", "6", "7", "8" }));
         maxPlayersCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel13.add(maxPlayersCombo, java.awt.BorderLayout.CENTER);
 
@@ -656,7 +656,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel14.add(jLabel6, java.awt.BorderLayout.WEST);
 
         nRobotsCombo.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
-        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+        nRobotsCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3", "4" }));
         nRobotsCombo.setPreferredSize(new java.awt.Dimension(100, 33));
         jPanel14.add(nRobotsCombo, java.awt.BorderLayout.CENTER);
 
@@ -664,11 +664,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         upgradeCheck.setFont(new java.awt.Font("Lucida Grande", 0, 14)); // NOI18N
         upgradeCheck.setText("Dotazione iniziale upgrade");
-        upgradeCheck.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                upgradeCheckActionPerformed(evt);
-            }
-        });
         jPanel10.add(upgradeCheck);
 
         jPanel7.add(jPanel10);
@@ -779,10 +774,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
         jTabbedPane1.setMinimumSize(new java.awt.Dimension(914, 200));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(914, 200));
-        jTabbedPane1.addTab("Robot 1", infoRobot1);
-        jTabbedPane1.addTab("Robot 2", infoRobot2);
-        jTabbedPane1.addTab("Robot 3", infoRobot3);
-
         jPanel22.add(jTabbedPane1, java.awt.BorderLayout.PAGE_END);
         jTabbedPane1.getAccessibleContext().setAccessibleName("");
 
@@ -968,6 +959,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
                 this.robotPanel[i] = new RobotStatePanel(allRobots.get(i));
                 this.robotRecapPanel.add(this.robotPanel[i]);
             }
+            //
+            this.robotChooser = new RobotChooser(this, true, this.inizPartCtrl.getTheMatch());
             ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "players");
         }
     }//GEN-LAST:event_createButtonActionPerformed
@@ -997,6 +990,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
                 rsp.update();
             }
             this.robotRecapPanel.updateUI();
+            
+            
         }
     }//GEN-LAST:event_acceptRequestButtonActionPerformed
 
@@ -1015,11 +1010,18 @@ public class MatchManagerApp extends javax.swing.JFrame {
 
     private void startMatchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startMatchButtonActionPerformed
         this.inizPartCtrl.avviaPartita();
+        //set del robodromo
         RobodromeView rv = new RobodromeView(new Robodrome("./robodromes/" + (String)robodromeCombo.getSelectedItem() + ".txt"), 55);
         jPanel20.add(rv);
         this.inizPartCtrl.setRobodromeView(rv);
-        this.inizPartCtrl.printGiocatori(); // TODO cancellami
-        //gui di partita
+
+        //
+        for(RobotMarker rb:this.inizPartCtrl.getTheMatch().getRobotInPartita()){
+            this.jTabbedPane1.add(new infoRobot(this.inizPartCtrl, rb), this.jTabbedPane1.getTabCount());
+            this.jTabbedPane1.setTitleAt(this.jTabbedPane1.getTabCount() -1, rb.getName());
+        }
+        
+        System.out.println("ROBOT IN PARTITA AL MOMENTO DELLA CREAZIONE: " + this.inizPartCtrl.getTheMatch().numeroRobot()) ;
         ((CardLayout) this.getContentPane().getLayout()).show(this.getContentPane(), "ongoing");
     }//GEN-LAST:event_startMatchButtonActionPerformed
 
@@ -1049,10 +1051,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_robodromeComboActionPerformed
 
-    private void upgradeCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_upgradeCheckActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_upgradeCheckActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -1080,8 +1078,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -1096,9 +1092,6 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JButton cancelMatchButton;
     private javax.swing.JButton createButton;
     private javax.swing.JComboBox<String> endGameCombo;
-    private robogp.matchmanager.infoRobot infoRobot1;
-    private robogp.matchmanager.infoRobot infoRobot2;
-    private robogp.matchmanager.infoRobot infoRobot3;
     private javax.swing.JButton initButton;
     private javax.swing.JPanel initPanel;
     private javax.swing.JButton jButton1;

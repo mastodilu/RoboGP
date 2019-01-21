@@ -3,7 +3,6 @@ package robogp.Training;
 import java.util.ArrayList;
 import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.deck.*;
-import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.MovimentoController;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
@@ -44,14 +43,9 @@ public class Training {
     public void init(Robodrome rb){
         deck = Deck.getInstance(); // mazzo di carte
         RobodromeView robodromo = new RobodromeView(rb, 35); // GUI del robodromo
-        
-        ArrayList<RobotMarker> arrayRobot = new ArrayList<RobotMarker>();
-            arrayRobot.add((RobotMarkerTraining)new RobotMarkerTraining("robot-emerald", "green"));
-            arrayRobot.add((RobotMarkerTraining)new RobotMarkerTraining("robot-red", "red"));
-            
-        MovimentoController movimentoCtrl = new MovimentoController(robodromo, arrayRobot);
-        
-        trainingGui = TrainingGui.getInstance(robodromo, arrayRobot, movimentoCtrl); // crea la gui generale
+        MovimentoController movimentoCtrl = new MovimentoController(robodromo);
+        RobotMarkerTraining robot = new RobotMarkerTraining("robot-emerald", "green"); // gui del robot nel tabellone
+        trainingGui = TrainingGui.getInstance(robodromo, robot, movimentoCtrl); // crea la gui generale
         trainingGui.start(); //rende visibile la finestra di gioco
         
         buildCardSelection();

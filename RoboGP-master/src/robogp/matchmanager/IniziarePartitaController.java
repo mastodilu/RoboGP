@@ -1,6 +1,7 @@
 package robogp.matchmanager;
 
 import connection.Message;
+import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -44,7 +45,7 @@ public class IniziarePartitaController {
         this.theServer = Server.getInstance(port);
     }
 
-    public void creaPartita(String rbdName, int nMaxPlayers, int nRobotsXPlayer, Match.EndGame endGameCond, boolean initUpg) {
+    public void creaPartita(String rbdName, int nMaxPlayers, int nRobotsXPlayer, Match.EndGame endGameCond, boolean initUpg){
         this.theMatch = Match.getInstance(rbdName, nMaxPlayers, nRobotsXPlayer, endGameCond, initUpg);
         requests = new DefaultListModel<>();
         this.theServer.startAcceptingRequests(theMatch);
@@ -76,6 +77,14 @@ public class IniziarePartitaController {
         return this.theMatch.getAvailableRobots();
     }
 
+    public void setTheMatch(Match theMatch) {
+        this.theMatch = theMatch;
+    }
+    
+    public Match getTheMatch() {
+        return theMatch;
+    }
+    
     public boolean canAcceptMoreRequests() {
         int nPl = this.theMatch.getPlayerCount();
         int maxPl = this.theMatch.getMaxPlayers();
@@ -83,6 +92,8 @@ public class IniziarePartitaController {
         int robPl = this.theMatch.getRobotsPerPlayer();
         return (freeRob >= robPl && nPl < maxPl);
     }
+
+    
 
     public boolean canStartMatch() {
         return (this.theMatch.getPlayerCount() >= 2);
@@ -115,9 +126,5 @@ public class IniziarePartitaController {
     
     public RobodromeView getRobodromeView(){
         return this.theRobodromeView;
-    }
-    
-    public void printGiocatori(){
-        this.theMatch.printGiocatori();
     }
 }

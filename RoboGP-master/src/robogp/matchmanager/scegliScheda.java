@@ -6,11 +6,18 @@ package robogp.matchmanager;
  */
 public class scegliScheda extends javax.swing.JFrame {
 
+    private final IniziarePartitaController controllerPartita;
+    private int numRegistro;
+    private final RobotMarker robot;
     /**
      * Creates new form scegliScheda
+     * @param ctrPartita
      */
-    public scegliScheda() {
+    public scegliScheda(IniziarePartitaController ctrPartita, RobotMarker robot, int registro) {
         initComponents();
+        this.controllerPartita = ctrPartita;
+        this.numRegistro = registro;
+        this.robot = robot;
     }
 
     /**
@@ -29,7 +36,7 @@ public class scegliScheda extends javax.swing.JFrame {
         jButton15 = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(400, 180));
         setMinimumSize(new java.awt.Dimension(400, 180));
         setPreferredSize(new java.awt.Dimension(400, 180));
@@ -53,6 +60,11 @@ public class scegliScheda extends javax.swing.JFrame {
         jPanel30.add(jLabel16, gridBagConstraints);
 
         jButton14.setText("Conferma");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -62,6 +74,11 @@ public class scegliScheda extends javax.swing.JFrame {
         jPanel30.add(jButton14, gridBagConstraints);
 
         jButton15.setText("Annulla");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 2;
@@ -86,40 +103,14 @@ public class scegliScheda extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(scegliScheda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(scegliScheda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(scegliScheda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(scegliScheda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton14ActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new scegliScheda().setVisible(true);
-            }
-        });
-    }
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton14;

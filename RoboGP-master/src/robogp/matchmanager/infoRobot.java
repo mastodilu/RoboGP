@@ -1,19 +1,41 @@
 package robogp.matchmanager;
 
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Alessio
  */
 public class infoRobot extends javax.swing.JPanel {
-
+    
+    private final IniziarePartitaController controllerPartita;
+    private final RobotMarker robot;
+    private Image image;
     /**
      * Creates new form infoRobot
      */
-    public infoRobot() {
+    public infoRobot(IniziarePartitaController ctrPartita, RobotMarker robot) {
         initComponents();
+        this.controllerPartita = ctrPartita;
+        this.robot = robot;      
+        try {                
+          image = ImageIO.read(new File("robots/" + robot.getName() + ".png"));
+          image = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+       } catch (IOException ex) {  
+       }
+        JLabel picLabel = new JLabel(new ImageIcon(image));
+        
+        this.jPanel3.add(picLabel);
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,7 +49,6 @@ public class infoRobot extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -59,12 +80,6 @@ public class infoRobot extends javax.swing.JPanel {
 
         jPanel3.setMinimumSize(new java.awt.Dimension(70, 70));
         jPanel3.setPreferredSize(new java.awt.Dimension(70, 70));
-
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setText("img");
-        jLabel10.setToolTipText("");
-        jPanel3.add(jLabel10);
-
         jPanel1.add(jPanel3);
 
         add(jPanel1);
@@ -323,14 +338,14 @@ public class infoRobot extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        robogp.matchmanager.infoRobot frameProgrammazione;
-        frameProgrammazione = new robogp.matchmanager.infoRobot();
+        robogp.matchmanager.programmaRobotJFrame frameProgrammazione;
+        frameProgrammazione = new robogp.matchmanager.programmaRobotJFrame(this.controllerPartita, this.robot);
         this.add(frameProgrammazione);
         frameProgrammazione.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JFrame frame = new robogp.matchmanager.programmaRobotJFrame();
+        JFrame frame = new robogp.matchmanager.programmaRobotJFrame(this.controllerPartita, this.robot);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -338,7 +353,6 @@ public class infoRobot extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
