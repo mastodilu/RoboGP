@@ -75,7 +75,7 @@ public class Deck{
 
 
     //pesca la prima carta dal mazzo
-    public InstructionCard pickCard(){
+    public synchronized InstructionCard pickCard(){
         if(this.indicePrimaCarta == N_CARTE_MAX){ // se l'ultima carta e' gia' stata pescata
             this.indicePrimaCarta = 0;
             this.shuffle();
@@ -87,7 +87,7 @@ public class Deck{
     
     
     //aggiunge la carta da scartare in cima al mazzo degli scarti
-    public void discard(InstructionCard _card){
+    public synchronized void scarta(InstructionCard _card){
         this.scarti.add(0, _card);
     }
     

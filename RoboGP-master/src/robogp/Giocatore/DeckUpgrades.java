@@ -226,7 +226,7 @@ public class DeckUpgrades {
      * Pesca il primo upgrade.
      * @return l'upgrade pescato, altrimenti null.
      */
-    public Upgrade pickOne(){
+    public synchronized Upgrade pickOne(){
         //se l'ultima carta del mazzo e' gia' stata pescata
         if(indicePrimaCarta == upgradeList.size())
             shuffle();
@@ -241,7 +241,7 @@ public class DeckUpgrades {
     /**
      * Aggiunge alla pila degli scarti l'upgrade passato.
      */
-    public void scarta(Upgrade up){
+    public synchronized void scarta(Upgrade up){
         this.scarti.add(up);
     }
     
