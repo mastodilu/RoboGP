@@ -1,7 +1,6 @@
 package robogp.deck;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -12,6 +11,7 @@ public class Deck{
     private static Deck singleInstance; //pattern singleton
     private ArrayList<InstructionCard> mazzo = new ArrayList(N_CARTE_MAX);//array carte nuove
     private ArrayList<InstructionCard> scarti = new ArrayList(N_CARTE_MAX);//array carte usate
+    private int indicePrimaCarta; // indice che conta la prima carta del mazzo
     public static final String[] tipi = {"uturn", "backup", "move3", "move2", "move1", "turnleft", "turnright"};
     
 
@@ -25,7 +25,7 @@ public class Deck{
         18  x  turnleft
         18  x  turnright
         */
-        
+        this.indicePrimaCarta = 0;
         for(int i = 0; i < 6; i++){
             InstructionCard card = new InstructionCard("uturn"); 
             mazzo.add(card);
@@ -37,7 +37,6 @@ public class Deck{
         for(int i = 0; i < 12; i++){
             InstructionCard card = new InstructionCard("move2");
             mazzo.add(card);
-            
         }
         for(int i = 0; i < 18; i++){
             InstructionCard card = new InstructionCard("move1");
@@ -66,16 +65,23 @@ public class Deck{
         return scarti;
     }
 
-    //mischia il mazzo
+    /**
+     * Mischia il mazzo e riazzera l'indice della prima carta
+     */
     public void shuffle(){
+        this.indicePrimaCarta = 0;
         java.util.Collections.shuffle(this.mazzo);
     }
 
 
     //pesca la prima carta dal mazzo
     public InstructionCard pickCard(){
-        InstructionCard card = mazzo.get(0); // prende la prima carta dal mazzo
-        this.mazzo.remove(card); // la rimuove dal mazzo
+        if(this.indicePrimaCarta == N_CARTE_MAX){ // se l'ultima carta e' gia' stata pescata
+            this.indicePrimaCarta = 0;
+            this.shuffle();
+        }
+        InstructionCard card = mazzo.get(this.indicePrimaCarta); // prende la prima carta dal mazzo
+        this.indicePrimaCarta++;
         return card;
     }
     
@@ -86,7 +92,7 @@ public class Deck{
     }
     
     /**
-     * preleva la carta specificata dal mazzo
+     * Preleva la carta specificata dal mazzo.
      * @param _tipo il tipo di carta
      * @param _priorita la priorita della carta
      * @return InstructionCard se la trova, altrimenti null
@@ -99,17 +105,16 @@ public class Deck{
             if(tempCard.getTipo().contentEquals(_tipo) && tempCard.getPriorita() == _priorita){ //true se viene trovata la carta corrispondente
                 trovato = true;
                 card = tempCard;
-                mazzo.remove(card); //tolgo la carta dal pazzo
             }
         }
-        //se non trova la carta allora non toglie niente da 'mazzo' e ritorna null
+        //se non trova la carta allora ritorna null
         return card;
     }
     
     
     @Override
     public String toString(){
-        String s = "mazzo: ";
+        String s = "mazzo: [" + this.indicePrimaCarta + "] ";
         for(int i = 0; i < mazzo.size(); i++){
             s += mazzo.get(i).toString();
         }
