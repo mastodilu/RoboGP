@@ -128,9 +128,74 @@ public class MovimentoControllerPartita {
     
     
     /**
+     * @return il robot nella cella successiva a quello corrente, altrimenti null
+     */
+    public RobotMarker robotInCellaSuccessiva(BoardCell cella, Direction direzione) {
+        BoardCell next = cellaSuccessiva(cella, direzione);
+        boolean flag = next.hasRobot();
+        
+        System.out.printf("Cella successiva has robot: %b\n", flag);
+        
+        if(flag){
+            int nextR, nextC, r, c;
+            nextR = next.getRiga();
+            nextC = next.getColonna();
+            for(RobotMarker robotmarker : this.robot){
+                    r = robotmarker.getLastPosition().getRiga();
+                    c = robotmarker.getLastPosition().getColonna();
+                if(nextR == r && nextC == c)
+                    return robotmarker;
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    
+    /**
+     * Controlla la presenza di muri uscendo dalla cella specificata
+     * e entrando nella cella successiva rispetto alla direzione del movimento.
+     * @param cella dalla quale ci si sposta
+     * @param direzione del movimento
+     * @return true se ci sono muri che bloccano, false altrimenti.
+     */
+    private boolean bloccatoDaMuri(BoardCell cella, Direction direzione) {
+        Direction opposta = direzioneOpposta(direzione);
+        BoardCell successiva = cellaSuccessiva(cella, direzione);
+        
+        //controlla muro in questa cella
+        if(cella.hasWall(direzione))     return true;
+        //controlla muri nella cella successiva
+        if(successiva == null || successiva.hasWall(opposta))
+            return true;
+
+        return false;
+    }
+    
+    
+    
+    
+    
+    /**
+     * Restituisce la direzione opposta a quella passata.
+     * @param d direzione
+     * @return direzione opposta
+     */
+    private Direction direzioneOpposta(Direction d) {
+        if(d == Direction.W)        return Direction.E;
+        else if(d == Direction.N)   return Direction.S;
+        else if(d == Direction.E)   return Direction.W;
+        else                        return Direction.N;
+    }
+    
+    
+    
+    
+    /**
      * Avvia l'esecuzione delle animazioni
      */
-    public void play(){
+    public void playAnimations(){
         rv.play();
     }
 
