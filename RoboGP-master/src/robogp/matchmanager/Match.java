@@ -4,17 +4,13 @@ import connection.Connection;
 import connection.Message;
 import connection.MessageObserver;
 import connection.PartnerShutDownException;
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import robogp.Giocatore.DeckUpgrades;
 import robogp.Giocatore.Giocatore;
-import robogp.Giocatore.Robot.RobotMarkerPlaying;
 import robogp.deck.Deck;
 import robogp.robodrome.Robodrome;
 

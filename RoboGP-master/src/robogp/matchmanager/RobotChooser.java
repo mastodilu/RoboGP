@@ -10,10 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import robogp.Giocatore.Giocatore;
-import robogp.Giocatore.Robot.RobotMarkerPlaying;
-import robogp.robodrome.Direction;
-
 /**
  *
  * @author claudia

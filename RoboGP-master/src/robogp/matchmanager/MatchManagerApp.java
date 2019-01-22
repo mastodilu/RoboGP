@@ -6,15 +6,12 @@
 package robogp.matchmanager;
 
 import java.awt.CardLayout;
-import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
-import robogp.Giocatore.Robot.RobotMarkerPlaying;
 import robogp.Training.*;
-import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 

@@ -6,7 +6,6 @@ package robogp.Training;
  */
 import java.awt.BorderLayout;
 import java.util.ArrayList;
-import robogp.Giocatore.Robot.RobotMarkerTraining;
 import robogp.deck.Deck;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.view.RobodromeView;
@@ -51,7 +50,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * segnalino del robot nella mappa
      */
-    private ArrayList<RobotMarkerTraining> arrayRobot = null;
+    private ArrayList<RobotMarker> arrayRobot = null;
     
     /**
      * Controller del movimento
@@ -71,9 +70,9 @@ public class TrainingGui extends javax.swing.JFrame {
         istruzioniGui = new ArrayList<>();
         this.movimentoCtrl = movimentoCtrl;
         this.setTabellone(robodromo);
-        this.arrayRobot = new ArrayList<RobotMarkerTraining>();
+        this.arrayRobot = new ArrayList<RobotMarker>();
         for(RobotMarker r : arrayRobot)
-            this.arrayRobot.add((RobotMarkerTraining)r);
+            this.arrayRobot.add(r);
         this.pack();
     }    
     
