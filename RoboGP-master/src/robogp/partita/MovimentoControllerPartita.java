@@ -86,11 +86,12 @@ public class MovimentoControllerPartita {
     
     /**
      * Controlla che il robot possa avanzare di una casella.
-     * @param cella dal quale ci si muove
+     * @param cella dalla quale ci si muove
      * @param direzione del movimento
      * @return true se non ci sono ostacoli, false altrimenti.
      */
     public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
+        if(bucoNero(cella))                return false;
         if(bloccatoDaBordi(cella, direzione))   return false;
         if(bloccatoDaMuri(cella, direzione))    return false;
         return true;
@@ -222,6 +223,16 @@ public class MovimentoControllerPartita {
             cella.robotInside();
             rm.updatePosizione(r, c, d);
         }
+    }
+    
+    
+    
+    /**
+     * @return true se la cella corrente è un buco nero,
+     *  false altrimenti
+     */
+    private boolean bucoNero(BoardCell cella){
+        return cella.getType() == 'P';
     }
     
     
