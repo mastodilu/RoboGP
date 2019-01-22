@@ -34,13 +34,52 @@ public class MovimentoControllerPartita {
     
     /**
      * Costruttore.
+     */
+    private MovimentoControllerPartita(){
+    }
+    
+    /**
+     * Inizializza la classe.
      * @param rv View del robodromo
      * @param rd robodromo
      * @param rb arraylist di RobotMarker, i robot nella partita
      */
-    private MovimentoControllerPartita(RobodromeView rv, Robodrome rd, ArrayList<RobotMarker> rb){
+    public void init(RobodromeView rv, Robodrome rd, ArrayList<RobotMarker> rb){
         this.robodrome = rd;
         this.rv = rv;
         this.robot = rb;
     }
+    
+    
+    /**
+     * @return l'unica istanza della classe.
+     */
+    public MovimentoControllerPartita getInstance(){
+        if(singleInstance == null)
+            singleInstance = new MovimentoControllerPartita();
+        return singleInstance;
+    }
+    
+    
+    /**
+     * Cancella l'unica istanza della classe.
+     */
+    public void deleteInstance(){
+        singleInstance = null;
+    }
+    
+    
+    
+    /**
+     * @return true se la classe e' stata correttamente istanziata.
+     */
+    public boolean checkInit(){
+        return this.robodrome != null
+                && this.robot != null
+                && this.rv != null;
+    }
+    
+    
+    
+    
 }

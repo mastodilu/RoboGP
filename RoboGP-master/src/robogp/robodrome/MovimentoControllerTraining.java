@@ -2,7 +2,6 @@ package robogp.robodrome;
 
 import java.util.ArrayList;
 import robogp.deck.InstructionCard;
-import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.view.RobodromeView;
 
