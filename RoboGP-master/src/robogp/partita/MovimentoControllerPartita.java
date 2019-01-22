@@ -91,7 +91,7 @@ public class MovimentoControllerPartita {
      * @return true se non ci sono ostacoli, false altrimenti.
      */
     public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
-        if(bucoNero(cella))                return false;
+        if(bucoNero(cella))                     return false;
         if(bloccatoDaBordi(cella, direzione))   return false;
         if(bloccatoDaMuri(cella, direzione))    return false;
         return true;
@@ -233,6 +233,31 @@ public class MovimentoControllerPartita {
      */
     private boolean bucoNero(BoardCell cella){
         return cella.getType() == 'P';
+    }
+    
+    
+    /**
+     * Simula il movimento del robot di tot passi nella direzione
+     * specificata contando i passi compiuti.
+     * NB: l'animazione va gestita separatamente.
+     * @param robot da muovere
+     * @param passiDaFare da compiere nella direzione indicata
+     * @param direzione del movimento
+     * @return il passi compiuti.
+     */
+    private int simulaMovimento(RobotMarker robot, int passiDaFare, Direction direzione){
+        int contaPassi = 0;
+        BoardCell cella = this.robodrome.getCell(
+                    robot.getLastPosition().getRiga(),
+                    robot.getLastPosition().getColonna()
+                );
+        for(int i = 0; i < passiDaFare; i++){
+            if(movimentoAmmissibile(cella, direzione)){
+                contaPassi++;
+                cella = this.cellaSuccessiva(cella, direzione);
+            }
+        }
+        return contaPassi;
     }
     
     
