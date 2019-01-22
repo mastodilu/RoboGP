@@ -1,11 +1,9 @@
 package robogp.matchmanager;
 
 import connection.Message;
-import java.awt.AWTException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
 /**
