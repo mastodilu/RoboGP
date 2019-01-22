@@ -85,6 +85,19 @@ public class MovimentoControllerPartita {
     
     
     /**
+     * Controlla che il robot possa avanzare di una casella.
+     * @param cella dal quale ci si muove
+     * @param direzione del movimento
+     * @return true se non ci sono ostacoli, false altrimenti.
+     */
+    public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
+        if(bloccatoDaBordi(cella, direzione))   return false;
+        if(bloccatoDaMuri(cella, direzione))    return false;
+        return true;
+    }
+    
+    
+    /**
      * Restituisce la cella successiva del robodromo rispetto alla posizione
      * e alla direzione corrente del robot.
      * @param cella la cella di riferimento
@@ -209,12 +222,11 @@ public class MovimentoControllerPartita {
             cella.robotInside();
             rm.updatePosizione(r, c, d);
         }
-            
     }
     
     
     
-    
+
     /**
      * Avvia l'esecuzione delle animazioni
      */
