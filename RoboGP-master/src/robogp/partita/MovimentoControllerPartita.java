@@ -99,9 +99,40 @@ public class MovimentoControllerPartita {
         else if(direzione == Direction.E)   return this.robodrome.getCell(riga, colonna+1);
         else                                return this.robodrome.getCell(riga+1, colonna);
     }
-
-
-    // TODO: controlla muri
-    // TODO: 
     
+    
+    
+    
+    /**
+     * Controlla che il movimento rispetto nella direzione specificata
+     * rispetto alla cella specificata non sia bloccato da bordi.
+     * @param cella la cella dal quale ci si sposta
+     * @param direzione la direzione del movimento
+     * @return true se gli indici escono dalla mappa, false altrimenti.
+     */
+    private boolean bloccatoDaBordi(BoardCell cella, Direction direzione){
+        int riga = cella.getRiga();
+        int colonna = cella.getColonna();
+        if(direzione == Direction.W && colonna == 0)
+            return true;
+        else if(direzione == Direction.N && riga == 0)
+            return true;
+        else if(direzione == Direction.E && colonna == this.robodrome.getColumnCount()-1)
+            return true;
+        else if(direzione == Direction.S && riga == this.robodrome.getRowCount()-1)
+            return true;
+        return false;
+    }
+    
+    
+    
+    
+    /**
+     * Avvia l'esecuzione delle animazioni
+     */
+    public void play(){
+        rv.play();
+    }
+
+
 }
