@@ -156,7 +156,10 @@ public class Robodrome {
      * @return la casella in posizione (riga, colonna)
      */
     public BoardCell getCell(int row, int col) {
-        if (row < rows && col < columns) {
+        if (    row < rows
+                && col < columns
+                && row >= 0 
+                && col >= 0) {
             return board[row][col];
         }
         return null;
