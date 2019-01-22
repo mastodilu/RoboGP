@@ -262,6 +262,28 @@ public class MovimentoControllerPartita {
     
     
     
+    /**
+     * Restituisce la cella raggiunta sapendo la cella di partenza,
+     * la direzione e i passi compiuti.
+     * @param cella di partenza
+     * @param direzione del movimento
+     * @param passi compiuti
+     * @return la cella raggiunta
+     * @throws Exception se la cella calcolata esce dal robodromo
+     */
+    private BoardCell cellaRaggiunta(BoardCell cella, Direction direzione, int passi) throws Exception{
+        int riga = cella.getRiga();
+        int colonna = cella.getColonna();
+        BoardCell cellaRaggiunta;
+        if(direzione == Direction.W)        cellaRaggiunta = this.robodrome.getCell(riga, colonna-passi);
+        else if(direzione == Direction.N)   cellaRaggiunta = this.robodrome.getCell(riga-passi, colonna);
+        else if(direzione == Direction.E)   cellaRaggiunta = this.robodrome.getCell(riga, colonna+passi);
+        else                                cellaRaggiunta = this.robodrome.getCell(riga+passi, colonna);
+        if(cellaRaggiunta == null) throw new Exception("La cella raggiunta e' null");
+        return cellaRaggiunta;
+    }
+    
+    
 
     /**
      * Avvia l'esecuzione delle animazioni
