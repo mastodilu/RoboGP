@@ -27,7 +27,7 @@ public class MovimentoControllerPartita {
     /**
      * Lista di robot in partita.
      */
-    private ArrayList<RobotMarker> robot;
+    private ArrayList<RobotMarker> robots;
     
     /**
      * Pattern singleton.
@@ -50,7 +50,7 @@ public class MovimentoControllerPartita {
     public void init(RobodromeView rv, Robodrome rd, ArrayList<RobotMarker> rb){
         this.robodrome = rd;
         this.rv = rv;
-        this.robot = rb;
+        this.robots = rb;
     }
     
     
@@ -140,7 +140,7 @@ public class MovimentoControllerPartita {
             int nextR, nextC, r, c;
             nextR = next.getRiga();
             nextC = next.getColonna();
-            for(RobotMarker robotmarker : this.robot){
+            for(RobotMarker robotmarker : this.robots){
                     r = robotmarker.getLastPosition().getRiga();
                     c = robotmarker.getLastPosition().getColonna();
                 if(nextR == r && nextC == c)
