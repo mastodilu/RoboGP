@@ -244,8 +244,12 @@ public class MovimentoControllerTraining {
      * @param c colonna
      */
     public void placeRobot(RobotMarker rm, Direction d, int r, int c){
-        rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
-        rm.updatePosizione(r, c, d);
+        BoardCell cella = this.rb.getCell(r, c);
+        if(cella != null){
+            rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
+            cella.robotInside();
+            rm.updatePosizione(r, c, d);
+        }
     }
     
     

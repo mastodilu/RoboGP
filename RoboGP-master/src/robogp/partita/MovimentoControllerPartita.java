@@ -78,7 +78,7 @@ public class MovimentoControllerPartita {
      */
     public boolean checkInit(){
         return this.robodrome != null
-                && this.robot != null
+                && this.robots != null
                 && this.rv != null;
     }
     
@@ -128,6 +128,9 @@ public class MovimentoControllerPartita {
     
     
     /**
+     * Restituisce il robot nella cella successiva.
+     * @param cella cella di partenza
+     * @param direzione direzione del movimento
      * @return il robot nella cella successiva a quello corrente, altrimenti null
      */
     public RobotMarker robotInCellaSuccessiva(BoardCell cella, Direction direzione) {
@@ -187,6 +190,26 @@ public class MovimentoControllerPartita {
         else if(d == Direction.N)   return Direction.S;
         else if(d == Direction.E)   return Direction.W;
         else                        return Direction.N;
+    }
+    
+    
+    
+    
+    /**
+     * Piazza il robot in una posizione iniziale specificata a mano.
+     * @param rm robot
+     * @param d direzione
+     * @param r riga
+     * @param c colonna
+     */
+    public void placeRobot(RobotMarker rm, Direction d, int r, int c){
+        BoardCell cella = this.robodrome.getCell(r, c);
+        if(cella != null){
+            rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
+            cella.robotInside();
+            rm.updatePosizione(r, c, d);
+        }
+            
     }
     
     
