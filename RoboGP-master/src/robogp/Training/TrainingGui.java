@@ -13,7 +13,7 @@ import robogp.deck.InstructionCardGui;
 import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.Direction;
-import robogp.robodrome.MovimentoController;
+import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
 public class TrainingGui extends javax.swing.JFrame {
     
@@ -55,7 +55,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * Controller del movimento
      */
-    MovimentoController movimentoCtrl;
+    MovimentoControllerTraining movimentoCtrl;
     
     //single instance del pattern singleton
     private static TrainingGui singleInstance;
@@ -63,7 +63,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoController movimentoCtrl){
+    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerTraining movimentoCtrl){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
@@ -76,7 +76,7 @@ public class TrainingGui extends javax.swing.JFrame {
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoController movimentoCtrl){
+    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerTraining movimentoCtrl){
         if(TrainingGui.singleInstance == null){
             TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl);
         }

@@ -10,7 +10,7 @@ import robogp.robodrome.view.RobodromeView;
  *
  * @author MatteoDiLucchio
  */
-public class MovimentoController {
+public class MovimentoControllerTraining {
     
     /**
      * Istanza della view del robodromo.
@@ -52,7 +52,7 @@ public class MovimentoController {
      * Costruttore parametrico.
      * @param rb istanza del robodromo.
      */
-    public MovimentoController(RobodromeView rv, ArrayList<RobotMarker> arrayRobot){
+    public MovimentoControllerTraining(RobodromeView rv, ArrayList<RobotMarker> arrayRobot){
         this.rv = rv; // RobodromeView
         this.rb = rv.getDrome(); // Robodrome
         this.arrayRobot = arrayRobot;
