@@ -2,11 +2,14 @@ package robogp.partita;
 
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
+import robogp.robodrome.BoardCell;
+import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
 /**
- * Classe che controlla la logica del movimento prima di applicarne l'animazione.
+ * Classe che controlla la logica del movimento per la partita
+ * prima di applicarne l'animazione.
  * @author Matteo Di Lucchio <matteo.dilucchio@edu.unito.it>
  */
 public class MovimentoControllerPartita {
@@ -81,5 +84,24 @@ public class MovimentoControllerPartita {
     
     
     
+    /**
+     * Restituisce la cella successiva del robodromo rispetto alla posizione
+     * e alla direzione corrente del robot.
+     * @param cella la cella di riferimento
+     * @param direzione del movimento rispetto alla cella specificata
+     * @return la cella successiva se esiste, altrimenti null.
+     */
+    private BoardCell cellaSuccessiva(BoardCell cella, Direction direzione) {
+        int riga = cella.getRiga();
+        int colonna = cella.getColonna();
+        if(direzione == Direction.W)        return this.robodrome.getCell(riga, colonna-1);
+        else if(direzione == Direction.N)   return this.robodrome.getCell(riga-1, colonna);
+        else if(direzione == Direction.E)   return this.robodrome.getCell(riga, colonna+1);
+        else                                return this.robodrome.getCell(riga+1, colonna);
+    }
+
+
+    // TODO: controlla muri
+    // TODO: 
     
 }
