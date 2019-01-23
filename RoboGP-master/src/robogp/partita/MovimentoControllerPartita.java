@@ -121,19 +121,15 @@ public class MovimentoControllerPartita {
             Direction direzioneRobot = robot.getLastDirection();//direzione corrente del robot
             boolean backup = istruzione.getTipo().equalsIgnoreCase("backup"); // se l'istruzione e' "backup"
 
-
-            //gira momentaneamente per gestire un movimento indietro come se fosse in avanti
+            //gestisce movimento indietro come se fosse in avanti
             if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
 
             int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
 
             BoardCell cellaRaggiunta = cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
 
-            //ripristina la direzione corretta
-            if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
-
             muovi(robot, passi, direzioneRobot, rotazione);
-
+            
             //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
             if(bucoNero(cellaRaggiunta))
                 precipita(robot);
@@ -420,6 +416,7 @@ public class MovimentoControllerPartita {
      */
     private void muovi(RobotMarker robot, int passi, Direction direzione, Rotation rotazione) {
         BoardCell cella, raggiunta;
+        Direction nuovaDirezione;
         
         // cella corrente del robot
         cella = this.robodrome.getCell(
@@ -431,8 +428,8 @@ public class MovimentoControllerPartita {
         //aggiorna variabili celle
         cella.robotOutside();
         raggiunta.robotInside();
-        robot.updatePosizione(raggiunta.getRiga(), raggiunta.getColonna(), robot.getLastDirection());
-        
+        nuovaDirezione = Rotation.changeDirection(robot.getLastDirection(), rotazione);
+        robot.updatePosizione(raggiunta.getRiga(), raggiunta.getColonna(), nuovaDirezione);
         //animazione movimento
         this.rv.addRobotMove(robot, passi, direzione, rotazione);
     }
