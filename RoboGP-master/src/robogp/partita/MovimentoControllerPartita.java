@@ -318,6 +318,17 @@ public class MovimentoControllerPartita {
     }
     
     
+    
+    /**
+     * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro express.
+     */
+    public void nastriTrasportatoriExpress(){
+        for(RobotMarker robot : robots){
+            nastroExpress(robot);
+        }
+    }
+    
+    
     /**
      * Muove il robot se si trova su un nastro express.
      * @param robot da muovere
