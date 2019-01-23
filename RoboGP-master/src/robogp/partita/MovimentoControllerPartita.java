@@ -273,7 +273,7 @@ public class MovimentoControllerPartita {
      * @return la cella raggiunta
      * @throws Exception se la cella calcolata esce dal robodromo
      */
-    private BoardCell cellaRaggiunta(BoardCell cella, Direction direzione, int passi) throws Exception{
+    private BoardCell cellaRaggiunta(BoardCell cella, Direction direzione, int passi){
         int riga = cella.getRiga();
         int colonna = cella.getColonna();
         BoardCell cellaRaggiunta;
@@ -281,7 +281,6 @@ public class MovimentoControllerPartita {
         else if(direzione == Direction.N)   cellaRaggiunta = this.robodrome.getCell(riga-passi, colonna);
         else if(direzione == Direction.E)   cellaRaggiunta = this.robodrome.getCell(riga, colonna+passi);
         else                                cellaRaggiunta = this.robodrome.getCell(riga+passi, colonna);
-        if(cellaRaggiunta == null) throw new Exception("La cella raggiunta e' null");
         return cellaRaggiunta;
     }
     
@@ -319,6 +318,34 @@ public class MovimentoControllerPartita {
     //TODO metodo che aggiunge l'animazione del movimento compiuto
         //muovi(robot, nPassi, direzione, rotazione)
     
+    
+    /**
+     * Aggiunge l'animazione di movimento del robot e aggiorna le variabili
+     * di robot e cella.
+     * @param robot da muovere
+     * @param passi compiuti
+     * @param direzione direzione del movimento
+     * @param rotazione rotazione compiuta dal robot
+     */
+    private void muovi(RobotMarker robot, int passi, Direction direzione, Rotation rotazione) {
+        BoardCell cella, raggiunta;
+        
+        // cella corrente del robot
+        cella = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(), 
+                robot.getLastPosition().getColonna()
+        );
+        raggiunta = cellaRaggiunta(cella, direzione, passi);
+
+        //aggiorna variabili celle
+        cella.robotOutside();
+        raggiunta.robotInside();
+        robot.updatePosizione(raggiunta.getRiga(), raggiunta.getColonna(), robot.getLastDirection());
+        
+        //animazione movimento
+        this.rv.addRobotMove(robot, passi, direzione, rotazione);
+    }
+    
 
     /**
      * Avvia l'esecuzione delle animazioni
@@ -327,9 +354,7 @@ public class MovimentoControllerPartita {
         rv.play();
     }
 
-    private void muovi(RobotMarker robot, int i, Direction direzione, Rotation rotation) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
 
 }
