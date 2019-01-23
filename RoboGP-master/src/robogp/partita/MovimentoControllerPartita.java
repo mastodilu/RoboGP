@@ -285,13 +285,24 @@ public class MovimentoControllerPartita {
     }
     
     
+    
+    /**
+     * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro semplice.
+     */
+    public void nastriTrasportatoriSemplici(){
+        for(RobotMarker robot : robots){
+            nastroSemplice(robot);
+        }
+    }
+    
+    
     /**
      * Se il robot si trova su un nastro trasportatore semplice
      * lo fa slittare di una posizione nella direzione del nastro se
      * il movimento non e' ostacolato.
      * @param robot da spostare
      */
-    private void nastriSemplici(RobotMarker robot){
+    private void nastroSemplice(RobotMarker robot){
         int riga, colonna;
             riga = robot.getLastPosition().getRiga();
             colonna = robot.getLastPosition().getColonna();
