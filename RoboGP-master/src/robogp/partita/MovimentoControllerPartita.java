@@ -1,6 +1,7 @@
 package robogp.partita;
 
 import java.util.ArrayList;
+import robogp.deck.InstructionCard;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
@@ -97,6 +98,51 @@ public class MovimentoControllerPartita {
         if(bloccatoDaBordi(cella, direzione))   return false;
         if(bloccatoDaMuri(cella, direzione))    return false;
         return true;
+    }
+    
+    
+    /**
+     * Esegue l'istruzione passata.
+     * @param robot che esegue l'istruzione
+     * @param istruzione da eseguire
+     */
+    public void eseguiIstruzione(RobotMarker robot, InstructionCard istruzione){
+        BoardCell cellaIniziale = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(), 
+                robot.getLastPosition().getColonna()
+        );
+        Rotation rotazione = istruzione.getRotazione();
+        int distanza = istruzione.getMovimento(); // distanza da percorrere
+        boolean caduto = false;
+        Direction direzioneRobot = robot.getLastDirection();//direzione corrente del robot
+        boolean backup = istruzione.getTipo().equalsIgnoreCase("backup"); // se l'istruzione e' "backup"
+        
+        
+        //gira momentaneamente per gestire un movimento indietro come se fosse in avanti
+        if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
+        
+        int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
+        
+        BoardCell cellaRaggiunta = this.cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
+        
+        //ripristina la direzione corretta
+        if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
+        
+        muovi(robot, passi, direzioneRobot, rotazione);
+        
+        //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
+        if(bucoNero(cellaRaggiunta))
+            precipita(robot);
+    }
+    
+    
+    
+    /**
+     * Esegue l'animazione della caduta nel buco nero.
+     * @param robot che cade
+     */
+    private void precipita(RobotMarker robot){
+        this.rv.addRobotFall(robot);
     }
     
     
@@ -245,7 +291,7 @@ public class MovimentoControllerPartita {
      * @param robot da muovere
      * @param passiDaFare da compiere nella direzione indicata
      * @param direzione del movimento
-     * @return il passi compiuti.
+     * @return il numero passi compiuti.
      */
     private int simulaMovimento(RobotMarker robot, int passiDaFare, Direction direzione){
         int contaPassi = 0;
@@ -357,16 +403,8 @@ public class MovimentoControllerPartita {
     }
     
     
-    
-    //TODO nastriTrasportatoriExpress
-    
+    //TODO metodo per eseguire le schede istruzione
     //TODO metodo per spingere i robot durante il movimento
-    
-    //TODO metodo per aggiornare la posizione del robot
-    //TODO metodo per aggiornare la variabile BoardCell.hasRobot
-    
-    //TODO metodo che aggiunge l'animazione del movimento compiuto
-        //muovi(robot, nPassi, direzione, rotazione)
     
     
     /**
@@ -398,7 +436,7 @@ public class MovimentoControllerPartita {
     
 
     /**
-     * Avvia l'esecuzione delle animazioni
+     * Avvia l'esecuzione delle animazioni.
      */
     public void playAnimations(){
         rv.play();
