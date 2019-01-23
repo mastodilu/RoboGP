@@ -79,10 +79,12 @@ public class MovimentoControllerPartita {
     /**
      * @return true se la classe e' stata correttamente istanziata.
      */
-    public boolean checkInit(){
-        return this.robodrome != null
-                && this.robots != null
-                && this.rv != null;
+    public void initialized() throws Exception{
+        if( this.robodrome != null
+            && this.robots != null
+            && this.rv != null){
+            throw new Exception("Istanza non inizializzata correttamente");
+        }
     }
     
     
@@ -107,32 +109,35 @@ public class MovimentoControllerPartita {
      * @param istruzione da eseguire
      */
     public void eseguiIstruzione(RobotMarker robot, InstructionCard istruzione){
-        BoardCell cellaIniziale = this.robodrome.getCell(
+        try{
+            initialized(); // controlla che le variabili siano inizializzate
+            BoardCell cellaIniziale = robodrome.getCell(
                 robot.getLastPosition().getRiga(), 
                 robot.getLastPosition().getColonna()
-        );
-        Rotation rotazione = istruzione.getRotazione();
-        int distanza = istruzione.getMovimento(); // distanza da percorrere
-        boolean caduto = false;
-        Direction direzioneRobot = robot.getLastDirection();//direzione corrente del robot
-        boolean backup = istruzione.getTipo().equalsIgnoreCase("backup"); // se l'istruzione e' "backup"
-        
-        
-        //gira momentaneamente per gestire un movimento indietro come se fosse in avanti
-        if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
-        
-        int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
-        
-        BoardCell cellaRaggiunta = this.cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
-        
-        //ripristina la direzione corretta
-        if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
-        
-        muovi(robot, passi, direzioneRobot, rotazione);
-        
-        //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
-        if(bucoNero(cellaRaggiunta))
-            precipita(robot);
+            );
+            Rotation rotazione = istruzione.getRotazione();
+            int distanza = istruzione.getMovimento(); // distanza da percorrere
+            boolean caduto = false;
+            Direction direzioneRobot = robot.getLastDirection();//direzione corrente del robot
+            boolean backup = istruzione.getTipo().equalsIgnoreCase("backup"); // se l'istruzione e' "backup"
+
+
+            //gira momentaneamente per gestire un movimento indietro come se fosse in avanti
+            if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
+
+            int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
+
+            BoardCell cellaRaggiunta = cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
+
+            //ripristina la direzione corretta
+            if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
+
+            muovi(robot, passi, direzioneRobot, rotazione);
+
+            //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
+            if(bucoNero(cellaRaggiunta))
+                precipita(robot);
+        }catch(Exception e){ System.err.println(e.getMessage()); }
     }
     
     
@@ -402,9 +407,6 @@ public class MovimentoControllerPartita {
         }
     }
     
-    
-    //TODO metodo per eseguire le schede istruzione
-    //TODO metodo per spingere i robot durante il movimento
     
     
     /**
