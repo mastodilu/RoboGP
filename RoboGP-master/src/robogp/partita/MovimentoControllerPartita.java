@@ -2,9 +2,11 @@ package robogp.partita;
 
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
+import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
+import robogp.robodrome.Rotation;
 import robogp.robodrome.view.RobodromeView;
 
 /**
@@ -263,8 +265,8 @@ public class MovimentoControllerPartita {
     
     
     /**
-     * Restituisce la cella raggiunta sapendo la cella di partenza,
-     * la direzione e i passi compiuti.
+     * Restituisce la cella raggiunta sapendo
+     * la cella di partenza, la direzione e i passi compiuti.
      * @param cella di partenza
      * @param direzione del movimento
      * @param passi compiuti
@@ -284,12 +286,49 @@ public class MovimentoControllerPartita {
     }
     
     
+    /**
+     * Se il robot si trova su un nastro trasportatore semplice
+     * lo fa slittare di una posizione nella direzione del nastro se
+     * il movimento non e' ostacolato.
+     * @param robot da spostare
+     */
+    private void nastriSemplici(RobotMarker robot){
+        int riga, colonna;
+            riga = robot.getLastPosition().getRiga();
+            colonna = robot.getLastPosition().getColonna();
+        BoardCell cella = this.robodrome.getCell(riga, colonna);
+        if(cella.getType() == 'B'){ // nastro trasportatore semplice
+            BeltCell belt = (BeltCell)cella;
+            Direction direzione = belt.getOutputDirection();
+            if(this.movimentoAmmissibile(belt, direzione)){
+                // muove di 1 nella direzione specificata senza compiere rotazione
+                muovi(robot, 1, direzione, Rotation.NO);
+            }
+        }
+    }
+    
+    
+    //TODO nastriTrasportatoriSemplici
+    //TODO nastriTrasportatoriExpress
+    
+    //TODO metodo per spingere i robot durante il movimento
+    
+    //TODO metodo per aggiornare la posizione del robot
+    //TODO metodo per aggiornare la variabile BoardCell.hasRobot
+    
+    //TODO metodo che aggiunge l'animazione del movimento compiuto
+        //muovi(robot, nPassi, direzione, rotazione)
+    
 
     /**
      * Avvia l'esecuzione delle animazioni
      */
     public void playAnimations(){
         rv.play();
+    }
+
+    private void muovi(RobotMarker robot, int i, Direction direzione, Rotation rotation) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
