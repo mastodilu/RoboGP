@@ -318,7 +318,35 @@ public class MovimentoControllerPartita {
     }
     
     
-    //TODO nastriTrasportatoriSemplici
+    /**
+     * Muove il robot se si trova su un nastro express.
+     * @param robot da muovere
+     */
+    private void nastroExpress(RobotMarker robot){
+        int riga, colonna;
+            riga = robot.getLastPosition().getRiga();
+            colonna = robot.getLastPosition().getColonna();
+        BoardCell cella = robodrome.getCell(riga, colonna);
+        int contaAttivazioni = 0; // conta le attivazioni eseguite
+        int numeroAttivazioni = 2; // quante attivazioni del nastro si verificano
+        
+        // while cella e' nastro express e devono attivarsi i nastri express
+        while(  cella.getType() == 'E' && contaAttivazioni < numeroAttivazioni){
+            BeltCell belt = (BeltCell)cella;
+            Direction direzione = belt.getOutputDirection();
+            if(movimentoAmmissibile(belt, direzione)){
+                this.muovi(robot, 1, direzione, Rotation.NO); // animazione movimento ed aggiornamento variabili
+                contaAttivazioni++;
+                cella = this.cellaSuccessiva(cella, direzione); //ripete il ciclo con la cella successiva
+            }else{
+                //se ci sono ostacoli non deve ripetere il ciclo una seconda volta
+                break;
+            }
+        }
+    }
+    
+    
+    
     //TODO nastriTrasportatoriExpress
     
     //TODO metodo per spingere i robot durante il movimento
