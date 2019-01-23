@@ -60,7 +60,7 @@ public class MovimentoControllerPartita {
     /**
      * @return l'unica istanza della classe.
      */
-    public MovimentoControllerPartita getInstance(){
+    public static MovimentoControllerPartita getInstance(){
         if(singleInstance == null)
             singleInstance = new MovimentoControllerPartita();
         return singleInstance;
@@ -80,9 +80,9 @@ public class MovimentoControllerPartita {
      * @return true se la classe e' stata correttamente istanziata.
      */
     public void initialized() throws Exception{
-        if( this.robodrome != null
-            && this.robots != null
-            && this.rv != null){
+        if( this.robodrome == null
+            || this.robots == null
+            || this.rv == null){
             throw new Exception("Istanza non inizializzata correttamente");
         }
     }
@@ -137,6 +137,7 @@ public class MovimentoControllerPartita {
             //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
             if(bucoNero(cellaRaggiunta))
                 precipita(robot);
+            System.out.println("MCP esegui istruzione");
         }catch(Exception e){ System.err.println(e.getMessage()); }
     }
     
