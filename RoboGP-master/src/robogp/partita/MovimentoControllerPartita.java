@@ -32,6 +32,12 @@ public class MovimentoControllerPartita {
      */
     private ArrayList<RobotMarker> robots;
     
+    
+    /**
+     * Robot da spingere.
+     */
+    RobotMarker spingi;
+    
     /**
      * Pattern singleton.
      */
@@ -42,6 +48,7 @@ public class MovimentoControllerPartita {
      * Costruttore.
      */
     private MovimentoControllerPartita(){
+        spingi = null;
     }
     
     /**
@@ -96,10 +103,40 @@ public class MovimentoControllerPartita {
      * @return true se non ci sono ostacoli, false altrimenti.
      */
     public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
-        if(bucoNero(cella))                     return false;
-        if(bloccatoDaBordi(cella, direzione))   return false;
-        if(bloccatoDaMuri(cella, direzione))    return false;
+        //controllo ostacoli
+        if(ciSonoOstacoli(cella, direzione))
+            return false;
+        BoardCell successiva = this.cellaSuccessiva(cella, direzione);
+        //eventuale robot da spingere
+        if(successiva.hasRobot()){
+            //se spinta ostacolata
+            if(ciSonoOstacoli(successiva, direzione))
+                return false;
+            successiva = this.cellaSuccessiva(successiva, direzione);
+            //un secondo robot impedisce di spingere il primo
+            if(successiva.hasRobot())
+                return false;
+        }
+        /*restituisce true se:
+            non ci sono ostacoli che impediscono l'uscita dalla cella
+            non ci sono ostacoli che impediscono l'entrata nella cella successiva
+            c'e' un eventuale robot da spingere che non e' bloccato da ostacoli o da un altro robot
+        */
         return true;
+    }
+    
+    
+    /**
+     * Restituisce true quando ci sono ostacoli che impediscono il movimento.
+     * @param cella di partenza del movimento
+     * @param direzione del movimento
+     * @return true quando il movimento e' ostacolato, false altrimenti.
+     */
+    private boolean ciSonoOstacoli(BoardCell cella, Direction direzione){
+        if(bucoNero(cella))                     return true;
+        if(bloccatoDaBordi(cella, direzione))   return true;
+        if(bloccatoDaMuri(cella, direzione))    return true;
+        return false;
     }
     
     
