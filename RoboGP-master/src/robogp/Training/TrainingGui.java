@@ -12,6 +12,7 @@ import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
 import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
+import robogp.partita.MovimentoControllerPartita;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
@@ -55,7 +56,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * Controller del movimento
      */
-    MovimentoControllerTraining movimentoCtrl;
+    MovimentoControllerPartita movimentoCtrl;
     
     //single instance del pattern singleton
     private static TrainingGui singleInstance;
@@ -63,7 +64,7 @@ public class TrainingGui extends javax.swing.JFrame {
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerTraining movimentoCtrl){
+    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerPartita movimentoCtrl){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
@@ -76,7 +77,7 @@ public class TrainingGui extends javax.swing.JFrame {
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerTraining movimentoCtrl){
+    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerPartita movimentoCtrl){
         if(TrainingGui.singleInstance == null){
             TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl);
         }
@@ -493,6 +494,7 @@ public class TrainingGui extends javax.swing.JFrame {
         
         movimentoCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
         movimentoCtrl.placeRobot(arrayRobot.get(1), d, 4, 4); // aggiunge il robot2 al tabellone
+        movimentoCtrl.placeRobot(arrayRobot.get(2), d, 5, 4); // aggiunge il robot3 al tabellone
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
     }
     
@@ -621,10 +623,11 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void avviaAllenamento(){
         eseguiTutteIstruzioni();
-        this.movimentoCtrl.nastriTrasportatori();
+        this.movimentoCtrl.nastriTrasportatoriSemplici();
+        this.movimentoCtrl.nastriTrasportatoriExpress();
         this.sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
         
-        this.movimentoCtrl.play();
+        this.movimentoCtrl.playAnimations();
     }
     
     
@@ -633,7 +636,7 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void eseguiTutteIstruzioni(){
         for(InstructionCardGui ic : this.istruzioniGui){
-            this.movimentoCtrl.muoviRobot(ic.getSourceCard(), this.arrayRobot.get(0));
+            this.movimentoCtrl.eseguiIstruzione(arrayRobot.get(0), ic.getSourceCard());
         }
     }
 
