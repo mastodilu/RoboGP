@@ -116,6 +116,7 @@ public class MovimentoControllerPartita {
      * @return true quando il movimento e' ostacolato, false altrimenti.
      */
     private boolean possoMuovermi(BoardCell cella, Direction direzione){
+        if(this.bucoNero(cella))                return false;
         if(bloccatoDaBordi(cella, direzione))   return false;
         if(bloccatoDaMuri(cella, direzione))    return false;
         return true;
@@ -136,20 +137,18 @@ public class MovimentoControllerPartita {
             );
             Rotation rotazione = istruzione.getRotazione();
             int distanza = istruzione.getMovimento(); // distanza da percorrere
-            boolean caduto = false;
             Direction direzioneRobot = robot.getLastDirection();//direzione corrente del robot
+            
             boolean backup = istruzione.getTipo().equalsIgnoreCase("backup"); // se l'istruzione e' "backup"
-
+            
             //gestisce movimento indietro come se fosse in avanti
             if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
-
-            int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
-                
-            BoardCell cellaRaggiunta = cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
             
-            //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
-            if(bucoNero(cellaRaggiunta))
-                precipita(robot);
+            if(distanza > 0)
+                faiUnPasso(robot, distanza, direzioneRobot);
+            else if(rotazione != null)
+                muovi(robot, 0, direzioneRobot, rotazione);
+            
             System.out.println("MCP esegui istruzione");
         }catch(Exception e){ System.err.println(e.getMessage()); }
     }
@@ -161,7 +160,13 @@ public class MovimentoControllerPartita {
      * @param robot che cade
      */
     private void precipita(RobotMarker robot){
-        this.rv.addRobotFall(robot);
+        rv.addRobotFall(robot);
+        
+        //i buchi neri non possono contenere robot
+        this.robodrome.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        ).robotOutside();
     }
     
     
@@ -376,10 +381,7 @@ public class MovimentoControllerPartita {
         if(cella.getType() == 'B'){ // nastro trasportatore semplice
             BeltCell belt = (BeltCell)cella;
             Direction direzione = belt.getOutputDirection();
-            if(this.movimentoAmmissibile(belt, direzione)){
-                // muove di 1 nella direzione specificata senza compiere rotazione
-                muovi(robot, 1, direzione, Rotation.NO);
-            }
+            this.faiUnPasso(robot, 1, direzione);
         }
     }
     
@@ -411,8 +413,8 @@ public class MovimentoControllerPartita {
         while(  cella.getType() == 'E' && contaAttivazioni < numeroAttivazioni){
             BeltCell belt = (BeltCell)cella;
             Direction direzione = belt.getOutputDirection();
-            if(movimentoAmmissibile(belt, direzione)){
-                this.muovi(robot, 1, direzione, Rotation.NO); // animazione movimento ed aggiornamento variabili
+            
+            if(faiUnPasso(robot, 1, direzione)){
                 contaAttivazioni++;
                 cella = this.cellaSuccessiva(cella, direzione); //ripete il ciclo con la cella successiva
             }else{
@@ -497,6 +499,59 @@ public class MovimentoControllerPartita {
         if(movimentoAmmissibile(successiva, direzione))     return true;
         
         return false;
+    }
+    
+    
+    
+    
+    /**
+     * Avanza di un passo e spinge gli eventuali robot da spingere se e' possibile.
+     * @param robot che si muove
+     * @param passi da compiere
+     * @param direzione del movimento
+     * @return true se si muove, false altrimenti.
+     */
+    private boolean faiUnPasso(RobotMarker robot, int passi, Direction direzione){
+        BoardCell cella = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        );
+        
+        if(bucoNero(cella)){
+            precipita(robot);
+        }
+            
+        if(passi > 0){ //se devo camminare
+            if(possoMuovermi(cella, direzione) ){ // e non ci sono ostacoli
+                BoardCell successiva = cellaSuccessiva(cella, direzione);
+                //se c'e' un robot davanti
+                if(successiva.hasRobot()){
+                    RobotMarker daSpingere = getRobotInCell(successiva);
+                    //true se il robot e' stato spinto, false altrimenti
+                    boolean hoSpinto = faiUnPasso(daSpingere, 1, direzione);
+                    if(!hoSpinto){
+                        //non ha potuto spingere quindi si muove di 0 e termina
+                        passi = 0;
+                        muovi(robot, 0, direzione, Rotation.NO);//animazione, variabili
+                        return false;
+                    }else{
+                        // ha spinto, quindi si muove di 1 e termina
+                        passi = 1;
+                        muovi(robot, 1, direzione, Rotation.NO);
+                        return true;
+                    }
+                }
+
+                muovi(robot, 1, direzione, Rotation.NO);//animazione, variabili
+                return faiUnPasso(robot, passi-1, direzione);
+            }
+            else{
+                muovi(robot, 0, direzione, Rotation.NO);//animazione, variabili
+                return false;
+            }
+                
+        }
+        return true;
     }
     
 
