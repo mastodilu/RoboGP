@@ -103,22 +103,21 @@ public class MovimentoControllerPartita {
      * @return true se non ci sono ostacoli, false altrimenti.
      */
     public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
-        //controllo ostacoli
         if(ciSonoOstacoli(cella, direzione))
             return false;
         BoardCell secondaCella = cellaSuccessiva(cella, direzione);
         //eventuale robot da spingere
         if(secondaCella.hasRobot()){
-            //se spinta ostacolata
+            //ci sono ostacoli nella cella successiva
             if(ciSonoOstacoli(secondaCella, direzione))
                 return false;
-            //un secondo robot impedisce di spingere il primo
+            //un terzo robot impedisce di spingere il primo
             BoardCell terzaCella = cellaSuccessiva(secondaCella, direzione);
-            int riga = terzaCella.getRiga();
-            int colonna = terzaCella.getColonna();
             if(terzaCella.hasRobot())
                 return false;
-            //se sono qua allora devo spingere un robot
+            //se sono qua allora devo spingere un robot perche' la terza cella e' libera
+            int riga = terzaCella.getRiga();
+            int colonna = terzaCella.getColonna();
             for(RobotMarker robot : this.robots){
                 if(robot.getLastPosition().getRiga() == riga
                         && robot.getLastPosition().getColonna() == colonna){
@@ -144,7 +143,6 @@ public class MovimentoControllerPartita {
      * @return true quando il movimento e' ostacolato, false altrimenti.
      */
     private boolean ciSonoOstacoli(BoardCell cella, Direction direzione){
-        if(bucoNero(cella))                     return true;
         if(bloccatoDaBordi(cella, direzione))   return true;
         if(bloccatoDaMuri(cella, direzione))    return true;
         return false;
