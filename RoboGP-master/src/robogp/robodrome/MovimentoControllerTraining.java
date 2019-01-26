@@ -2,7 +2,6 @@ package robogp.robodrome;
 
 import java.util.ArrayList;
 import robogp.deck.InstructionCard;
-import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.view.RobodromeView;
 
@@ -10,7 +9,7 @@ import robogp.robodrome.view.RobodromeView;
  *
  * @author MatteoDiLucchio
  */
-public class MovimentoController {
+public class MovimentoControllerTraining {
     
     /**
      * Istanza della view del robodromo.
@@ -52,7 +51,7 @@ public class MovimentoController {
      * Costruttore parametrico.
      * @param rb istanza del robodromo.
      */
-    public MovimentoController(RobodromeView rv, ArrayList<RobotMarker> arrayRobot){
+    public MovimentoControllerTraining(RobodromeView rv, ArrayList<RobotMarker> arrayRobot){
         this.rv = rv; // RobodromeView
         this.rb = rv.getDrome(); // Robodrome
         this.arrayRobot = arrayRobot;
@@ -245,8 +244,12 @@ public class MovimentoController {
      * @param c colonna
      */
     public void placeRobot(RobotMarker rm, Direction d, int r, int c){
-        rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
-        rm.updatePosizione(r, c, d);
+        BoardCell cella = this.rb.getCell(r, c);
+        if(cella != null){
+            rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
+            cella.robotInside();
+            rm.updatePosizione(r, c, d);
+        }
     }
     
     
