@@ -97,55 +97,28 @@ public class MovimentoControllerPartita {
     
     
     /**
-     * Controlla che il robot possa avanzare di una casella.
+     * Controlla che il robot possa avanzare di una casella,
+     * ma non controlla la presenza di robot nella cella successiva.
      * @param cella dalla quale ci si muove
      * @param direzione del movimento
      * @return true se non ci sono ostacoli, false altrimenti.
      */
     public boolean movimentoAmmissibile(BoardCell cella, Direction direzione){
-        if(ciSonoOstacoli(cella, direzione))
-            return false;
-        BoardCell secondaCella = cellaSuccessiva(cella, direzione);
-        //eventuale robot da spingere
-        if(secondaCella.hasRobot()){
-            //ci sono ostacoli nella cella successiva
-            if(ciSonoOstacoli(secondaCella, direzione))
-                return false;
-            //un terzo robot impedisce di spingere il primo
-            BoardCell terzaCella = cellaSuccessiva(secondaCella, direzione);
-            if(terzaCella.hasRobot())
-                return false;
-            //se sono qua allora devo spingere un robot perche' la terza cella e' libera
-            int riga = terzaCella.getRiga();
-            int colonna = terzaCella.getColonna();
-            for(RobotMarker robot : this.robots){
-                if(robot.getLastPosition().getRiga() == riga
-                        && robot.getLastPosition().getColonna() == colonna){
-                    spingi = robot;
-                }
-            }
-            if(spingi == null)
-                System.err.println("Non posso spingere anche se dovrei! Ricontrolla MovimentoController.movimentoAmmissibile()");
-        }
-        /*restituisce true se:
-            non ci sono ostacoli che impediscono l'uscita dalla cella
-            non ci sono ostacoli che impediscono l'entrata nella cella successiva
-            c'e' un eventuale robot da spingere che non e' bloccato da ostacoli o da un altro robot
-        */
-        return true;
+        return possoMuovermi(cella, direzione);
     }
     
     
     /**
-     * Restituisce true quando ci sono ostacoli che impediscono il movimento.
+     * Restituisce true quando non ci sono ostacoli che impediscono il movimento,
+     * ma non controlla la presenza di robot nella cella successiva.
      * @param cella di partenza del movimento
      * @param direzione del movimento
      * @return true quando il movimento e' ostacolato, false altrimenti.
      */
-    private boolean ciSonoOstacoli(BoardCell cella, Direction direzione){
-        if(bloccatoDaBordi(cella, direzione))   return true;
-        if(bloccatoDaMuri(cella, direzione))    return true;
-        return false;
+    private boolean possoMuovermi(BoardCell cella, Direction direzione){
+        if(bloccatoDaBordi(cella, direzione))   return false;
+        if(bloccatoDaMuri(cella, direzione))    return false;
+        return true;
     }
     
     
@@ -171,10 +144,8 @@ public class MovimentoControllerPartita {
             if(backup)      direzioneRobot = direzioneOpposta(direzioneRobot);
 
             int passi = simulaMovimento(robot, distanza, direzioneRobot); // passi compiuti
-
+                
             BoardCell cellaRaggiunta = cellaRaggiunta(cellaIniziale, direzioneRobot, passi);
-
-            muovi(robot, passi, direzioneRobot, rotazione);
             
             //se la cella raggiunta e' un buco nero allora il robot ci cade dentro
             if(bucoNero(cellaRaggiunta))
@@ -348,10 +319,11 @@ public class MovimentoControllerPartita {
                     robot.getLastPosition().getColonna()
                 );
         for(int i = 0; i < passiDaFare; i++){
-            if(movimentoAmmissibile(cella, direzione)){
+            if(movimentoAmmissibile(cella, direzione)){ 
                 contaPassi++;
                 cella = this.cellaSuccessiva(cella, direzione);
             }
+            else break;
         }
         return contaPassi;
     }
@@ -478,6 +450,26 @@ public class MovimentoControllerPartita {
         robot.updatePosizione(raggiunta.getRiga(), raggiunta.getColonna(), nuovaDirezione);
         //animazione movimento
         this.rv.addRobotMove(robot, passi, direzione, rotazione);
+    }
+    
+    
+    
+    /**
+     * Controlla tutti i robot e si blocca quando
+     * trova quello nella cella passata come parametro.
+     * @param cella che potrebbe contenere un robot
+     * @return il robot nella cella specificata, null altrimenti
+     */
+    private RobotMarker getRobotInCell(BoardCell cella){
+        for(RobotMarker robot : this.robots){
+            int riga, colonna;
+                riga = robot.getLastPosition().getRiga();
+                colonna = robot.getLastPosition().getColonna();
+            if(riga == cella.getRiga()
+                    && colonna == cella.getColonna())
+                return robot;
+        }
+        return null;
     }
     
 
