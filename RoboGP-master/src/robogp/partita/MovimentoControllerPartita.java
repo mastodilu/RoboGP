@@ -6,6 +6,7 @@ import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
+import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.Rotation;
 import robogp.robodrome.view.RobodromeView;
@@ -555,6 +556,20 @@ public class MovimentoControllerPartita {
     }
     
 
+    /**
+     * Posiziona il robot sul dock assegnato.
+     * @param robot da posizionare
+     */
+    public void placeOnDock(RobotMarker robot){
+        int riga, colonna;
+        FloorCell dock = this.robodrome.getDock(robot.getDock());
+        riga = dock.getRiga();
+        colonna = dock.getColonna();
+        placeRobot(robot, Direction.E, riga, colonna);
+    }
+    
+    
+    
     /**
      * Avvia l'esecuzione delle animazioni.
      */
