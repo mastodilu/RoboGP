@@ -472,6 +472,33 @@ public class MovimentoControllerPartita {
         return null;
     }
     
+    
+    
+    
+    
+    /**
+     * Controlla se rispetto alla cella passata e a quella direzione del movimento
+     * e' possibile spingere il robot incontrato.
+     * @param prima cella di riferimento
+     * @param direzione del movimento
+     * @return true se c'e' un robot da spingere che puo' essere spinto
+     * nella cella successiva a quella specificata, false altrimenti.
+     * Restituisce false anche se non c'e' un robot nella cella successiva.
+     */
+    private boolean devoSpingere(BoardCell prima, Direction direzione){
+        BoardCell successiva = cellaSuccessiva(prima, direzione);
+        
+        if(successiva.hasRobot() == false)                  return false;
+        
+        RobotMarker robotDaSpingere = this.getRobotInCell(successiva);
+        if(robotDaSpingere == null)                         return false;
+        
+        //true se c'e' un robot da spingere e lo si puo' spingere
+        if(movimentoAmmissibile(successiva, direzione))     return true;
+        
+        return false;
+    }
+    
 
     /**
      * Avvia l'esecuzione delle animazioni.
