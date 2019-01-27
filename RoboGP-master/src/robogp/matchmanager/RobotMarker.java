@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JTabbedPane;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
@@ -22,11 +23,41 @@ public class RobotMarker implements Serializable {
     private final String name;
     private final String color;
     private final Direction startDirection; //direzione iniziale
-private final int saluteMax;
-private boolean spento;
-private int contatoreDanni;
-private final InstructionCard[] registri = new InstructionCard[5];
+    private final int saluteMax;
+    private boolean spento;
+    private int contatoreDanni;
+    private mano manoRobot;
+    private InstructionCard[] registri = new InstructionCard[5];
+    private String owner; //Nome del giocatore al quale e' stato assegnato il robot.
+    private int dockNumber; //dock di partenza assegnato al robot
+    private int salute, vite; //salute e vita correnti del robot
+    private ArrayList<Direction> storicoDirezioni; //Le direzioni assunte dal robot in ordine cronologico.
+    private ArrayList<Posizione> storicoPosizioni; //Le posizioni assunte dal robot in ordine cronologico.
+    private infoRobot info;
+    private final IniziarePartitaController ctrPartita;
+    private int checkpoint = 0;
 
+    public String getColor() {
+        return color;
+    }
+    
+    public String getStato(){
+    if(this.spento){
+        return "spento";
+    } else {
+    return "attivo";
+    }
+    }
+    
+    private void incrementaCheckpoint(){
+        this.checkpoint++;
+    }
+
+    public int getCheckpoint() {
+        return checkpoint;
+    }
+    
+    
     public RobotMarker(int startDock, Direction startDirection,int saluteMax, int vite,String name, String color, String owner ){
         this.assign(owner, startDock); //assegna owner e posizione iniziale
         this.startDirection = startDirection;   //teniamo in memoria la direzione iniziale e
@@ -40,27 +71,21 @@ private final InstructionCard[] registri = new InstructionCard[5];
         this.dockNumber = 0;
         storicoDirezioni = new ArrayList();
         storicoPosizioni = new ArrayList();
+        this.ctrPartita  = IniziarePartitaController.getInstance();
+        this.manoRobot = new mano();
+        this.info = new infoRobot(this.ctrPartita, this);
+        
+        
     }
-    /**
-     * Nome del giocatore al quale e' stato assegnato il robot.
-     */
-    private String owner;
-    
-    /**
-     * dock di partenza assegnato al robot
-     */
-    private int dockNumber;
-    private int salute, vite; //salute e vita correnti del robot
 
-    /**
-     * Le direzioni assunte dal robot in ordine cronologico.
-     */
-    private ArrayList<Direction> storicoDirezioni;
-    
-    /**
-     * Le posizioni assunte dal robot in ordine cronologico.
-     */
-    private ArrayList<Posizione> storicoPosizioni;
+    public int getSaluteMax() {
+        return saluteMax;
+    }
+
+    public synchronized mano getManoRobot() {
+        return manoRobot;
+    }
+        
 
     public RobotMarker(String name, String color) {
         this.startDirection = Direction.E;   //teniamo in memoria la direzione iniziale e
@@ -68,12 +93,24 @@ private final InstructionCard[] registri = new InstructionCard[5];
         this.spento = false; //cominciano con un robot accesso, eventualmente si spegne durante il turno
         this.contatoreDanni = 0;
         this.setSalute(saluteMax);
-        this.setVite(vite);
+        //this.setVite(vite);
+        this.vite=3;
         this.name = name;
         this.color=color;
         this.dockNumber = 0;
         storicoDirezioni = new ArrayList();
         storicoPosizioni = new ArrayList();
+        this.ctrPartita  = IniziarePartitaController.getInstance();
+        this.manoRobot = new mano();
+        this.info = new infoRobot(this.ctrPartita, this);
+        
+        //JTabbedPane pannelloInfo = MatchManagerApp.getAppInstance().getPannelloInfo();
+        //pannelloInfo.add(this.info, pannelloInfo.getTabCount());
+        //pannelloInfo.setTitleAt(pannelloInfo.getTabCount() -1, this.getName());
+    }
+
+    public infoRobot getInfo() {
+        return info;
     }
 
     public BufferedImage getImage(int size) {
@@ -237,6 +274,30 @@ private final InstructionCard[] registri = new InstructionCard[5];
                 + this.getLastPosition().getRiga() + "x" + this.getLastPosition().getColonna()
                 + this.getLastDirection();
         return s;
+    }
+    
+    public synchronized void setRegistro(int num, InstructionCard card){
+        this.registri[num] = card;
+        //
+        ArrayList<InstructionCard> nuovaMano = new ArrayList<>();
+        
+        boolean rimossa = false;
+        for(InstructionCard carta:this.getManoRobot().getCards()){
+            if (carta.getTipo() == card.getTipo() && rimossa == false){
+                rimossa = true;
+            } else{
+                nuovaMano.add(carta);
+            }
+        }
+        this.manoRobot.setMano(nuovaMano);
+    }
+    
+    public synchronized InstructionCard getRegistro(int num){
+        return registri[num];
+    }
+    
+    public synchronized void pulisciRegistro(int num){
+        this.registri[num] = null;
     }
     
 }

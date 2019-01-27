@@ -6,12 +6,17 @@
 package robogp.matchmanager;
 
 import java.awt.CardLayout;
+import java.awt.Component;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTabbedPane;
 import robogp.Training.*;
+import robogp.robodrome.Direction;
+import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
@@ -33,7 +38,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
         this.inizPartCtrl = IniziarePartitaController.getInstance();
         this.robotChooser = null;
     }
-
+    
+    public JTabbedPane getPannelloInfo(){
+        return this.jTabbedPane1;
+    }
     public static MatchManagerApp getAppInstance() {
         return MatchManagerApp.singleInstance;
     }
@@ -1011,8 +1019,9 @@ public class MatchManagerApp extends javax.swing.JFrame {
         RobodromeView rv = new RobodromeView(new Robodrome("./robodromes/" + (String)robodromeCombo.getSelectedItem() + ".txt"), 55);
         jPanel20.add(rv);
         this.inizPartCtrl.setRobodromeView(rv);
-
-        //
+//creazione del movimento controller
+        MovimentoControllerTraining movCtr = new MovimentoControllerTraining(rv);
+        this.inizPartCtrl.setMovCtr(movCtr);
         for(RobotMarker rb:this.inizPartCtrl.getTheMatch().getRobotInPartita()){
             this.jTabbedPane1.add(new infoRobot(this.inizPartCtrl, rb), this.jTabbedPane1.getTabCount());
             this.jTabbedPane1.setTitleAt(this.jTabbedPane1.getTabCount() -1, rb.getName());

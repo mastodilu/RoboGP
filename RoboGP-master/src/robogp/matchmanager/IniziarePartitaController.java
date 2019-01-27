@@ -4,6 +4,7 @@ import connection.Message;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
+import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.view.RobodromeView;
 
 /**
@@ -21,11 +22,15 @@ public class IniziarePartitaController {
     private Match theMatch;
     private RobodromeView theRobodromeView;
     private DefaultListModel<String> requests;
-
+    private MovimentoControllerTraining movCtr;
     /* Gestione Pattern Singleton */
     private static IniziarePartitaController singleInstance;
 
     private IniziarePartitaController() {
+    }
+    
+    public void setMovCtr(MovimentoControllerTraining movCtr) {
+        this.movCtr = movCtr;
     }
 
     /**

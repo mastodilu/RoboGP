@@ -1,23 +1,51 @@
 package robogp.matchmanager;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.util.Observable;
+import java.util.Observer;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import robogp.deck.InstructionCard;
+
 /**
  *
  * @author Alessio
  */
 public class scegliScheda extends javax.swing.JFrame {
 
-    private final IniziarePartitaController controllerPartita;
     private int numRegistro;
     private final RobotMarker robot;
+    private Image image;
+    private programmaRobotJFrame frameProg;
     /**
      * Creates new form scegliScheda
      * @param ctrPartita
      */
-    public scegliScheda(IniziarePartitaController ctrPartita, RobotMarker robot, int registro) {
+    public scegliScheda(RobotMarker robot, int registro, programmaRobotJFrame frameProgr) {
         initComponents();
-        this.controllerPartita = ctrPartita;
+        
         this.numRegistro = registro;
         this.robot = robot;
+        this.jComboBox1.removeAllItems();
+        this.frameProg = frameProgr;
+        
+        for(InstructionCard card:this.robot.getManoRobot().getCards()){
+            this.jComboBox1.addItem(card.getTipo());
+        }
+
+        try {                
+          image = ImageIO.read(new File("robots/" + robot.getName() + ".png"));
+          image = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+       } catch (IOException ex) {  
+       }
+        JLabel picLabel = new JLabel(new ImageIcon(image));
+        //chiamata del metodo che mette l'immagine
+        //pannelloRegistro.add(picLabel);
     }
 
     /**
@@ -37,9 +65,7 @@ public class scegliScheda extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(400, 180));
         setMinimumSize(new java.awt.Dimension(400, 180));
-        setPreferredSize(new java.awt.Dimension(400, 180));
         setSize(new java.awt.Dimension(400, 180));
         getContentPane().setLayout(new java.awt.FlowLayout());
 
@@ -88,6 +114,11 @@ public class scegliScheda extends javax.swing.JFrame {
         jPanel30.add(jButton15, gridBagConstraints);
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -104,12 +135,35 @@ public class scegliScheda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+        switch (this.numRegistro) {
+            case 0:  
+                this.frameProg.setRegistro1(this.jComboBox1.getSelectedItem().toString());
+                break;
+            case 1:  
+                this.frameProg.setRegistro2(this.jComboBox1.getSelectedItem().toString());
+                break;
+            case 2:  
+                this.frameProg.setRegistro3(this.jComboBox1.getSelectedItem().toString());
+                break;
+            case 3:  
+                this.frameProg.setRegistro4(this.jComboBox1.getSelectedItem().toString());
+                break;
+            case 4:  
+                this.frameProg.setRegistro5(this.jComboBox1.getSelectedItem().toString());
+                break;         
+        }
+        
+        
         this.dispose();
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -119,4 +173,6 @@ public class scegliScheda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JPanel jPanel30;
     // End of variables declaration//GEN-END:variables
+
+
 }
