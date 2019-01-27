@@ -25,7 +25,8 @@ public class infoRobot extends javax.swing.JPanel {
     public infoRobot(IniziarePartitaController ctrPartita, RobotMarker robot) {
         initComponents();
         this.controllerPartita = ctrPartita;
-        this.robot = robot;      
+        this.robot = robot;
+        //caricamento immagine robot
         try {                
           image = ImageIO.read(new File("robots/" + robot.getName() + ".png"));
           image = image.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
@@ -34,9 +35,11 @@ public class infoRobot extends javax.swing.JPanel {
         JLabel picLabel = new JLabel(new ImageIcon(image));
         
         this.jPanel3.add(picLabel);
+        //aggiornamento informazioni robot
+        aggiornaInfo();
     }
     
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -348,7 +351,13 @@ public class infoRobot extends javax.swing.JPanel {
         JFrame frame = new robogp.matchmanager.programmaRobotJFrame(this.controllerPartita, this.robot);
         frame.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
+    public void aggiornaInfo(){
+        this.jLabel3.setText(Integer.toString(robot.getVite()));
+        this.jLabel5.setText(robot.getSalute() + " / " + robot.getSaluteMax());
+        this.jLabel7.setText(robot.getStato());
+        this.jLabel9.setText(robot.getCheckpoint() + " / 3");
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
