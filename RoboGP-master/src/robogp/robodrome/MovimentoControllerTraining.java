@@ -57,6 +57,11 @@ public class MovimentoControllerTraining {
         this.arrayRobot = arrayRobot;
     }
     
+    public MovimentoControllerTraining(RobodromeView rv){
+        this.rv = rv; // RobodromeView
+        this.rb = rv.getDrome(); // Robodrome
+    }
+    
     /**
      * Inizializza le variabili coi valori correnti del robot
      * passato come parametro.
