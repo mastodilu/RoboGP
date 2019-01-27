@@ -232,6 +232,10 @@ public class Match implements MessageObserver {
 
     }
 
+    
+    /**
+     * @return il numero del primo dock disponibile, -1 altrimenti.
+     */
     private int getFreeDock() {
         boolean[] docks = new boolean[this.theRobodrome.getDocksCount()];
         for (RobotMarker rob : this.robots) {

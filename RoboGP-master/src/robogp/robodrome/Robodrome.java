@@ -8,6 +8,8 @@ package robogp.robodrome;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +25,11 @@ public class Robodrome {
     private final int columns;
     private final java.util.ArrayList<CellLaser> allLasers;
     private int docksCount;
+    /**
+     * Hashmap dei dock della mappa.
+     * Hash(dockNumber) -> FloorCell
+     */
+    private HashMap<Integer, FloorCell> docks;
     
     @Override
     public String toString(){
@@ -49,7 +56,8 @@ public class Robodrome {
      * @param filename il pathname del file
      */
     public Robodrome(String filename) {
-        allLasers = new java.util.ArrayList<>();
+        docks = new HashMap<>(); 
+        allLasers = new ArrayList<>();
         docksCount = 0;
         StringBuilder stringBuilder = new StringBuilder();
         //legge tutto il txt del robodromo e lo mette in una variabile
@@ -77,8 +85,6 @@ public class Robodrome {
                     if (countcell + 2 < all.length) {
                         //crea la cella passando anche tutti i parametri che la riguardano: laser, muri, ecc
                         board[r][c] = BoardCell.createBoardCell(all[countcell + 2].trim().split("-"), r, c);
-//                        stampa la cella come [riga colonna tipo]
-                        //System.out.println(board[r][c].getRiga() + " " + board[r][c].getColonna() + " " + board[r][c].getType());
                         countcell++;
                         if (countcell + 2 >= all.length) {
                             endfile = true;
@@ -94,8 +100,13 @@ public class Robodrome {
                     // ? aggiunge una cella alla fine di tutto ?
                     board[r][c] = new FloorCell(new String[0], r, c);
                 }
-                if (board[r][c] instanceof FloorCell && ((FloorCell)board[r][c]).isDock()) {
-                    this.docksCount++; // conta le postazioni di partenza dei robot
+                if (board[r][c] instanceof FloorCell) {
+                    FloorCell maybeDock = ((FloorCell)board[r][c]);
+                    if(maybeDock.isDock()){
+                        docksCount++; // conta le postazioni di partenza dei robot
+                        //aggiunge il dock col suo numero corrispondente alla hashmap
+                        docks.put(maybeDock.getDock(), maybeDock);
+                    }
                 }
             }
         }
@@ -190,5 +201,15 @@ public class Robodrome {
 
     public int getDocksCount() {
         return this.docksCount;
+    }
+    
+    
+    /**
+     * Restituisce il dock col docknumber corrispondente.
+     * @param n numero di dock
+     * @return dock se esiste, null altrimenti.
+     */
+    public FloorCell getDock(Integer n){
+        return this.docks.get(n);
     }
 }
