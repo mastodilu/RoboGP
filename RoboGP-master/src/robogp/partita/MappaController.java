@@ -78,7 +78,6 @@ public class MappaController {
     
     
     //TODO
-    //CHECKPOINT (chiave e bandiera) floorcell metodo isCheckpoint
     //PUNTI RIPARAZIONE (chiave inglese) floorcell metodo isRepair
     
     /**
@@ -111,5 +110,21 @@ public class MappaController {
             return toccato == precedente+1;
         }
         return false;
+    }
+    
+    
+
+    /**
+     * 
+     * @param robot di riferimento
+     * @return true quando il robot e' su una cella riparazione,
+     * false altrimenti.
+     */
+    public boolean toccatoPuntoRiparazione(RobotMarker robot){
+        BoardCell cella = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        );
+        return cella.getType() == 'F' && ((FloorCell)cella).isRepair();
     }
 }
