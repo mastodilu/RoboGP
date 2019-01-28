@@ -92,6 +92,24 @@ public class MappaController {
                 robot.getLastPosition().getColonna()
         );
         return cella.getType() == 'F' && ((FloorCell)cella).isUpgrade();
-        //upgrade e' la casella con chiave e martello incrociati
+    }
+    
+    
+    /**
+     * @param robot consinderato
+     * @return true quando il robot e' sul successivo checkpoint da toccare,
+     * false altrimenti.
+     */
+    public boolean toccatoCheckpoint(RobotMarker robot){
+        BoardCell cella = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        );
+        if(cella.getType() == 'F' && ((FloorCell)cella).isCheckpoint()){
+            int toccato = ((FloorCell)cella).getCheckpoint();
+            int precedente = robot.getCheckpoint();
+            return toccato == precedente+1;
+        }
+        return false;
     }
 }
