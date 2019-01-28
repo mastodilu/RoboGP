@@ -283,24 +283,6 @@ public class MovimentoControllerPartita {
     
     
     /**
-     * Piazza il robot in una posizione iniziale specificata a mano.
-     * @param rm robot
-     * @param d direzione
-     * @param r riga
-     * @param c colonna
-     */
-    public void placeRobot(RobotMarker rm, Direction d, int r, int c){
-        BoardCell cella = this.robodrome.getCell(r, c);
-        if(cella != null){
-            rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
-            cella.robotInside();
-            rm.updatePosizione(r, c, d);
-        }
-    }
-    
-    
-    
-    /**
      * @return true se la cella corrente è un buco nero,
      *  false altrimenti
      */
@@ -556,19 +538,6 @@ public class MovimentoControllerPartita {
     }
     
 
-    /**
-     * Posiziona il robot sul dock assegnato.
-     * @param robot da posizionare
-     */
-    public void placeOnDock(RobotMarker robot){
-        int riga, colonna;
-        FloorCell dock = this.robodrome.getDock(robot.getDock());
-        riga = dock.getRiga();
-        colonna = dock.getColonna();
-        placeRobot(robot, Direction.E, riga, colonna);
-    }
-    
-    
     
     /**
      * Avvia l'esecuzione delle animazioni.
