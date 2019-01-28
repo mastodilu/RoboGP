@@ -15,6 +15,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import robogp.Training.*;
+import robogp.partita.MappaController;
+import robogp.partita.MovimentoControllerPartita;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
@@ -1020,11 +1022,14 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel20.add(rv);
         this.inizPartCtrl.setRobodromeView(rv);
 //creazione del movimento controller
-        MovimentoControllerTraining movCtr = new MovimentoControllerTraining(rv);
-        this.inizPartCtrl.setMovCtr(movCtr);
+        MovimentoControllerPartita movCtr =  MovimentoControllerPartita.getInstance();
+        movCtr.init(rv, rv.getDrome(), this.inizPartCtrl.getTheMatch().getRobotInPartita());
+        MappaController mapCtr = MappaController.getInstance();
+        mapCtr.init(rv.getDrome(), rv, this.inizPartCtrl.getTheMatch().getRobotInPartita());
         for(RobotMarker rb:this.inizPartCtrl.getTheMatch().getRobotInPartita()){
             this.jTabbedPane1.add(new infoRobot(this.inizPartCtrl, rb), this.jTabbedPane1.getTabCount());
             this.jTabbedPane1.setTitleAt(this.jTabbedPane1.getTabCount() -1, rb.getName());
+            mapCtr.placeOnDock(rb);
         }
         
         System.out.println("ROBOT IN PARTITA AL MOMENTO DELLA CREAZIONE: " + this.inizPartCtrl.getTheMatch().numeroRobot()) ;
