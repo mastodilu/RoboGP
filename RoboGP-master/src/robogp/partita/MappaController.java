@@ -2,6 +2,8 @@ package robogp.partita;
 
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
+import robogp.robodrome.BoardCell;
+import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
@@ -73,4 +75,23 @@ public class MappaController {
         return singleInstance;
     }
     
+    
+    
+    //TODO
+    //CHECKPOINT (chiave e bandiera) floorcell metodo isCheckpoint
+    //PUNTI RIPARAZIONE (chiave inglese) floorcell metodo isRepair
+    
+    /**
+     * Restituisce true se il robot e' posizionato sulla cella di upgrade.
+     * @param robot di riferimento.
+     * @return true se deve ricevere un upgrade, false altrimenti.
+     */
+    public boolean puoRicevereUpgrade(RobotMarker robot){
+        BoardCell cella = this.robodrome.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        );
+        return cella.getType() == 'F' && ((FloorCell)cella).isUpgrade();
+        //upgrade e' la casella con chiave e martello incrociati
+    }
 }
