@@ -15,6 +15,8 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import robogp.Training.*;
+import robogp.partita.MappaController;
+import robogp.partita.MovimentoControllerPartita;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
@@ -140,7 +142,10 @@ public class MatchManagerApp extends javax.swing.JFrame {
         ongoingMatchPanel = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
+        jPanel31 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jPanel32 = new javax.swing.JPanel();
+        jButton16 = new javax.swing.JButton();
         jPanel20 = new javax.swing.JPanel();
         jPanel21 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
@@ -760,10 +765,38 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel19.setPreferredSize(new java.awt.Dimension(914, 100));
         jPanel19.setLayout(new java.awt.BorderLayout());
 
+        jPanel31.setMaximumSize(new java.awt.Dimension(714, 100));
+        jPanel31.setMinimumSize(new java.awt.Dimension(714, 100));
+        jPanel31.setPreferredSize(new java.awt.Dimension(714, 100));
+
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("TURNO DI GIOCO");
-        jPanel19.add(jLabel7, java.awt.BorderLayout.CENTER);
+        jPanel31.add(jLabel7);
+
+        jPanel19.add(jPanel31, java.awt.BorderLayout.WEST);
+
+        jPanel32.setMaximumSize(new java.awt.Dimension(200, 100));
+        jPanel32.setMinimumSize(new java.awt.Dimension(200, 100));
+        jPanel32.setPreferredSize(new java.awt.Dimension(200, 100));
+        jPanel32.setLayout(new java.awt.GridBagLayout());
+
+        jButton16.setText("ESEGUI SCHEDE");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 20);
+        jPanel32.add(jButton16, gridBagConstraints);
+
+        jPanel19.add(jPanel32, java.awt.BorderLayout.CENTER);
 
         jPanel17.add(jPanel19, java.awt.BorderLayout.NORTH);
 
@@ -1020,11 +1053,14 @@ public class MatchManagerApp extends javax.swing.JFrame {
         jPanel20.add(rv);
         this.inizPartCtrl.setRobodromeView(rv);
 //creazione del movimento controller
-        MovimentoControllerTraining movCtr = new MovimentoControllerTraining(rv);
-        this.inizPartCtrl.setMovCtr(movCtr);
+        MovimentoControllerPartita movCtr =  MovimentoControllerPartita.getInstance();
+        movCtr.init(rv, rv.getDrome(), this.inizPartCtrl.getTheMatch().getRobotInPartita());
+        MappaController mapCtr = MappaController.getInstance();
+        mapCtr.init(rv.getDrome(), rv, this.inizPartCtrl.getTheMatch().getRobotInPartita());
         for(RobotMarker rb:this.inizPartCtrl.getTheMatch().getRobotInPartita()){
             this.jTabbedPane1.add(new infoRobot(this.inizPartCtrl, rb), this.jTabbedPane1.getTabCount());
             this.jTabbedPane1.setTitleAt(this.jTabbedPane1.getTabCount() -1, rb.getName());
+            mapCtr.placeOnDock(rb);
         }
         
         System.out.println("ROBOT IN PARTITA AL MOMENTO DELLA CREAZIONE: " + this.inizPartCtrl.getTheMatch().numeroRobot()) ;
@@ -1056,6 +1092,19 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private void robodromeComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_robodromeComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_robodromeComboActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        MovimentoControllerPartita movCtr = new MovimentoControllerPartita();
+        movCtr.init(this.inizPartCtrl.getRobodromeView(),this.inizPartCtrl.getRobodromeView().getDrome() ,this.inizPartCtrl.getTheMatch().getRobotInPartita());
+        int i = 0;
+        while (i<5){
+            for(RobotMarker rb:this.inizPartCtrl.getTheMatch().getRobotInPartita()){
+                movCtr.eseguiIstruzione(rb, rb.getRegistro(i));
+            }
+            i++;
+        }
+        movCtr.playAnimations();
+    }//GEN-LAST:event_jButton16ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1107,6 +1156,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1139,6 +1189,8 @@ public class MatchManagerApp extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel28;
     private javax.swing.JPanel jPanel29;
     private javax.swing.JPanel jPanel30;
+    private javax.swing.JPanel jPanel31;
+    private javax.swing.JPanel jPanel32;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
