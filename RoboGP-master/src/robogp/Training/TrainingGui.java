@@ -369,7 +369,7 @@ public class TrainingGui extends javax.swing.JFrame {
     private void btnPlayPauseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseActionPerformed
         //controlla che il robot sia nella mappa
         if(this.arrayRobot.get(0).getLastPosition() == null) // se non è stato posizionato il primo robot
-            this.placeRobots();
+            this.placeOnDock();
         avviaAllenamento();
     }//GEN-LAST:event_btnPlayPauseActionPerformed
 
@@ -491,10 +491,13 @@ public class TrainingGui extends javax.swing.JFrame {
         indiceColonna = this.comboColonne.getSelectedIndex();
         indiceDirezione = this.comboDirezione.getSelectedIndex();
         Direction d = Direction.values()[indiceDirezione];
-        
+
         movimentoCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
-        movimentoCtrl.placeRobot(arrayRobot.get(1), d, 4, 4); // aggiunge il robot2 al tabellone
-        movimentoCtrl.placeRobot(arrayRobot.get(2), d, 5, 4); // aggiunge il robot3 al tabellone
+        for(RobotMarker robot : arrayRobot){
+            if(robot.getLastPosition() == null){//posiziona nei dock assegnati ogni robot che non e' nel tabellone
+                movimentoCtrl.placeOnDock(robot);
+            }
+        }
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
     }
     
@@ -689,5 +692,17 @@ public class TrainingGui extends javax.swing.JFrame {
             this.getDrome().getCell(posizione.getRiga(), posizione.getColonna()).robotInside();
             this.sendToLog("Indietro di una mossa");
         }
+    }
+    
+    
+    
+    /**
+     * Posiziona i robot nei dock in ordine.
+     */
+    private void placeOnDock(){
+        for(RobotMarker robot : arrayRobot){
+            movimentoCtrl.placeOnDock(robot);
+        }
+        
     }
 }

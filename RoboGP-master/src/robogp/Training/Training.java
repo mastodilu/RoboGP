@@ -46,9 +46,15 @@ public class Training {
         RobodromeView robodromo = new RobodromeView(rb, 35); // GUI del robodromo
         
         ArrayList<RobotMarker> arrayRobot = new ArrayList<RobotMarker>();
-            arrayRobot.add(new RobotMarker("robot-emerald", "green"));
-            arrayRobot.add(new RobotMarker("robot-red", "red"));
-            arrayRobot.add(new RobotMarker("robot-yellow", "yellow"));
+            RobotMarker robot1 = new RobotMarker("robot-emerald", "green");
+            robot1.assign("GRANDE-GABO", new Integer(1));
+            arrayRobot.add(robot1);
+            RobotMarker robot2 = new RobotMarker("robot-red", "red");
+            robot2.assign("GRANDE-GABO", new Integer(2));
+            arrayRobot.add(robot2);
+            RobotMarker robot3 = new RobotMarker("robot-yellow", "yellow");
+            robot3.assign("GRANDE-GABO", new Integer(3));
+            arrayRobot.add(robot3);
             
         MovimentoControllerPartita movimentoCtrl = MovimentoControllerPartita.getInstance();
         movimentoCtrl.init(robodromo, rb, arrayRobot);
