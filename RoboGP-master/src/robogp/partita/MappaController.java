@@ -3,6 +3,7 @@ package robogp.partita;
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BoardCell;
+import robogp.robodrome.Direction;
 import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
@@ -126,5 +127,40 @@ public class MappaController {
                 robot.getLastPosition().getColonna()
         );
         return cella.getType() == 'F' && ((FloorCell)cella).isRepair();
+    }
+    
+    
+    
+    
+    /**
+     * Posiziona il robot sul dock assegnato.
+     * @param robot da posizionare
+     */
+    public void placeOnDock(RobotMarker robot){
+        int riga, colonna;
+        FloorCell dock = this.robodrome.getDock(robot.getDock());
+        riga = dock.getRiga();
+        colonna = dock.getColonna();
+        placeRobot(robot, Direction.E, riga, colonna);
+    }
+    
+    
+    
+    
+    
+    /**
+     * Piazza il robot in una posizione iniziale specificata a mano.
+     * @param rm robot
+     * @param d direzione
+     * @param r riga
+     * @param c colonna
+     */
+    public void placeRobot(RobotMarker rm, Direction d, int r, int c){
+        BoardCell cella = this.robodrome.getCell(r, c);
+        if(cella != null){
+            rv.placeRobot(rm, d, r, c, true); // aggiunge il robot al tabellone
+            cella.robotInside();
+            rm.updatePosizione(r, c, d);
+        }
     }
 }

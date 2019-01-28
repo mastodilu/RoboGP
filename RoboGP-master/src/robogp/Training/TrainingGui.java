@@ -12,6 +12,7 @@ import robogp.robodrome.view.RobodromeView;
 import robogp.deck.InstructionCardGui;
 import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
+import robogp.partita.MappaController;
 import robogp.partita.MovimentoControllerPartita;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
@@ -58,18 +59,31 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     MovimentoControllerPartita movimentoCtrl;
     
-    //single instance del pattern singleton
+    /**
+     * Controller mappa
+     */
+    MappaController mappaCtrl;
+    
+    /**
+     * single instance del pattern singleton
+     */
     private static TrainingGui singleInstance;
 
     /**
      * Creates new form TrainingGui
      */
-    private TrainingGui(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerPartita movimentoCtrl){
+    private TrainingGui(
+            RobodromeView robodromo,
+            ArrayList<RobotMarker> arrayRobot,
+            MovimentoControllerPartita movimentoCtrl,
+            MappaController mappaCtrl
+            ){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
         istruzioniGui = new ArrayList<>();
         this.movimentoCtrl = movimentoCtrl;
+        this.mappaCtrl = mappaCtrl;
         this.setTabellone(robodromo);
         this.arrayRobot = new ArrayList<RobotMarker>();
         for(RobotMarker r : arrayRobot)
@@ -77,9 +91,14 @@ public class TrainingGui extends javax.swing.JFrame {
         this.pack();
     }    
     
-    public static TrainingGui getInstance(RobodromeView robodromo, ArrayList<RobotMarker> arrayRobot, MovimentoControllerPartita movimentoCtrl){
+    public static TrainingGui getInstance(
+            RobodromeView robodromo,
+            ArrayList<RobotMarker> arrayRobot,
+            MovimentoControllerPartita movimentoCtrl,
+            MappaController mappaCtrl
+            ){
         if(TrainingGui.singleInstance == null){
-            TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl);
+            TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl, mappaCtrl);
         }
         return TrainingGui.singleInstance;
     }
@@ -492,10 +511,10 @@ public class TrainingGui extends javax.swing.JFrame {
         indiceDirezione = this.comboDirezione.getSelectedIndex();
         Direction d = Direction.values()[indiceDirezione];
 
-        movimentoCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
+        mappaCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
         for(RobotMarker robot : arrayRobot){
             if(robot.getLastPosition() == null){//posiziona nei dock assegnati ogni robot che non e' nel tabellone
-                movimentoCtrl.placeOnDock(robot);
+                mappaCtrl.placeOnDock(robot);
             }
         }
         this.sendToLog("Robot posizionato in " + (indiceRiga+1) + " " + (indiceColonna+1) + ", " + Direction.values()[indiceDirezione]);
@@ -701,7 +720,7 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private void placeOnDock(){
         for(RobotMarker robot : arrayRobot){
-            movimentoCtrl.placeOnDock(robot);
+            mappaCtrl.placeOnDock(robot);
         }
         
     }
