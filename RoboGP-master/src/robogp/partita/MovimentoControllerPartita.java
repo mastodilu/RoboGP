@@ -339,11 +339,20 @@ public class MovimentoControllerPartita {
     }
     
     
+    /**
+     * Attiva i nastri trasportatori del robodromo.
+     */
+    public void attivaNastri(){
+        nastriTrasportatoriSemplici();
+        nastriTrasportatoriExpress();
+    }
+    
+    
     
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro semplice.
      */
-    public void nastriTrasportatoriSemplici(){
+    private void nastriTrasportatoriSemplici(){
         for(RobotMarker robot : robots){
             nastroSemplice(robot);
         }
@@ -373,7 +382,7 @@ public class MovimentoControllerPartita {
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro express.
      */
-    public void nastriTrasportatoriExpress(){
+    private void nastriTrasportatoriExpress(){
         for(RobotMarker robot : robots){
             nastroExpress(robot);
         }
