@@ -341,7 +341,7 @@ public class RobotMarker implements Serializable {
      * @param upgrade 
      */
     public void usaUpgrade(Upgrade upgrade){
-        if(upgrade != null){
+        if(upgrade != null && upgrade.usabile()){
             switch(upgrade.nome.toLowerCase()){
                 case "scudo":{
                     attivaScudo();
