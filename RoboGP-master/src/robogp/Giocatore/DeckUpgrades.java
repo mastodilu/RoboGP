@@ -195,8 +195,8 @@ public class DeckUpgrades {
     }
     
     public void reset(){
-        this.scarti = new ArrayList<Upgrade>();
-        this.upgradeList = new ArrayList<Upgrade>();
+        scarti = new ArrayList<Upgrade>();
+        upgradeList = new ArrayList<Upgrade>();
         
         for(int i = 0; i < 2; i++){
             randomSwitch();
@@ -229,7 +229,7 @@ public class DeckUpgrades {
     public synchronized Upgrade pickOne(){
         //se l'ultima carta del mazzo e' gia' stata pescata
         if(indicePrimaCarta == upgradeList.size())
-            shuffle();
+            reset();
         
         Upgrade up = upgradeList.get(indicePrimaCarta);
         indicePrimaCarta++;
