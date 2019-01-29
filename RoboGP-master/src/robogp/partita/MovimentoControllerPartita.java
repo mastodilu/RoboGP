@@ -592,7 +592,9 @@ public class MovimentoControllerPartita {
                                     RobotMarker robot,
                                     InstructionCard istruzione,
                                     Upgrade upgrade){
-        if( !upgrade.usabile()){
+        // se upgrade e' null oppure non ha cariche rimaste
+        // viene ignorato, altrimenti viene gestito
+        if( upgrade == null && !upgrade.usabile()){
             eseguiIstruzione(robot, istruzione);
         }else{
             String nomeUpgrade = upgrade.nome;
