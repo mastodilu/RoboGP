@@ -1,12 +1,12 @@
 package robogp.partita;
 
 import java.util.ArrayList;
+import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
-import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.Rotation;
 import robogp.robodrome.view.RobodromeView;
@@ -339,11 +339,40 @@ public class MovimentoControllerPartita {
     }
     
     
+    /**
+     * Attiva i nastri trasportatori del robodromo.
+     */
+    public void attivaNastri(){
+        nastriTrasportatoriSemplici();
+        nastriTrasportatoriExpress();
+    }
+    
+    
+    
+    /**
+     * Attiva nastri sotto l'influenza dell'upgrade.
+     * @param upgrade passato come parametro
+     */
+    public void attivaNastri(Upgrade upgrade){
+        if( upgrade != null){
+            if( upgrade.nome.equalsIgnoreCase("DisturbatoreFrequenze")
+                    && upgrade.usabile()){
+                //non attivare i nastri semplici
+                //attiva i nastri express una sola volta
+                for(RobotMarker robot : robots){
+                    nastroExpress(robot, 1);
+                }
+                upgrade.usa();
+            }
+        }
+    }
+    
+    
     
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro semplice.
      */
-    public void nastriTrasportatoriSemplici(){
+    private void nastriTrasportatoriSemplici(){
         for(RobotMarker robot : robots){
             nastroSemplice(robot);
         }
@@ -373,9 +402,9 @@ public class MovimentoControllerPartita {
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro express.
      */
-    public void nastriTrasportatoriExpress(){
+    private void nastriTrasportatoriExpress(){
         for(RobotMarker robot : robots){
-            nastroExpress(robot);
+            nastroExpress(robot, 2);
         }
     }
     
@@ -383,14 +412,14 @@ public class MovimentoControllerPartita {
     /**
      * Muove il robot se si trova su un nastro express.
      * @param robot da muovere
+     * @param numeroAttivazioni quante volte si attivano i nastri express
      */
-    private void nastroExpress(RobotMarker robot){
+    private void nastroExpress(RobotMarker robot, int numeroAttivazioni ){
         int riga, colonna;
             riga = robot.getLastPosition().getRiga();
             colonna = robot.getLastPosition().getColonna();
         BoardCell cella = robodrome.getCell(riga, colonna);
         int contaAttivazioni = 0; // conta le attivazioni eseguite
-        int numeroAttivazioni = 2; // quante attivazioni del nastro si verificano
         
         // while cella e' nastro express e devono attivarsi i nastri express
         while(  cella.getType() == 'E' && contaAttivazioni < numeroAttivazioni){
@@ -479,9 +508,7 @@ public class MovimentoControllerPartita {
         if(robotDaSpingere == null)                         return false;
         
         //true se c'e' un robot da spingere e lo si puo' spingere
-        if(movimentoAmmissibile(successiva, direzione))     return true;
-        
-        return false;
+        return movimentoAmmissibile(successiva, direzione);
     }
     
     
@@ -515,12 +542,12 @@ public class MovimentoControllerPartita {
                     if(!hoSpinto){
                         //non ha potuto spingere quindi si muove di 0 e termina
                         passi = 0;
-                        muovi(robot, 0, direzione, Rotation.NO);//animazione, variabili
+                        muovi(robot, passi, direzione, Rotation.NO);//animazione, variabili
                         return false;
                     }else{
                         // ha spinto, quindi si muove di 1 e termina
                         passi = 1;
-                        muovi(robot, 1, direzione, Rotation.NO);
+                        muovi(robot, passi, direzione, Rotation.NO);
                         return true;
                     }
                 }
@@ -537,6 +564,32 @@ public class MovimentoControllerPartita {
         return true;
     }
     
+    
+    
+    /**
+     * Shifta il robot lateralmente a seconda della rotazione specificata.
+     *  - turnleft diventa shiftleft senza rotazione
+     *  - turnright diventa shiftright senza rotazione 
+     * @param robot di riferimento
+     * @param rotazione right oppure left di 90 gradi
+     */
+    private void shift(RobotMarker robot, Rotation rotazione){
+        Direction direzione = Rotation.changeDirection(robot.getLastDirection(), rotazione);
+        faiUnPasso(robot, 1, direzione);
+    }
+    
+    
+    /**
+     * Robot1 attira verso di se' robot2 di una posizione.
+     * Il movimento di robot2 puo' essere impedito dagli ostacoli.
+     * @param robot1
+     * @param robot2 
+     */
+    private void attira(RobotMarker robot1, RobotMarker robot2){
+        Direction direzione = direzioneOpposta(robot1.getLastDirection());
+        faiUnPasso(robot2, 1, direzione);
+    }
+    
 
     
     /**
@@ -547,6 +600,89 @@ public class MovimentoControllerPartita {
     }
 
 
+    
+    
+    
+    //gestione upgrades
+    
+    
+    
+    /**
+     * Esegue l'istruzione sul robot modificata dall'upgrade se questo
+     * e' usabile ed applicabile all'istruzione.
+     * @param robot di riferimento
+     * @param istruzione eseguita sul robot
+     * @param upgrade eseguito sull'istruzione
+     */
+    public void eseguiIstruzione(
+                                    RobotMarker robot,
+                                    InstructionCard istruzione,
+                                    Upgrade upgrade){
+        // se upgrade e' null oppure non ha cariche rimaste
+        // viene ignorato, altrimenti viene gestito
+        if( upgrade == null && !upgrade.usabile()){
+            eseguiIstruzione(robot, istruzione);
+        }else{
+            String nomeUpgrade = upgrade.nome;
+            switch(nomeUpgrade.toLowerCase()){
+                
+                //Non esegue l’istruzione nel registro
+                case "freni":{
+                    //non esegue alcun movimento ma aggiorna le variabili
+                    muovi(robot, 0, robot.getLastDirection(), Rotation.NO);    
+                    upgrade.usa();
+                    break;
+                }
+                
+                //Se nel registro c’è una Move X, esegue invece Move (X+1)
+                case "acceleratore":{
+                    eseguiIstruzione(robot, istruzione);
+                    //allunga di 1 il movimento
+                    if(istruzione.getTipo().equalsIgnoreCase("move1")
+                            || istruzione.getTipo().equalsIgnoreCase("move2")
+                            || istruzione.getTipo().equalsIgnoreCase("move3") ){
+                        eseguiIstruzione(robot, new InstructionCard("move1"));
+                        upgrade.usa();
+                    }
+                    break;
+                }
+                
+                //Se nel registro c’è un Back-up, arretra di due caselle anziché di una.
+                case "retromarcia":{
+                    eseguiIstruzione(robot, istruzione);
+                    //se backup arretra di due in totale
+                    if(istruzione.getTipo().equalsIgnoreCase("backup")){
+                        eseguiIstruzione(robot, new InstructionCard("backup"));
+                        upgrade.usa();
+                    }
+                    break;
+                }
+                
+                /*Se nel registro c’è un Turn left/right, avrà invece l’effetto
+                di una Shift left/right
+                (ossia il robot si sposta lateralmente senza ruotare)*/
+                case "shift":{
+                    if(istruzione.getTipo().equalsIgnoreCase("turnright")
+                            || istruzione.getTipo().equalsIgnoreCase("turnleft")){
+                        shift(robot, istruzione.getRotazione());
+                        upgrade.usa();
+                    }else{
+                        eseguiIstruzione(robot, istruzione);
+                    }
+                    break;
+                }
+                
+                //L'istruzione nel registro viene eseguita due volte in immediata successione.
+                case "dualcore":{
+                    upgrade.usa();
+                    eseguiIstruzione(robot, istruzione);
+                    eseguiIstruzione(robot, istruzione);
+                    break;
+                }
+            }
+        }
+            
+    }
 
 
 }
