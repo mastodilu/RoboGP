@@ -129,4 +129,18 @@ public class RaggioController {
     }
     
     
+    
+    /**
+     * Restituisce true se muovendocisi nella direzione passata
+     * si incontrano delle mura entrando nella cella.
+     * @param cella considerata
+     * @param direzione del movimento
+     * @return true se si incontrano delle mura entrando nella cella,
+     * false altrimenti
+     */
+    private boolean muraIniziali(BoardCell cella, Direction direzione){
+        direzione = direzioneOpposta(direzione);
+        return cella.hasWall(direzione);
+    }
+    
 }
