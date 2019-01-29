@@ -378,8 +378,6 @@ public class RobotMarker implements Serializable {
             return true;
         }
         return false;
-        
-            
     }
     
     
