@@ -615,6 +615,21 @@ public class MovimentoControllerPartita {
                         eseguiIstruzione(robot, new InstructionCard("backup"));
                         upgrade.usa();
                     }
+                    break;
+                }
+                
+                /*Se nel registro c’è un Turn left/right, avrà invece l’effetto
+                di una Shift left/right
+                (ossia il robot si sposta lateralmente senza ruotare)*/
+                case "shift":{
+                    if(istruzione.getTipo().equalsIgnoreCase("turnright")
+                            || istruzione.getTipo().equalsIgnoreCase("turnleft")){
+                        shift(robot, istruzione.getRotazione());
+                        upgrade.usa();
+                    }else{
+                        eseguiIstruzione(robot, istruzione);
+                    }
+                    break;
                 }
             }
         }
