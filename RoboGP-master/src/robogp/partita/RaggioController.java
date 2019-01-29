@@ -108,9 +108,6 @@ public class RaggioController {
     }
     
     
-    //TODO spara
-    //  TODO cellaFinale
-    //      TODO hasWall(), hasRobot
     
     
     /**
@@ -180,7 +177,17 @@ public class RaggioController {
      * @param upgrade utilizzato
      */
     public void spara(RobotMarker robot, Upgrade upgrade){
-        System.err.println("Metodo non implementato");
+        if(upgrade == null && !upgrade.usabile()){
+            spara(robot);
+        }else{
+            switch(upgrade.nome.toLowerCase()){
+                case "superlaser":{
+                    spara(robot, true);
+                    break;
+                }
+                
+            }
+        }
     }
     
     
@@ -191,13 +198,24 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
+        spara(robot, false);
+    }
+    
+    
+    
+    /**
+     * Spara il laser settando se deve oltrepassare il primo ostacolo oppure no.
+     * @param robot che spara
+     * @param oltrepassaPrimoOstacolo true o false
+     */
+    private void spara(RobotMarker robot, boolean oltrepassaPrimoOstacolo){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
         Direction direzione = robot.getLastDirection();
         
-        raggio(robot, false, direzione, cella);
+        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella);
     }
     
     
