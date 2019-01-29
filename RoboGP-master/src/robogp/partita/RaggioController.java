@@ -86,7 +86,9 @@ public class RaggioController {
     }
     
     
-    
+    //TODO spara
+    //  TODO cellaFinale
+    //      TODO hasWall(), hasRobot
     
     
 }
