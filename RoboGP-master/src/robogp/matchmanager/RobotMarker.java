@@ -47,7 +47,7 @@ public class RobotMarker implements Serializable {
         if(this.spento){
             return "spento";
         } else {
-        return "attivo";
+            return "attivo";
         }
     }
     
