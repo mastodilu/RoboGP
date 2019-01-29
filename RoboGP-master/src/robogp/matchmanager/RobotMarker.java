@@ -38,6 +38,7 @@ public class RobotMarker implements Serializable {
     private final IniziarePartitaController ctrPartita;
     private int checkpoint = 0;
     private boolean scudo;
+    private boolean giroscopio;
 
     public String getColor() {
         return color;
@@ -77,7 +78,7 @@ public class RobotMarker implements Serializable {
         this.manoRobot = new mano();
         this.info = new infoRobot(this.ctrPartita, this);
         this.scudo = false;
-        
+        this.giroscopio = false;
     }
 
     public int getSaluteMax() {
@@ -344,10 +345,41 @@ public class RobotMarker implements Serializable {
             switch(upgrade.nome.toLowerCase()){
                 case "scudo":{
                     attivaScudo();
+                    upgrade.usa();
+                    break;
+                }
+                case "giroscopio":{
+                    this.giroscopio = true;
+                    upgrade.usa();
                     break;
                 }
             }
         }
+    }
+    
+    
+    
+    /**
+     * @return il valore di giroscopio..
+     */
+    public boolean getGiroscopio(){
+        return this.giroscopio;
+    }
+    
+    
+    /**
+     * Usa il giroscopio per impedire la rotazione eseguita dalla mappa.
+     * @return true se il giroscopio e' stato usato, false altrimenti.
+     */
+    public boolean usaGiroscopio(){
+        if(giroscopio){
+            //usa il giroscopio
+            giroscopio = false;
+            return true;
+        }
+        return false;
+        
+            
     }
     
     
