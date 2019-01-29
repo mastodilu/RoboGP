@@ -44,11 +44,11 @@ public class RobotMarker implements Serializable {
     }
     
     public String getStato(){
-    if(this.spento){
-        return "spento";
-    } else {
-    return "attivo";
-    }
+        if(this.spento){
+            return "spento";
+        } else {
+        return "attivo";
+        }
     }
     
     private void incrementaCheckpoint(){
