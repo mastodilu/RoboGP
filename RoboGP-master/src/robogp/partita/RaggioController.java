@@ -1,6 +1,7 @@
 package robogp.partita;
 
 import java.util.ArrayList;
+import robogp.Giocatore.Upgrade;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
@@ -170,4 +171,148 @@ public class RaggioController {
         return cellaSuccessiva(cella, direzione) == null;
     }
     
+    
+    
+    
+    /**
+     * Genera il laser modificato dagli upgrade.
+     * @param robot che spara
+     * @param upgrade utilizzato
+     */
+    public void spara(RobotMarker robot, Upgrade upgrade){
+        System.err.println("Metodo non implementato");
+    }
+    
+    
+    
+    
+    /**
+     * Spara un laser normale senza usare upgrade.
+     * @param robot che spara.
+     */
+    public void spara(RobotMarker robot){
+        BoardCell cella = robodromo.getCell(
+                robot.getLastPosition().getRiga(),
+                robot.getLastPosition().getColonna()
+        );
+        Direction direzione = robot.getLastDirection();
+        
+        raggio(robot, false, direzione, cella);
+    }
+    
+    
+    
+    
+    
+    /**
+     * Genera il raggio terminandolo al giusto ostacolo e colpendo i robot da colpire.
+     * NB: l'animazione del laser non viene disegnata.
+     * @param robot
+     * @param oltrepassaPrimoOstacolo
+     * @param cellaIniziale
+     * @param direzione
+     * @param corrente 
+     */
+    private void raggio(
+                            RobotMarker chiSpara,
+                            boolean oltrepassaPrimoOstacolo,
+                            Direction direzione,
+                            BoardCell corrente){
+        
+        //guardo la cella corrente
+        if(muraFinali(corrente, direzione)){ // colpite le mura finali
+            if(!oltrepassaPrimoOstacolo){
+                disegnaLaser(chiSpara, corrente, direzione, false, true);
+                return;
+            }
+            oltrepassaPrimoOstacolo = false;
+        }
+        if(isBordo(corrente, direzione)){ // arrivati al bordo della mappa
+            disegnaLaser(chiSpara, corrente, direzione, false, true);
+            return;
+        }
+        
+        //guardo la cella successiva ( esiste altrimenti si bloccherebbe a 'isBordo(..)' )
+        BoardCell successiva = cellaSuccessiva(corrente, direzione);
+        if(muraIniziali(successiva, direzione)){ // incontrate delle mura entrando nella cella successiva
+            if(!oltrepassaPrimoOstacolo){ // bloccato alle mura
+                disegnaLaser(chiSpara, corrente, direzione, false, true);
+                return;
+            }
+            oltrepassaPrimoOstacolo = false;
+        }
+        if(successiva.hasRobot()){
+            colpisciRobotInCella(successiva); // danneggia
+            if(!oltrepassaPrimoOstacolo){
+                disegnaLaser(chiSpara, successiva, direzione, true, false);
+                return;
+            }
+        }
+        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva);
+    }
+    
+    
+    
+    
+    
+    /**
+     * Disegna il laser nella mappa.
+     * @param robot che spara
+     * @param finale cella raggiunta
+     * @param direzione del colpo
+     * @param robotHit true se colpito un robot
+     * @param wallHit true se colpita una parete
+     */
+    private void disegnaLaser( RobotMarker chiSpara,BoardCell cellaRaggiunta,
+                            Direction direzioneColpo,boolean robotHit,
+                            boolean wallHit){
+        BoardCell cella = robodromo.getCell(
+                chiSpara.getLastPosition().getRiga(),
+                chiSpara.getLastPosition().getColonna()
+        );
+        int coordIniziale = getCoordinata(cella, direzioneColpo);
+        int coordFinale = getCoordinata(cellaRaggiunta, direzioneColpo);
+        this.rv.addLaserFire(
+                chiSpara,direzioneColpo,
+                coordIniziale, coordFinale,
+                robotHit, wallHit);
+    }
+    
+    
+    /**
+     * Restituisce la coordinata interessata a seconda della direzione specificata.
+     *  - direzioni est e ovest restituiscono la coordinata colonna
+     *  - direzioni nord e sud restituiscono la coordinata riga
+     * @param cella di riferimento
+     * @param direzione asse della coordinata
+     * @return riga o colonna a seconda della direzione specificata.
+     */
+    private int getCoordinata(BoardCell cella, Direction direzione){
+        switch(direzione){
+            case E:
+            case W:
+                return cella.getColonna();
+            default:
+                return cella.getRiga();
+        }
+    }
+    
+    
+    
+    
+    /**
+     * Danneggia il robot.
+     * @param cella che contiene il robot colpito.
+     */
+    private void colpisciRobotInCella(BoardCell cella){
+        for(RobotMarker robot : robots){
+            int riga, colonna;
+            riga = robot.getLastPosition().getRiga();
+            colonna = robot.getLastPosition().getColonna();
+            if(riga == cella.getRiga() && colonna == cella.getColonna()){
+                robot.danneggia();
+            }
+        }
+    }
+
 }

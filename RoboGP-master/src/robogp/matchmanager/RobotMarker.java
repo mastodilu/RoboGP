@@ -300,4 +300,9 @@ public class RobotMarker implements Serializable {
         this.registri[num] = null;
     }
     
+    
+    public void danneggia(){
+        System.out.println("colpito");
+    }
+    
 }
