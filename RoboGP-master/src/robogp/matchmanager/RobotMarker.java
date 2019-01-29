@@ -309,6 +309,7 @@ public class RobotMarker implements Serializable {
         this.registri[num] = null;
     }
     
+
     /**
      * Sottrae un punto salute al robot tenendo conto dello scudo.
      * Se deve essere ucciso viene ucciso.
@@ -348,8 +349,6 @@ public class RobotMarker implements Serializable {
             }
         }
     }
-    
-    
     
     
 }
