@@ -7,7 +7,6 @@ import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
-import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.Rotation;
 import robogp.robodrome.view.RobodromeView;
