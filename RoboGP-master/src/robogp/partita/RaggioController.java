@@ -30,6 +30,11 @@ public class RaggioController {
     private RobodromeView rv;
     
     /**
+     * Controller del movimento.
+     */
+    private MovimentoControllerPartita movimentoCtrl;
+    
+    /**
      * Gestione pattern singleton.
      */
     private static RaggioController singleInstance;
@@ -51,11 +56,12 @@ public class RaggioController {
      * @param rd
      * @param rs 
      */
-    public void init(RobodromeView view, Robodrome rd, ArrayList<RobotMarker> rs){
+    public void init(RobodromeView view, Robodrome rd, ArrayList<RobotMarker> rs, MovimentoControllerPartita ctrl){
         if(!checkInit()){
             this.rv = view;
             this.robodromo = rd;
             this.robots = rs;
+            this.movimentoCtrl = ctrl;
         }
     }
     
@@ -70,6 +76,7 @@ public class RaggioController {
         return robots != null
                 && robodromo != null
                 && rv != null
+                && movimentoCtrl != null
                 && robots.size() > 0;
     }
     
@@ -182,19 +189,29 @@ public class RaggioController {
         }else{
             switch(upgrade.nome.toLowerCase()){
                 case "superlaser":{
-                    spara(robot, robot.getLastDirection(), true, 1);
+                    spara(robot, robot.getLastDirection(), true, 1, "");
                     upgrade.usa();
                     break;
                 }
                 case "doppiolaser":{
-                    spara(robot, robot.getLastDirection(), false, 2);
+                    spara(robot, robot.getLastDirection(), false, 2, "");
                     upgrade.usa();
                     break;
                 }
                 case "retrolaser":{
                     Direction direzione = robot.getLastDirection();
-                    spara(robot, direzione, false, 1);
-                    spara(robot, direzioneOpposta(direzione), false, 1);
+                    spara(robot, direzione, false, 1, "");
+                    spara(robot, direzioneOpposta(direzione), false, 1, "");
+                    upgrade.usa();
+                    break;
+                }
+                case "raggiorespingente":{
+                    spara(robot, robot.getLastDirection(), false, 0, "respingente");
+                    upgrade.usa();
+                    break;
+                }
+                case "raggioattrattore":{
+                    spara(robot, robot.getLastDirection(), false, 0, "attrattore");
                     upgrade.usa();
                     break;
                 }
@@ -210,20 +227,28 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
-        spara(robot, robot.getLastDirection(), false, 1);
+        spara(robot, robot.getLastDirection(), false, 1, "normale");
     }
     
     
     
-
+    /**
+     * Crea lo sparo con la configurazione passata.
+     * @param robot che spara
+     * @param direzione del laser
+     * @param oltrepassaPrimoOstacolo true o false
+     * @param danni inflitti sul colpo
+     * @param tipoRaggio cambia il comportamento del raggio a seconda del tipo
+     */
     private void spara( RobotMarker robot,Direction direzione,
-                        boolean oltrepassaPrimoOstacolo,int danni){
+                        boolean oltrepassaPrimoOstacolo,int danni,
+                        String tipoRaggio){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
         
-        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni);
+        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni, tipoRaggio);
     }
     
     
@@ -245,7 +270,7 @@ public class RaggioController {
                             boolean oltrepassaPrimoOstacolo,
                             Direction direzione,
                             BoardCell corrente,
-                            int danni){
+                            int danni,String tipo){
         
         //guardo la cella corrente
         if(muraFinali(corrente, direzione)){ // colpite le mura finali
@@ -270,14 +295,25 @@ public class RaggioController {
             oltrepassaPrimoOstacolo = false;
         }
         if(successiva.hasRobot()){
-            colpisciRobotInCella(successiva, danni); // danneggia
+            switch(tipo){
+                case "":
+                    colpisciRobotInCella(successiva, danni); // danneggia
+                    break;
+                case "respingente":
+                    spingi(chiSpara, successiva);
+                    break;
+                case "attrattore":
+                    attrai(chiSpara, successiva);
+                    break;
+            }
+            
             if(!oltrepassaPrimoOstacolo){
                 disegnaLaser(chiSpara, successiva, direzione, true, false);
                 return;
             }
             oltrepassaPrimoOstacolo = false;
         }
-        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni);
+        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni, tipo);
     }
     
     
@@ -335,15 +371,34 @@ public class RaggioController {
      * @param danni numero di colpi da infliggere
      */
     private void colpisciRobotInCella(BoardCell cella, int danni){
-        for(RobotMarker robot : robots){
-            int riga, colonna;
-            riga = robot.getLastPosition().getRiga();
-            colonna = robot.getLastPosition().getColonna();
-            if(riga == cella.getRiga() && colonna == cella.getColonna()){
-                for(int i = 0; i < danni; i++)
-                    robot.danneggia();
-            }
-        }
+        for(int i = 0; i < danni; i++)
+            getRobotInCella(cella).danneggia();
+    }
+
+    
+    
+    
+    /**
+     * Spinge di uno il robot nella direzione specificata se
+     * il movimento non e' ostacolato.
+     * @param chiSpara robot che spinge
+     * @param cella che contiene il secondo robot
+     */
+    private void spingi(RobotMarker chiSpara, BoardCell cella) {
+        RobotMarker robot = getRobotInCella(cella);
+        movimentoCtrl.spingi(robot, chiSpara.getLastDirection());
+    }
+
+    
+    
+    /**
+     * Attrae il robot colpito di una posizione se il movimento e' concesso.
+     * @param chiSpara robot che spara
+     * @param cella cella che contiene il robot colpito
+     */
+    private void attrai(RobotMarker chiSpara, BoardCell cella) {
+        RobotMarker robot = getRobotInCella(cella);
+        movimentoCtrl.attira(chiSpara, robot);
     }
 
 }
