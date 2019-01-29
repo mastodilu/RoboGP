@@ -34,12 +34,6 @@ public class MovimentoControllerPartita {
      */
     private ArrayList<RobotMarker> robots;
     
-    
-    /**
-     * Robot da spingere.
-     */
-    RobotMarker spingi;
-    
     /**
      * Pattern singleton.
      */
@@ -50,7 +44,6 @@ public class MovimentoControllerPartita {
      * Costruttore.
      */
     private MovimentoControllerPartita(){
-        spingi = null;
     }
     
     /**
@@ -577,6 +570,17 @@ public class MovimentoControllerPartita {
      */
     private void shift(RobotMarker robot, Rotation rotazione){
         Direction direzione = Rotation.changeDirection(robot.getLastDirection(), rotazione);
+        faiUnPasso(robot, 1, direzione);
+    }
+    
+    
+    
+    /**
+     * Spinge il robot di uno nella direzione specificata.
+     * @param robot
+     * @param direzione 
+     */
+    public void spingi(RobotMarker robot, Direction direzione){
         faiUnPasso(robot, 1, direzione);
     }
     
