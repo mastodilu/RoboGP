@@ -182,19 +182,29 @@ public class RaggioController {
         }else{
             switch(upgrade.nome.toLowerCase()){
                 case "superlaser":{
-                    spara(robot, robot.getLastDirection(), true, 1);
+                    spara(robot, robot.getLastDirection(), true, 1, "");
                     upgrade.usa();
                     break;
                 }
                 case "doppiolaser":{
-                    spara(robot, robot.getLastDirection(), false, 2);
+                    spara(robot, robot.getLastDirection(), false, 2, "");
                     upgrade.usa();
                     break;
                 }
                 case "retrolaser":{
                     Direction direzione = robot.getLastDirection();
-                    spara(robot, direzione, false, 1);
-                    spara(robot, direzioneOpposta(direzione), false, 1);
+                    spara(robot, direzione, false, 1, "");
+                    spara(robot, direzioneOpposta(direzione), false, 1, "");
+                    upgrade.usa();
+                    break;
+                }
+                case "raggiorespingente":{
+                    spara(robot, robot.getLastDirection(), false, 0, "respingente");
+                    upgrade.usa();
+                    break;
+                }
+                case "raggioattrattore":{
+                    spara(robot, robot.getLastDirection(), false, 0, "attrattore");
                     upgrade.usa();
                     break;
                 }
@@ -210,20 +220,28 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
-        spara(robot, robot.getLastDirection(), false, 1);
+        spara(robot, robot.getLastDirection(), false, 1, "normale");
     }
     
     
     
-
+    /**
+     * Crea lo sparo con la configurazione passata.
+     * @param robot che spara
+     * @param direzione del laser
+     * @param oltrepassaPrimoOstacolo true o false
+     * @param danni inflitti sul colpo
+     * @param tipoRaggio cambia il comportamento del raggio a seconda del tipo
+     */
     private void spara( RobotMarker robot,Direction direzione,
-                        boolean oltrepassaPrimoOstacolo,int danni){
+                        boolean oltrepassaPrimoOstacolo,int danni,
+                        String tipoRaggio){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
         
-        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni);
+        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni, tipoRaggio);
     }
     
     
@@ -245,7 +263,7 @@ public class RaggioController {
                             boolean oltrepassaPrimoOstacolo,
                             Direction direzione,
                             BoardCell corrente,
-                            int danni){
+                            int danni,String tipo){
         
         //guardo la cella corrente
         if(muraFinali(corrente, direzione)){ // colpite le mura finali
@@ -270,14 +288,25 @@ public class RaggioController {
             oltrepassaPrimoOstacolo = false;
         }
         if(successiva.hasRobot()){
-            colpisciRobotInCella(successiva, danni); // danneggia
+            switch(tipo){
+                case "":
+                    colpisciRobotInCella(successiva, danni); // danneggia
+                    break;
+                case "respingente":
+                    spingi(chiSpara, successiva);
+                    break;
+                case "attrattore":
+                    attrai(chiSpara, successiva);
+                    break;
+            }
+            
             if(!oltrepassaPrimoOstacolo){
                 disegnaLaser(chiSpara, successiva, direzione, true, false);
                 return;
             }
             oltrepassaPrimoOstacolo = false;
         }
-        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni);
+        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni, tipo);
     }
     
     
@@ -344,6 +373,18 @@ public class RaggioController {
                     robot.danneggia();
             }
         }
+    }
+
+    
+    
+    
+    
+    private void spingi(RobotMarker chiSpara, BoardCell successiva) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void attrai(RobotMarker chiSpara, BoardCell successiva) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
