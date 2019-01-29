@@ -30,6 +30,11 @@ public class RaggioController {
     private RobodromeView rv;
     
     /**
+     * Controller del movimento.
+     */
+    private MovimentoControllerPartita movimentoCtrl;
+    
+    /**
      * Gestione pattern singleton.
      */
     private static RaggioController singleInstance;
@@ -51,11 +56,12 @@ public class RaggioController {
      * @param rd
      * @param rs 
      */
-    public void init(RobodromeView view, Robodrome rd, ArrayList<RobotMarker> rs){
+    public void init(RobodromeView view, Robodrome rd, ArrayList<RobotMarker> rs, MovimentoControllerPartita ctrl){
         if(!checkInit()){
             this.rv = view;
             this.robodromo = rd;
             this.robots = rs;
+            this.movimentoCtrl = ctrl;
         }
     }
     
@@ -70,6 +76,7 @@ public class RaggioController {
         return robots != null
                 && robodromo != null
                 && rv != null
+                && movimentoCtrl != null
                 && robots.size() > 0;
     }
     
@@ -364,27 +371,34 @@ public class RaggioController {
      * @param danni numero di colpi da infliggere
      */
     private void colpisciRobotInCella(BoardCell cella, int danni){
-        for(RobotMarker robot : robots){
-            int riga, colonna;
-            riga = robot.getLastPosition().getRiga();
-            colonna = robot.getLastPosition().getColonna();
-            if(riga == cella.getRiga() && colonna == cella.getColonna()){
-                for(int i = 0; i < danni; i++)
-                    robot.danneggia();
-            }
-        }
+        for(int i = 0; i < danni; i++)
+            getRobotInCella(cella).danneggia();
     }
 
     
     
     
-    
-    private void spingi(RobotMarker chiSpara, BoardCell successiva) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Spinge di uno il robot nella direzione specificata se
+     * il movimento non e' ostacolato.
+     * @param chiSpara robot che spinge
+     * @param cella che contiene il secondo robot
+     */
+    private void spingi(RobotMarker chiSpara, BoardCell cella) {
+        RobotMarker robot = getRobotInCella(cella);
+        movimentoCtrl.spingi(robot, chiSpara.getLastDirection());
     }
 
-    private void attrai(RobotMarker chiSpara, BoardCell successiva) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    
+    /**
+     * Attrae il robot colpito di una posizione se il movimento e' concesso.
+     * @param chiSpara robot che spara
+     * @param cella cella che contiene il robot colpito
+     */
+    private void attrai(RobotMarker chiSpara, BoardCell cella) {
+        RobotMarker robot = getRobotInCella(cella);
+        movimentoCtrl.attira(chiSpara, robot);
     }
 
 }
