@@ -1094,7 +1094,7 @@ public class MatchManagerApp extends javax.swing.JFrame {
     }//GEN-LAST:event_robodromeComboActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
-        MovimentoControllerPartita movCtr = new MovimentoControllerPartita();
+        MovimentoControllerPartita movCtr = MovimentoControllerPartita.getInstance();
         movCtr.init(this.inizPartCtrl.getRobodromeView(),this.inizPartCtrl.getRobodromeView().getDrome() ,this.inizPartCtrl.getTheMatch().getRobotInPartita());
         int i = 0;
         while (i<5){
