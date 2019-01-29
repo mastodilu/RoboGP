@@ -591,7 +591,7 @@ public class MovimentoControllerPartita {
      * @param robot1
      * @param robot2 
      */
-    private void attira(RobotMarker robot1, RobotMarker robot2){
+    public void attira(RobotMarker robot1, RobotMarker robot2){
         Direction direzione = direzioneOpposta(robot1.getLastDirection());
         faiUnPasso(robot2, 1, direzione);
     }
