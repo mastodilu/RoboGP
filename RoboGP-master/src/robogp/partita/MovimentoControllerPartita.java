@@ -516,12 +516,12 @@ public class MovimentoControllerPartita {
                     if(!hoSpinto){
                         //non ha potuto spingere quindi si muove di 0 e termina
                         passi = 0;
-                        muovi(robot, 0, direzione, Rotation.NO);//animazione, variabili
+                        muovi(robot, passi, direzione, Rotation.NO);//animazione, variabili
                         return false;
                     }else{
                         // ha spinto, quindi si muove di 1 e termina
                         passi = 1;
-                        muovi(robot, 1, direzione, Rotation.NO);
+                        muovi(robot, passi, direzione, Rotation.NO);
                         return true;
                     }
                 }
