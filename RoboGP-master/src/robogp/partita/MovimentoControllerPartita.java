@@ -538,6 +538,20 @@ public class MovimentoControllerPartita {
         return true;
     }
     
+    
+    
+    /**
+     * Shifta il robot lateralmente a seconda della rotazione specificata.
+     *  - turnleft diventa shiftleft senza rotazione
+     *  - turnright diventa shiftright senza rotazione 
+     * @param robot di riferimento
+     * @param rotazione right oppure left di 90 gradi
+     */
+    private void shift(RobotMarker robot, Rotation rotazione){
+        Direction direzione = Rotation.changeDirection(robot.getLastDirection(), rotazione);
+        faiUnPasso(robot, 1, direzione);
+    }
+    
 
     
     /**
@@ -572,6 +586,7 @@ public class MovimentoControllerPartita {
             String nomeUpgrade = upgrade.nome;
             switch(nomeUpgrade.toLowerCase()){
                 
+                //Non esegue l’istruzione nel registro
                 case "freni":{
                     //non esegue alcun movimento ma aggiorna le variabili
                     muovi(robot, 0, robot.getLastDirection(), Rotation.NO);    
@@ -579,6 +594,7 @@ public class MovimentoControllerPartita {
                     break;
                 }
                 
+                //Se nel registro c’è una Move X, esegue invece Move (X+1)
                 case "acceleratore":{
                     eseguiIstruzione(robot, istruzione);
                     //allunga di 1 il movimento
@@ -591,6 +607,7 @@ public class MovimentoControllerPartita {
                     break;
                 }
                 
+                //Se nel registro c’è un Back-up, arretra di due caselle anziché di una.
                 case "retromarcia":{
                     eseguiIstruzione(robot, istruzione);
                     //se backup arretra di due in totale
