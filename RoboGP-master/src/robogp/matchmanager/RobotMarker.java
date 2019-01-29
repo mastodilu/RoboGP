@@ -36,6 +36,7 @@ public class RobotMarker implements Serializable {
     private infoRobot info;
     private final IniziarePartitaController ctrPartita;
     private int checkpoint = 0;
+    private boolean scudo;
 
     public String getColor() {
         return color;
@@ -74,7 +75,7 @@ public class RobotMarker implements Serializable {
         this.ctrPartita  = IniziarePartitaController.getInstance();
         this.manoRobot = new mano();
         this.info = new infoRobot(this.ctrPartita, this);
-        
+        this.scudo = false;
         
     }
 
@@ -84,6 +85,13 @@ public class RobotMarker implements Serializable {
 
     public synchronized mano getManoRobot() {
         return manoRobot;
+    }
+    
+    /**
+     * Attiva lo scudo che permette di assorbire il primo danno ricevuto.
+     */
+    public void attivaScudo(){
+        this.scudo = true;
     }
         
 
@@ -103,7 +111,7 @@ public class RobotMarker implements Serializable {
         this.ctrPartita  = IniziarePartitaController.getInstance();
         this.manoRobot = new mano();
         this.info = new infoRobot(this.ctrPartita, this);
-        
+        this.scudo = false;
         //JTabbedPane pannelloInfo = MatchManagerApp.getAppInstance().getPannelloInfo();
         //pannelloInfo.add(this.info, pannelloInfo.getTabCount());
         //pannelloInfo.setTitleAt(pannelloInfo.getTabCount() -1, this.getName());
@@ -298,6 +306,28 @@ public class RobotMarker implements Serializable {
     
     public synchronized void pulisciRegistro(int num){
         this.registri[num] = null;
+    }
+    
+    /**
+     * Sottrae un punto salute al robot tenendo conto dello scudo.
+     * Se deve essere ucciso viene ucciso.
+     */
+    public void danneggia(){
+        if(scudo)
+            scudo = false;
+        else{
+            if(vite <= 0)
+                uccidi();
+            salute--;
+        }
+    }
+
+    /**
+     * Sottrae un punto vita al robot.
+     */
+    public void uccidi(){
+        vite--;
+        salute = saluteMax;
     }
     
 }
