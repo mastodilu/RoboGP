@@ -157,4 +157,17 @@ public class RaggioController {
         return cella.hasWall(direzione);
     }
     
+    
+    /**
+     * Restituisce true se la cella successiva rispetto alla direzione passata
+     * e alla cella da cui ci si muove e' fuori dalla mappa.
+     * @param cella considerata
+     * @param direzione del movimento
+     * @return true se la cella successiva e' fuori dalla mappa,
+     * false altrimenti.
+     */
+    private boolean isBordo(BoardCell cella, Direction direzione){
+        return cellaSuccessiva(cella, direzione) == null;
+    }
+    
 }
