@@ -183,16 +183,19 @@ public class RaggioController {
             switch(upgrade.nome.toLowerCase()){
                 case "superlaser":{
                     spara(robot, robot.getLastDirection(), true, 1);
+                    upgrade.usa();
                     break;
                 }
                 case "doppiolaser":{
                     spara(robot, robot.getLastDirection(), false, 2);
+                    upgrade.usa();
                     break;
                 }
                 case "retrolaser":{
                     Direction direzione = robot.getLastDirection();
                     spara(robot, direzione, false, 1);
                     spara(robot, direzioneOpposta(direzione), false, 1);
+                    upgrade.usa();
                     break;
                 }
             }
