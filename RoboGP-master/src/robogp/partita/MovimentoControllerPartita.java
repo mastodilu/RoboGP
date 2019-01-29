@@ -631,6 +631,14 @@ public class MovimentoControllerPartita {
                     }
                     break;
                 }
+                
+                //L'istruzione nel registro viene eseguita due volte in immediata successione.
+                case "dualcore":{
+                    upgrade.usa();
+                    eseguiIstruzione(robot, istruzione);
+                    eseguiIstruzione(robot, istruzione);
+                    break;
+                }
             }
         }
             
