@@ -189,6 +189,12 @@ public class RaggioController {
                     spara(robot, robot.getLastDirection(), false, 2);
                     break;
                 }
+                case "retrolaser":{
+                    Direction direzione = robot.getLastDirection();
+                    spara(robot, direzione, false, 1);
+                    spara(robot, direzioneOpposta(direzione), false, 1);
+                    break;
+                }
             }
         }
     }
