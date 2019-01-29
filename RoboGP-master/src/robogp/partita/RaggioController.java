@@ -182,11 +182,11 @@ public class RaggioController {
         }else{
             switch(upgrade.nome.toLowerCase()){
                 case "superlaser":{
-                    spara(robot, true, 1);
+                    spara(robot, robot.getLastDirection(), true, 1);
                     break;
                 }
                 case "doppiolaser":{
-                    spara(robot, false, 2);
+                    spara(robot, robot.getLastDirection(), false, 2);
                     break;
                 }
             }
@@ -201,23 +201,18 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
-        spara(robot, false, 1);
+        spara(robot, robot.getLastDirection(), false, 1);
     }
     
     
     
-    /**
-     * Spara il laser settando se deve oltrepassare il primo ostacolo oppure no.
-     * @param robot che spara
-     * @param oltrepassaPrimoOstacolo true o false
-     * @param danni
-     */
-    private void spara(RobotMarker robot, boolean oltrepassaPrimoOstacolo, int danni){
+
+    private void spara( RobotMarker robot,Direction direzione,
+                        boolean oltrepassaPrimoOstacolo,int danni){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
-        Direction direzione = robot.getLastDirection();
         
         raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni);
     }
