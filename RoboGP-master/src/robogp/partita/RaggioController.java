@@ -182,10 +182,13 @@ public class RaggioController {
         }else{
             switch(upgrade.nome.toLowerCase()){
                 case "superlaser":{
-                    spara(robot, true);
+                    spara(robot, true, 1);
                     break;
                 }
-                
+                case "doppiolaser":{
+                    spara(robot, false, 2);
+                    break;
+                }
             }
         }
     }
@@ -198,7 +201,7 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
-        spara(robot, false);
+        spara(robot, false, 1);
     }
     
     
@@ -207,15 +210,16 @@ public class RaggioController {
      * Spara il laser settando se deve oltrepassare il primo ostacolo oppure no.
      * @param robot che spara
      * @param oltrepassaPrimoOstacolo true o false
+     * @param danni
      */
-    private void spara(RobotMarker robot, boolean oltrepassaPrimoOstacolo){
+    private void spara(RobotMarker robot, boolean oltrepassaPrimoOstacolo, int danni){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
         Direction direzione = robot.getLastDirection();
         
-        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella);
+        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni);
     }
     
     
@@ -229,13 +233,15 @@ public class RaggioController {
      * @param oltrepassaPrimoOstacolo
      * @param cellaIniziale
      * @param direzione
-     * @param corrente 
+     * @param corrente
+     * @param danni
      */
     private void raggio(
                             RobotMarker chiSpara,
                             boolean oltrepassaPrimoOstacolo,
                             Direction direzione,
-                            BoardCell corrente){
+                            BoardCell corrente,
+                            int danni){
         
         //guardo la cella corrente
         if(muraFinali(corrente, direzione)){ // colpite le mura finali
@@ -260,14 +266,14 @@ public class RaggioController {
             oltrepassaPrimoOstacolo = false;
         }
         if(successiva.hasRobot()){
-            colpisciRobotInCella(successiva); // danneggia
+            colpisciRobotInCella(successiva, danni); // danneggia
             if(!oltrepassaPrimoOstacolo){
                 disegnaLaser(chiSpara, successiva, direzione, true, false);
                 return;
             }
             oltrepassaPrimoOstacolo = false;
         }
-        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva);
+        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni);
     }
     
     
@@ -322,14 +328,16 @@ public class RaggioController {
     /**
      * Danneggia il robot.
      * @param cella che contiene il robot colpito.
+     * @param danni numero di colpi da infliggere
      */
-    private void colpisciRobotInCella(BoardCell cella){
+    private void colpisciRobotInCella(BoardCell cella, int danni){
         for(RobotMarker robot : robots){
             int riga, colonna;
             riga = robot.getLastPosition().getRiga();
             colonna = robot.getLastPosition().getColonna();
             if(riga == cella.getRiga() && colonna == cella.getColonna()){
-                robot.danneggia();
+                for(int i = 0; i < danni; i++)
+                    robot.danneggia();
             }
         }
     }
