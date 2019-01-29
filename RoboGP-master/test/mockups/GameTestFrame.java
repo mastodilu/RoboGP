@@ -344,9 +344,9 @@ public class GameTestFrame extends javax.swing.JFrame {
         rv.addPause(500);
         rv.addLaserFire(robots[1], Direction.E, 1, 15, false, false);
         rv.addPause(500);
-        rv.addLaserFire(robots[2], Direction.E, 5, 15, false, false);
+        rv.addLaserFire(robots[2], Direction.E, 5, 15, false, true);
         rv.addPause(500);
-        rv.addLaserFire(robots[3], Direction.S, 8, 11, false, false);
+        rv.addLaserFire(robots[3], Direction.S, 8, 11, false, true);
         rv.addPause(1000);
         rv.addHideLaser();
         rv.play();
