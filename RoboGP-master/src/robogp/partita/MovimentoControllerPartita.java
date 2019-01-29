@@ -606,12 +606,28 @@ public class MovimentoControllerPartita {
             if(cella.getType() == 'F'){
                 FloorCell floor = (FloorCell)cella;
                 if(floor.isRightRotator()){
-                    muovi(robot, 0, robot.getLastDirection(), Rotation.CW90);
+                    ruotaRobot(robot, Rotation.CW90);
                 }else if(floor.isLeftRotator()){
-                    muovi(robot, 0, robot.getLastDirection(), Rotation.CCW90);
+                    ruotaRobot(robot, Rotation.CCW90);
                 }
             }
         }
+    }
+    
+    
+    
+    /**
+     * Ruota il robot se puo' essere girato. Se non puo' essere girato
+     * a cause del giroscopio glielo usa.
+     * @param robot da ruotare.
+     * @param rotazione a sinistra o a destra.
+     */
+    private void ruotaRobot(RobotMarker robot, Rotation rotazione){
+        if(!robot.usaGiroscopio()){
+            //robot non ha l'upgrade giroscopio attivo e puo' essere girato
+            muovi(robot, 0, robot.getLastDirection(), rotazione);
+        }
+        
     }
     
     
