@@ -2,6 +2,7 @@ package robogp.partita;
 
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
+import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
@@ -83,6 +84,26 @@ public class RaggioController {
         else if(d == Direction.N)   return Direction.S;
         else if(d == Direction.E)   return Direction.W;
         else                        return Direction.N;
+    }
+    
+    
+    
+    /**
+     * Controlla tutti i robot e si blocca quando
+     * trova quello nella cella passata come parametro.
+     * @param cella che potrebbe contenere un robot
+     * @return il robot nella cella specificata, null altrimenti
+     */
+    private RobotMarker getRobotInCella(BoardCell cella){
+        for(RobotMarker robot : robots){
+            int riga, colonna;
+                riga = robot.getLastPosition().getRiga();
+                colonna = robot.getLastPosition().getColonna();
+            if(riga == cella.getRiga()
+                    && colonna == cella.getColonna())
+                return robot;
+        }
+        return null;
     }
     
     
