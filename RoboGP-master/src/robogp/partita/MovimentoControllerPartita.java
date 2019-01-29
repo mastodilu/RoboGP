@@ -588,6 +588,7 @@ public class MovimentoControllerPartita {
                         eseguiIstruzione(robot, new InstructionCard("move1"));
                         upgrade.usa();
                     }
+                    break;
                 }
             }
         }
