@@ -350,6 +350,26 @@ public class MovimentoControllerPartita {
     
     
     /**
+     * Attiva nastri sotto l'influenza dell'upgrade.
+     * @param upgrade passato come parametro
+     */
+    public void attivaNastri(Upgrade upgrade){
+        if( upgrade != null){
+            if( upgrade.nome.equalsIgnoreCase("DisturbatoreFrequenze")
+                    && upgrade.usabile()){
+                //non attivare i nastri semplici
+                //attiva i nastri express una sola volta
+                for(RobotMarker robot : robots){
+                    nastroExpress(robot, 1);
+                }
+                upgrade.usa();
+            }
+        }
+    }
+    
+    
+    
+    /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro semplice.
      */
     private void nastriTrasportatoriSemplici(){
@@ -384,7 +404,7 @@ public class MovimentoControllerPartita {
      */
     private void nastriTrasportatoriExpress(){
         for(RobotMarker robot : robots){
-            nastroExpress(robot);
+            nastroExpress(robot, 2);
         }
     }
     
@@ -392,14 +412,14 @@ public class MovimentoControllerPartita {
     /**
      * Muove il robot se si trova su un nastro express.
      * @param robot da muovere
+     * @param numeroAttivazioni quante volte si attivano i nastri express
      */
-    private void nastroExpress(RobotMarker robot){
+    private void nastroExpress(RobotMarker robot, int numeroAttivazioni ){
         int riga, colonna;
             riga = robot.getLastPosition().getRiga();
             colonna = robot.getLastPosition().getColonna();
         BoardCell cella = robodrome.getCell(riga, colonna);
         int contaAttivazioni = 0; // conta le attivazioni eseguite
-        int numeroAttivazioni = 2; // quante attivazioni del nastro si verificano
         
         // while cella e' nastro express e devono attivarsi i nastri express
         while(  cella.getType() == 'E' && contaAttivazioni < numeroAttivazioni){
