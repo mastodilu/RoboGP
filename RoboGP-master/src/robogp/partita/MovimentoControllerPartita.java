@@ -169,6 +169,7 @@ public class MovimentoControllerPartita {
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         ).robotOutside();
+        robot.uccidi();
     }
     
     
