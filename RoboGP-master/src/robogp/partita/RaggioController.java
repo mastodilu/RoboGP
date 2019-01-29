@@ -112,4 +112,21 @@ public class RaggioController {
     //      TODO hasWall(), hasRobot
     
     
+    /**
+     * Restituisce la cella successiva del robodromo rispetto alla posizione
+     * e alla direzione corrente del robot.
+     * @param cella la cella di riferimento
+     * @param direzione del movimento rispetto alla cella specificata
+     * @return la cella successiva se esiste, altrimenti null.
+     */
+    private BoardCell cellaSuccessiva(BoardCell cella, Direction direzione) {
+        int riga = cella.getRiga();
+        int colonna = cella.getColonna();
+        if(direzione == Direction.W)        return this.robodromo.getCell(riga, colonna-1);
+        else if(direzione == Direction.N)   return this.robodromo.getCell(riga-1, colonna);
+        else if(direzione == Direction.E)   return this.robodromo.getCell(riga, colonna+1);
+        else                                return this.robodromo.getCell(riga+1, colonna);
+    }
+    
+    
 }
