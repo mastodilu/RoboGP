@@ -590,6 +590,15 @@ public class MovimentoControllerPartita {
                     }
                     break;
                 }
+                
+                case "retromarcia":{
+                    eseguiIstruzione(robot, istruzione);
+                    //se backup arretra di due in totale
+                    if(istruzione.getTipo().equalsIgnoreCase("backup")){
+                        eseguiIstruzione(robot, new InstructionCard("backup"));
+                        upgrade.usa();
+                    }
+                }
             }
         }
             
