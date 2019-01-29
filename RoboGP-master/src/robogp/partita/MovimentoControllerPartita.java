@@ -555,7 +555,13 @@ public class MovimentoControllerPartita {
     
     
     
-    
+    /**
+     * Esegue l'istruzione sul robot modificata dall'upgrade se questo
+     * e' usabile ed applicabile all'istruzione.
+     * @param robot di riferimento
+     * @param istruzione eseguita sul robot
+     * @param upgrade eseguito sull'istruzione
+     */
     public void eseguiIstruzione(
             RobotMarker robot,
             InstructionCard istruzione,
