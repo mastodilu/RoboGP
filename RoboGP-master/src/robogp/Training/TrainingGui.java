@@ -646,6 +646,7 @@ public class TrainingGui extends javax.swing.JFrame {
     private void avviaAllenamento(){
         eseguiTutteIstruzioni();
         this.movimentoCtrl.attivaNastri();
+        this.movimentoCtrl.attivaRotatorie();
         this.sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
         
         this.movimentoCtrl.playAnimations();

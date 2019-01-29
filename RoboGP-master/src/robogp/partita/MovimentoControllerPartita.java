@@ -7,6 +7,7 @@ import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
+import robogp.robodrome.FloorCell;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.Rotation;
 import robogp.robodrome.view.RobodromeView;
@@ -589,6 +590,46 @@ public class MovimentoControllerPartita {
         Direction direzione = direzioneOpposta(robot1.getLastDirection());
         faiUnPasso(robot2, 1, direzione);
     }
+    
+    
+    
+    /**
+     * Gira tutti i robot sulle rotatorie.
+     */
+    public void attivaRotatorie(){
+        
+        for(RobotMarker robot : robots){
+            BoardCell cella = this.robodrome.getCell(
+                    robot.getLastPosition().getRiga(),
+                    robot.getLastPosition().getColonna()
+            );
+            if(cella.getType() == 'F'){
+                FloorCell floor = (FloorCell)cella;
+                if(floor.isRightRotator()){
+                    ruotaRobot(robot, Rotation.CW90);
+                }else if(floor.isLeftRotator()){
+                    ruotaRobot(robot, Rotation.CCW90);
+                }
+            }
+        }
+    }
+    
+    
+    
+    /**
+     * Ruota il robot se puo' essere girato. Se non puo' essere girato
+     * a cause del giroscopio glielo usa.
+     * @param robot da ruotare.
+     * @param rotazione a sinistra o a destra.
+     */
+    private void ruotaRobot(RobotMarker robot, Rotation rotazione){
+        if(!robot.usaGiroscopio()){
+            //robot non ha l'upgrade giroscopio attivo e puo' essere girato
+            muovi(robot, 0, robot.getLastDirection(), rotazione);
+        }
+        
+    }
+    
     
 
     
