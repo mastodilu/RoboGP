@@ -247,6 +247,7 @@ public class RaggioController {
                 disegnaLaser(chiSpara, successiva, direzione, true, false);
                 return;
             }
+            oltrepassaPrimoOstacolo = false;
         }
         raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva);
     }
