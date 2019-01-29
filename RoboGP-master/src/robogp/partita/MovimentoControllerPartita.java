@@ -480,9 +480,7 @@ public class MovimentoControllerPartita {
         if(robotDaSpingere == null)                         return false;
         
         //true se c'e' un robot da spingere e lo si puo' spingere
-        if(movimentoAmmissibile(successiva, direzione))     return true;
-        
-        return false;
+        return movimentoAmmissibile(successiva, direzione);
     }
     
     
