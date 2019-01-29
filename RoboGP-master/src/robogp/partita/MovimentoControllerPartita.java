@@ -1,6 +1,7 @@
 package robogp.partita;
 
 import java.util.ArrayList;
+import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
@@ -547,6 +548,45 @@ public class MovimentoControllerPartita {
     }
 
 
+    
+    
+    
+    //gestione upgrades
+    
+    
+    
+    
+    public void eseguiIstruzione(
+            RobotMarker robot,
+            InstructionCard istruzione,
+            Upgrade upgrade){
+        if(!upgrade.usabile()){
+            eseguiIstruzione(robot, istruzione);
+        }else{
+            String nomeUpgrade = upgrade.nome;
+            switch(nomeUpgrade.toLowerCase()){
+                
+                case "freni":{
+                    //non esegue alcun movimento ma aggiorna le variabili
+                    muovi(robot, 0, robot.getLastDirection(), Rotation.NO);    
+                    upgrade.usa();
+                    break;
+                }
+                
+                case "acceleratore":{
+                    eseguiIstruzione(robot, istruzione);
+                    //allunga di 1 il movimento
+                    if(istruzione.getTipo().equalsIgnoreCase("move1")
+                            || istruzione.getTipo().equalsIgnoreCase("move2")
+                            || istruzione.getTipo().equalsIgnoreCase("move3") ){
+                        eseguiIstruzione(robot, new InstructionCard("move1"));
+                        upgrade.usa();
+                    }
+                }
+            }
+        }
+            
+    }
 
 
 }
