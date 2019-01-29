@@ -552,6 +552,18 @@ public class MovimentoControllerPartita {
         faiUnPasso(robot, 1, direzione);
     }
     
+    
+    /**
+     * Robot1 attira verso di se' robot2 di una posizione.
+     * Il movimento di robot2 puo' essere impedito dagli ostacoli.
+     * @param robot1
+     * @param robot2 
+     */
+    private void attira(RobotMarker robot1, RobotMarker robot2){
+        Direction direzione = direzioneOpposta(robot1.getLastDirection());
+        faiUnPasso(robot2, 1, direzione);
+    }
+    
 
     
     /**
@@ -577,10 +589,10 @@ public class MovimentoControllerPartita {
      * @param upgrade eseguito sull'istruzione
      */
     public void eseguiIstruzione(
-            RobotMarker robot,
-            InstructionCard istruzione,
-            Upgrade upgrade){
-        if(!upgrade.usabile()){
+                                    RobotMarker robot,
+                                    InstructionCard istruzione,
+                                    Upgrade upgrade){
+        if( !upgrade.usabile()){
             eseguiIstruzione(robot, istruzione);
         }else{
             String nomeUpgrade = upgrade.nome;
