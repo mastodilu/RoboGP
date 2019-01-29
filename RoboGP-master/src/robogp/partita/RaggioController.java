@@ -2,6 +2,7 @@ package robogp.partita;
 
 import java.util.ArrayList;
 import robogp.matchmanager.RobotMarker;
+import robogp.robodrome.Direction;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
 
@@ -69,4 +70,23 @@ public class RaggioController {
                 && rv != null
                 && robots.size() > 0;
     }
+    
+    
+    
+    /**
+     * Restituisce la direzione opposta a quella passata.
+     * @param d direzione
+     * @return direzione opposta
+     */
+    private Direction direzioneOpposta(Direction d) {
+        if(d == Direction.W)        return Direction.E;
+        else if(d == Direction.N)   return Direction.S;
+        else if(d == Direction.E)   return Direction.W;
+        else                        return Direction.N;
+    }
+    
+    
+    
+    
+    
 }
