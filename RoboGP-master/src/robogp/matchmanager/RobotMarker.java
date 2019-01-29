@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JTabbedPane;
+import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
@@ -90,7 +91,7 @@ public class RobotMarker implements Serializable {
     /**
      * Attiva lo scudo che permette di assorbire il primo danno ricevuto.
      */
-    public void attivaScudo(){
+    private void attivaScudo(){
         this.scudo = true;
     }
         
@@ -329,5 +330,26 @@ public class RobotMarker implements Serializable {
         vite--;
         salute = saluteMax;
     }
+    
+    
+    
+    
+    /**
+     * Gestisce gli upgrade del robot.
+     * @param upgrade 
+     */
+    public void usaUpgrade(Upgrade upgrade){
+        if(upgrade != null){
+            switch(upgrade.nome.toLowerCase()){
+                case "scudo":{
+                    attivaScudo();
+                    break;
+                }
+            }
+        }
+    }
+    
+    
+    
     
 }
