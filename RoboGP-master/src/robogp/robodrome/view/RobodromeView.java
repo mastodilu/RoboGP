@@ -495,20 +495,26 @@ public class RobodromeView extends JComponent {
      * D&agrave; inizio alla riproduzione delle animazioni inserite in coda.
      */
     public void play() {
-        if (!isPlayingAnimation() && !this.animationsQueue.isEmpty()) {
-            this.currentAnimation = null;
-            playingAnimation = true;
-            /*if (this.isFollowingAction()) {
-                int nextRobot = this.animationsQueue.peek().getWhich();
-                TransitionAnimation ani = new TransitionAnimation(robotMarkers[nextRobot].getPosX(),
-                        robotMarkers[nextRobot].getPosY(), false);
-                this.animationsQueue.push(ani);
-            }*/
-            this.player = new Play();
-            for (RobodromeAnimationObserver obs : observers) {
-                obs.animationStarted();
+        if (!isPlayingAnimation() ) {
+            if(!this.animationsQueue.isEmpty()){
+                this.currentAnimation = null;
+                playingAnimation = true;
+                /*if (this.isFollowingAction()) {
+                    int nextRobot = this.animationsQueue.peek().getWhich();
+                    TransitionAnimation ani = new TransitionAnimation(robotMarkers[nextRobot].getPosX(),
+                            robotMarkers[nextRobot].getPosY(), false);
+                    this.animationsQueue.push(ani);
+                }*/
+                this.player = new Play();
+                for (RobodromeAnimationObserver obs : observers) {
+                    obs.animationStarted();
+                }
+                this.player.start();
+            }else{
+                for (RobodromeAnimationObserver obs : observers) {
+                    obs.animationFinished();
+                }
             }
-            this.player.start();
         }
     }
 
