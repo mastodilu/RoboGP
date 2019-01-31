@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JTabbedPane;
-import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
@@ -331,30 +329,6 @@ public class RobotMarker implements Serializable {
     public void uccidi(){
         vite--;
         salute = saluteMax;
-    }
-    
-    
-    
-    
-    /**
-     * Gestisce gli upgrade del robot.
-     * @param upgrade 
-     */
-    public void usaUpgrade(Upgrade upgrade){
-        if(upgrade != null && upgrade.usabile()){
-            switch(upgrade.nome.toLowerCase()){
-                case "scudo":{
-                    attivaScudo();
-                    upgrade.usa();
-                    break;
-                }
-                case "giroscopio":{
-                    this.giroscopio = true;
-                    upgrade.usa();
-                    break;
-                }
-            }
-        }
     }
     
     

@@ -7,11 +7,9 @@ import robogp.matchmanager.RobotMarker;
 public class Giocatore {
     private String nickname;
     private ArrayList<RobotMarker> robotList;
-    private Upgrade upgrade;
     
     public Giocatore(String nickname){
         this.nickname = nickname;
-        this.upgrade = null;
         this.robotList = new ArrayList<RobotMarker>();
     }
     
@@ -19,13 +17,11 @@ public class Giocatore {
         this.nickname = nickname;
         this.robotList = new ArrayList<RobotMarker>();
         this.robotList.add(robot);
-        this.upgrade = null;
     }
 
     public Giocatore(String nickname, ArrayList<RobotMarker> RobotList) {
         this.nickname = nickname;
         this.robotList = RobotList;
-        this.upgrade = null;
     }
     
     
@@ -45,20 +41,10 @@ public class Giocatore {
         return this.nickname;
     }
     
-    /**
-     * Assegna un upgrade al giocatore.
-     * @param up l'upgrade da assegnare.
-     */
-    public void assegnaUpgrade(Upgrade up){
-        this.upgrade = up;
-    }
     
     @Override
     public String toString(){
-        String result = nickname+" upgrade: ";
-        if(upgrade != null)
-            result += upgrade.toString();
-        else result += "N/A";
+        String result = nickname;
         result += " robots: ";
         for(RobotMarker robot : this.robotList)
             result += robot.toString();

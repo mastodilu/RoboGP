@@ -1,7 +1,6 @@
 package robogp.partita;
 
 import java.util.ArrayList;
-import robogp.Giocatore.Upgrade;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
@@ -173,50 +172,6 @@ public class RaggioController {
      */
     private boolean isBordo(BoardCell cella, Direction direzione){
         return cellaSuccessiva(cella, direzione) == null;
-    }
-    
-    
-    
-    
-    /**
-     * Genera il laser modificato dagli upgrade.
-     * @param robot che spara
-     * @param upgrade utilizzato
-     */
-    public void spara(RobotMarker robot, Upgrade upgrade){
-        if(upgrade == null && !upgrade.usabile()){
-            spara(robot);
-        }else{
-            switch(upgrade.nome.toLowerCase()){
-                case "superlaser":{
-                    spara(robot, robot.getLastDirection(), true, 1, "");
-                    upgrade.usa();
-                    break;
-                }
-                case "doppiolaser":{
-                    spara(robot, robot.getLastDirection(), false, 2, "");
-                    upgrade.usa();
-                    break;
-                }
-                case "retrolaser":{
-                    Direction direzione = robot.getLastDirection();
-                    spara(robot, direzione, false, 1, "");
-                    spara(robot, direzioneOpposta(direzione), false, 1, "");
-                    upgrade.usa();
-                    break;
-                }
-                case "raggiorespingente":{
-                    spara(robot, robot.getLastDirection(), false, 0, "respingente");
-                    upgrade.usa();
-                    break;
-                }
-                case "raggioattrattore":{
-                    spara(robot, robot.getLastDirection(), false, 0, "attrattore");
-                    upgrade.usa();
-                    break;
-                }
-            }
-        }
     }
     
     
