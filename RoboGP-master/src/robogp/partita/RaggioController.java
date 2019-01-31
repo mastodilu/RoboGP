@@ -211,12 +211,9 @@ public class RaggioController {
     /**
      * Genera il raggio terminandolo al giusto ostacolo e colpendo i robot da colpire.
      * NB: l'animazione del laser non viene disegnata.
-     * @param robot
-     * @param oltrepassaPrimoOstacolo
-     * @param cellaIniziale
+     * @param chiSpara 
      * @param direzione
      * @param corrente
-     * @param danni
      */
     private void raggio(
                             RobotMarker chiSpara,
@@ -230,7 +227,7 @@ public class RaggioController {
             
         }
         if(isBordo(corrente, direzione)){ // arrivati al bordo della mappa
-            disegnaLaser(chiSpara, corrente, direzione, false, true);
+            disegnaLaser(chiSpara, corrente, direzione, false, false);
             return;
         }
         
