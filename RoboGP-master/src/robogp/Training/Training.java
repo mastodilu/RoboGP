@@ -5,6 +5,7 @@ import robogp.deck.*;
 import robogp.matchmanager.RobotMarker;
 import robogp.partita.MappaController;
 import robogp.partita.MovimentoControllerPartita;
+import robogp.partita.RaggioController;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
 import robogp.robodrome.view.RobodromeView;
@@ -63,7 +64,11 @@ public class Training {
         MappaController mappaCtrl = MappaController.getInstance();
         mappaCtrl.init(rb, robodromo, arrayRobot);
         
-        trainingGui = TrainingGui.getInstance(robodromo, arrayRobot, movimentoCtrl, mappaCtrl); // crea la gui generale
+        RaggioController raggioCtrl = RaggioController.getInstance();
+        raggioCtrl.init(robodromo, rb, arrayRobot, movimentoCtrl);
+        
+        
+        trainingGui = TrainingGui.getInstance(robodromo, arrayRobot, movimentoCtrl, mappaCtrl, raggioCtrl); // crea la gui generale
         trainingGui.start(); //rende visibile la finestra di gioco
         
         buildCardSelection();

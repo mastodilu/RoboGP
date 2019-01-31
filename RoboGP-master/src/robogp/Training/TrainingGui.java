@@ -14,6 +14,7 @@ import robogp.matchmanager.Posizione;
 import robogp.matchmanager.RobotMarker;
 import robogp.partita.MappaController;
 import robogp.partita.MovimentoControllerPartita;
+import robogp.partita.RaggioController;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
@@ -65,6 +66,11 @@ public class TrainingGui extends javax.swing.JFrame {
     MappaController mappaCtrl;
     
     /**
+     * Controller del raggio laser sparato dai robot.
+     */
+    RaggioController raggioCtrl;
+    
+    /**
      * single instance del pattern singleton
      */
     private static TrainingGui singleInstance;
@@ -76,7 +82,8 @@ public class TrainingGui extends javax.swing.JFrame {
             RobodromeView robodromo,
             ArrayList<RobotMarker> arrayRobot,
             MovimentoControllerPartita movimentoCtrl,
-            MappaController mappaCtrl
+            MappaController mappaCtrl,
+            RaggioController raggioCtrl
             ){
         initComponents();
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
@@ -84,6 +91,7 @@ public class TrainingGui extends javax.swing.JFrame {
         istruzioniGui = new ArrayList<>();
         this.movimentoCtrl = movimentoCtrl;
         this.mappaCtrl = mappaCtrl;
+        this.raggioCtrl = raggioCtrl;
         this.setTabellone(robodromo);
         this.arrayRobot = new ArrayList<RobotMarker>();
         for(RobotMarker r : arrayRobot)
@@ -95,10 +103,11 @@ public class TrainingGui extends javax.swing.JFrame {
             RobodromeView robodromo,
             ArrayList<RobotMarker> arrayRobot,
             MovimentoControllerPartita movimentoCtrl,
-            MappaController mappaCtrl
+            MappaController mappaCtrl,
+            RaggioController raggioCtrl
             ){
         if(TrainingGui.singleInstance == null){
-            TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl, mappaCtrl);
+            TrainingGui.singleInstance = new TrainingGui(robodromo, arrayRobot, movimentoCtrl, mappaCtrl, raggioCtrl);
         }
         return TrainingGui.singleInstance;
     }
@@ -647,6 +656,7 @@ public class TrainingGui extends javax.swing.JFrame {
         eseguiTutteIstruzioni();
         this.movimentoCtrl.attivaNastri();
         this.movimentoCtrl.attivaRotatorie();
+        spara();
         this.sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
         
         this.movimentoCtrl.playAnimations();
@@ -723,5 +733,10 @@ public class TrainingGui extends javax.swing.JFrame {
             mappaCtrl.placeOnDock(robot);
         }
         
+    }
+
+    private void spara() {
+        for(RobotMarker robot : arrayRobot)
+            raggioCtrl.spara(robot);
     }
 }

@@ -270,6 +270,13 @@ public class RaggioController {
                 chiSpara,direzioneColpo,
                 coordIniziale, coordFinale,
                 robotHit, wallHit);
+        if(robotHit){
+            RobotMarker colpito = this.getRobotInCella(cellaRaggiunta);
+            this.rv.addRobotHit(colpito, direzioneOpposta(direzioneColpo));
+            
+        }
+        this.rv.addPause(500);
+        this.rv.addHideLaser();
     }
     
     
