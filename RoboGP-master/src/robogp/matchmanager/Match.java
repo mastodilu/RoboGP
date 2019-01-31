@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import robogp.Giocatore.DeckUpgrades;
 import robogp.Giocatore.Giocatore;
 import robogp.deck.Deck;
 import robogp.robodrome.Robodrome;
@@ -47,10 +46,8 @@ public class Match implements MessageObserver {
     private Deck mazzo;
     
     //NUOVE VARIABILI
-    private DeckUpgrades deckUpgrades; // mazzo degli upgrade
     
     public ArrayList<Giocatore> giocatori;
-    //
     
     private final HashMap<String, Connection> waiting;
     private final HashMap<String, Connection> players;
@@ -87,7 +84,6 @@ public class Match implements MessageObserver {
         waiting = new HashMap<>();
         players = new HashMap<>();
         this.mazzo = Deck.getInstance();
-        this.deckUpgrades = deckUpgrades.getInstance();
         this.status = State.Created;
     }
     
@@ -206,9 +202,6 @@ public class Match implements MessageObserver {
                 int dock = this.getFreeDock();
                 rob.assign(nickname, dock);
                 g.assegnaRobot(rob); // assegna robot al giocatore
-                if(initUpgrades){ // se dotazione iniziale di upgrade
-                    g.assegnaUpgrade(this.deckUpgrades.pickOne());//pesca un upgrade da passare al giocatore
-                }
             }
 
             Connection conn = this.waiting.get(nickname);

@@ -1,7 +1,6 @@
 package robogp.partita;
 
 import java.util.ArrayList;
-import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.matchmanager.RobotMarker;
 import robogp.robodrome.BeltCell;
@@ -344,24 +343,6 @@ public class MovimentoControllerPartita {
     
     
     
-    /**
-     * Attiva nastri sotto l'influenza dell'upgrade.
-     * @param upgrade passato come parametro
-     */
-    public void attivaNastri(Upgrade upgrade){
-        if( upgrade != null){
-            if( upgrade.nome.equalsIgnoreCase("DisturbatoreFrequenze")
-                    && upgrade.usabile()){
-                //non attivare i nastri semplici
-                //attiva i nastri express una sola volta
-                for(RobotMarker robot : robots){
-                    nastroExpress(robot, 1);
-                }
-                upgrade.usa();
-            }
-        }
-    }
-    
     
     
     /**
@@ -611,28 +592,12 @@ public class MovimentoControllerPartita {
             if(cella.getType() == 'F'){
                 FloorCell floor = (FloorCell)cella;
                 if(floor.isRightRotator()){
-                    ruotaRobot(robot, Rotation.CW90);
+                    muovi(robot, 0, robot.getLastDirection(), Rotation.CW90);
                 }else if(floor.isLeftRotator()){
-                    ruotaRobot(robot, Rotation.CCW90);
+                    muovi(robot, 0, robot.getLastDirection(), Rotation.CCW90);
                 }
             }
         }
-    }
-    
-    
-    
-    /**
-     * Ruota il robot se puo' essere girato. Se non puo' essere girato
-     * a cause del giroscopio glielo usa.
-     * @param robot da ruotare.
-     * @param rotazione a sinistra o a destra.
-     */
-    private void ruotaRobot(RobotMarker robot, Rotation rotazione){
-        if(!robot.usaGiroscopio()){
-            //robot non ha l'upgrade giroscopio attivo e puo' essere girato
-            muovi(robot, 0, robot.getLastDirection(), rotazione);
-        }
-        
     }
     
     
@@ -643,91 +608,6 @@ public class MovimentoControllerPartita {
      */
     public void playAnimations(){
         rv.play();
-    }
-
-
-    
-    
-    
-    //gestione upgrades
-    
-    
-    
-    /**
-     * Esegue l'istruzione sul robot modificata dall'upgrade se questo
-     * e' usabile ed applicabile all'istruzione.
-     * @param robot di riferimento
-     * @param istruzione eseguita sul robot
-     * @param upgrade eseguito sull'istruzione
-     */
-    public void eseguiIstruzione(
-                                    RobotMarker robot,
-                                    InstructionCard istruzione,
-                                    Upgrade upgrade){
-        // se upgrade e' null oppure non ha cariche rimaste
-        // viene ignorato, altrimenti viene gestito
-        if( upgrade == null && !upgrade.usabile()){
-            eseguiIstruzione(robot, istruzione);
-        }else{
-            String nomeUpgrade = upgrade.nome;
-            switch(nomeUpgrade.toLowerCase()){
-                
-                //Non esegue l’istruzione nel registro
-                case "freni":{
-                    //non esegue alcun movimento ma aggiorna le variabili
-                    muovi(robot, 0, robot.getLastDirection(), Rotation.NO);    
-                    upgrade.usa();
-                    break;
-                }
-                
-                //Se nel registro c’è una Move X, esegue invece Move (X+1)
-                case "acceleratore":{
-                    eseguiIstruzione(robot, istruzione);
-                    //allunga di 1 il movimento
-                    if(istruzione.getTipo().equalsIgnoreCase("move1")
-                            || istruzione.getTipo().equalsIgnoreCase("move2")
-                            || istruzione.getTipo().equalsIgnoreCase("move3") ){
-                        eseguiIstruzione(robot, new InstructionCard("move1"));
-                        upgrade.usa();
-                    }
-                    break;
-                }
-                
-                //Se nel registro c’è un Back-up, arretra di due caselle anziché di una.
-                case "retromarcia":{
-                    eseguiIstruzione(robot, istruzione);
-                    //se backup arretra di due in totale
-                    if(istruzione.getTipo().equalsIgnoreCase("backup")){
-                        eseguiIstruzione(robot, new InstructionCard("backup"));
-                        upgrade.usa();
-                    }
-                    break;
-                }
-                
-                /*Se nel registro c’è un Turn left/right, avrà invece l’effetto
-                di una Shift left/right
-                (ossia il robot si sposta lateralmente senza ruotare)*/
-                case "shift":{
-                    if(istruzione.getTipo().equalsIgnoreCase("turnright")
-                            || istruzione.getTipo().equalsIgnoreCase("turnleft")){
-                        shift(robot, istruzione.getRotazione());
-                        upgrade.usa();
-                    }else{
-                        eseguiIstruzione(robot, istruzione);
-                    }
-                    break;
-                }
-                
-                //L'istruzione nel registro viene eseguita due volte in immediata successione.
-                case "dualcore":{
-                    upgrade.usa();
-                    eseguiIstruzione(robot, istruzione);
-                    eseguiIstruzione(robot, istruzione);
-                    break;
-                }
-            }
-        }
-            
     }
 
 

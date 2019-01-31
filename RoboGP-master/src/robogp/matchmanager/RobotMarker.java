@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JTabbedPane;
-import robogp.Giocatore.Upgrade;
 import robogp.deck.InstructionCard;
 import robogp.robodrome.Direction;
 import robogp.robodrome.image.ImageUtil;
@@ -37,8 +35,6 @@ public class RobotMarker implements Serializable {
     private infoRobot info;
     private final IniziarePartitaController ctrPartita;
     private int checkpoint = 0;
-    private boolean scudo;
-    private boolean giroscopio;
 
     public String getColor() {
         return color;
@@ -77,8 +73,6 @@ public class RobotMarker implements Serializable {
         this.ctrPartita  = IniziarePartitaController.getInstance();
         this.manoRobot = new mano();
         this.info = new infoRobot(this.ctrPartita, this);
-        this.scudo = false;
-        this.giroscopio = false;
     }
 
     public int getSaluteMax() {
@@ -89,12 +83,6 @@ public class RobotMarker implements Serializable {
         return manoRobot;
     }
     
-    /**
-     * Attiva lo scudo che permette di assorbire il primo danno ricevuto.
-     */
-    private void attivaScudo(){
-        this.scudo = true;
-    }
         
 
     public RobotMarker(String name, String color) {
@@ -113,7 +101,6 @@ public class RobotMarker implements Serializable {
         this.ctrPartita  = IniziarePartitaController.getInstance();
         this.manoRobot = new mano();
         this.info = new infoRobot(this.ctrPartita, this);
-        this.scudo = false;
         //JTabbedPane pannelloInfo = MatchManagerApp.getAppInstance().getPannelloInfo();
         //pannelloInfo.add(this.info, pannelloInfo.getTabCount());
         //pannelloInfo.setTitleAt(pannelloInfo.getTabCount() -1, this.getName());
@@ -316,13 +303,10 @@ public class RobotMarker implements Serializable {
      * Se deve essere ucciso viene ucciso.
      */
     public void danneggia(){
-        if(scudo)
-            scudo = false;
-        else{
-            if(vite <= 0)
-                uccidi();
-            salute--;
-        }
+        if(vite <= 0)
+            uccidi();
+        salute--;
+        
     }
 
     /**
@@ -331,53 +315,6 @@ public class RobotMarker implements Serializable {
     public void uccidi(){
         vite--;
         salute = saluteMax;
-    }
-    
-    
-    
-    
-    /**
-     * Gestisce gli upgrade del robot.
-     * @param upgrade 
-     */
-    public void usaUpgrade(Upgrade upgrade){
-        if(upgrade != null && upgrade.usabile()){
-            switch(upgrade.nome.toLowerCase()){
-                case "scudo":{
-                    attivaScudo();
-                    upgrade.usa();
-                    break;
-                }
-                case "giroscopio":{
-                    this.giroscopio = true;
-                    upgrade.usa();
-                    break;
-                }
-            }
-        }
-    }
-    
-    
-    
-    /**
-     * @return il valore di giroscopio..
-     */
-    public boolean getGiroscopio(){
-        return this.giroscopio;
-    }
-    
-    
-    /**
-     * Usa il giroscopio per impedire la rotazione eseguita dalla mappa.
-     * @return true se il giroscopio e' stato usato, false altrimenti.
-     */
-    public boolean usaGiroscopio(){
-        if(giroscopio){
-            //usa il giroscopio
-            giroscopio = false;
-            return true;
-        }
-        return false;
     }
     
     
