@@ -182,7 +182,7 @@ public class RaggioController {
      * @param robot che spara.
      */
     public void spara(RobotMarker robot){
-        spara(robot, robot.getLastDirection(), false, 1, "normale");
+        spara(robot, robot.getLastDirection());
     }
     
     
@@ -195,15 +195,13 @@ public class RaggioController {
      * @param danni inflitti sul colpo
      * @param tipoRaggio cambia il comportamento del raggio a seconda del tipo
      */
-    private void spara( RobotMarker robot,Direction direzione,
-                        boolean oltrepassaPrimoOstacolo,int danni,
-                        String tipoRaggio){
+    private void spara( RobotMarker robot,Direction direzione){
         BoardCell cella = robodromo.getCell(
                 robot.getLastPosition().getRiga(),
                 robot.getLastPosition().getColonna()
         );
         
-        raggio(robot, oltrepassaPrimoOstacolo, direzione, cella, danni, tipoRaggio);
+        raggio(robot, direzione, cella);
     }
     
     
@@ -222,18 +220,14 @@ public class RaggioController {
      */
     private void raggio(
                             RobotMarker chiSpara,
-                            boolean oltrepassaPrimoOstacolo,
                             Direction direzione,
-                            BoardCell corrente,
-                            int danni,String tipo){
+                            BoardCell corrente){
         
         //guardo la cella corrente
         if(muraFinali(corrente, direzione)){ // colpite le mura finali
-            if(!oltrepassaPrimoOstacolo){
                 disegnaLaser(chiSpara, corrente, direzione, false, true);
                 return;
-            }
-            oltrepassaPrimoOstacolo = false;
+            
         }
         if(isBordo(corrente, direzione)){ // arrivati al bordo della mappa
             disegnaLaser(chiSpara, corrente, direzione, false, true);
@@ -243,32 +237,15 @@ public class RaggioController {
         //guardo la cella successiva ( esiste altrimenti si bloccherebbe a 'isBordo(..)' )
         BoardCell successiva = cellaSuccessiva(corrente, direzione);
         if(muraIniziali(successiva, direzione)){ // incontrate delle mura entrando nella cella successiva
-            if(!oltrepassaPrimoOstacolo){ // bloccato alle mura
-                disegnaLaser(chiSpara, corrente, direzione, false, true);
-                return;
-            }
-            oltrepassaPrimoOstacolo = false;
+            disegnaLaser(chiSpara, corrente, direzione, false, true);
+            return;
         }
         if(successiva.hasRobot()){
-            switch(tipo){
-                case "":
-                    colpisciRobotInCella(successiva, danni); // danneggia
-                    break;
-                case "respingente":
-                    spingi(chiSpara, successiva);
-                    break;
-                case "attrattore":
-                    attrai(chiSpara, successiva);
-                    break;
-            }
-            
-            if(!oltrepassaPrimoOstacolo){
-                disegnaLaser(chiSpara, successiva, direzione, true, false);
-                return;
-            }
-            oltrepassaPrimoOstacolo = false;
+            getRobotInCella(successiva).danneggia();
+            disegnaLaser(chiSpara, successiva, direzione, true, false);
+            return;
         }
-        raggio(chiSpara, oltrepassaPrimoOstacolo, direzione, successiva, danni, tipo);
+        raggio(chiSpara, direzione, successiva);
     }
     
     
@@ -315,45 +292,6 @@ public class RaggioController {
             default:
                 return cella.getRiga();
         }
-    }
-    
-    
-    
-    
-    /**
-     * Danneggia il robot.
-     * @param cella che contiene il robot colpito.
-     * @param danni numero di colpi da infliggere
-     */
-    private void colpisciRobotInCella(BoardCell cella, int danni){
-        for(int i = 0; i < danni; i++)
-            getRobotInCella(cella).danneggia();
-    }
-
-    
-    
-    
-    /**
-     * Spinge di uno il robot nella direzione specificata se
-     * il movimento non e' ostacolato.
-     * @param chiSpara robot che spinge
-     * @param cella che contiene il secondo robot
-     */
-    private void spingi(RobotMarker chiSpara, BoardCell cella) {
-        RobotMarker robot = getRobotInCella(cella);
-        movimentoCtrl.spingi(robot, chiSpara.getLastDirection());
-    }
-
-    
-    
-    /**
-     * Attrae il robot colpito di una posizione se il movimento e' concesso.
-     * @param chiSpara robot che spara
-     * @param cella cella che contiene il robot colpito
-     */
-    private void attrai(RobotMarker chiSpara, BoardCell cella) {
-        RobotMarker robot = getRobotInCella(cella);
-        movimentoCtrl.attira(chiSpara, robot);
     }
 
 }
