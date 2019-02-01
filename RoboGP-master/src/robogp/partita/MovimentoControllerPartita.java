@@ -348,7 +348,7 @@ public class MovimentoControllerPartita {
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro semplice.
      */
-    private void nastriTrasportatoriSemplici(){
+    public void nastriTrasportatoriSemplici(){
         for(RobotMarker robot : robots){
             nastroSemplice(robot);
         }
@@ -378,7 +378,7 @@ public class MovimentoControllerPartita {
     /**
      * Controlla per ogni robot se va eseguito lo spostamento dovuto al nastro express.
      */
-    private void nastriTrasportatoriExpress(){
+    public void nastriTrasportatoriExpress(){
         for(RobotMarker robot : robots){
             nastroExpress(robot, 2);
         }

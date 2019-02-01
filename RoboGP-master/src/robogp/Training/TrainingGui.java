@@ -15,10 +15,12 @@ import robogp.matchmanager.RobotMarker;
 import robogp.partita.MappaController;
 import robogp.partita.MovimentoControllerPartita;
 import robogp.partita.RaggioController;
+import robogp.robodrome.BoardCell;
 import robogp.robodrome.Direction;
 import robogp.robodrome.MovimentoControllerTraining;
 import robogp.robodrome.Robodrome;
-public class TrainingGui extends javax.swing.JFrame {
+import robogp.robodrome.view.RobodromeAnimationObserver;
+public class TrainingGui extends javax.swing.JFrame implements RobodromeAnimationObserver{
     
     /**
      * array per creare la JComboBox di righe
@@ -71,6 +73,16 @@ public class TrainingGui extends javax.swing.JFrame {
     RaggioController raggioCtrl;
     
     /**
+     * Contatore delle sottofasi del turno in esecuzione.
+     */
+    private int sottofase;
+    
+    /**
+     * Contatore dell'ultima istruzione eseguita durante il turno.
+     */
+    private int ultimaIstruzioneEseguita;
+    
+    /**
      * single instance del pattern singleton
      */
     private static TrainingGui singleInstance;
@@ -86,6 +98,9 @@ public class TrainingGui extends javax.swing.JFrame {
             RaggioController raggioCtrl
             ){
         initComponents();
+        robodromo.addObserver(this);
+        sottofase = 1;
+        ultimaIstruzioneEseguita = 0;
         indiceIstruzioneMostrata = -1; //inizializzo a -1 perche' l'istruzione di indice 0 ancora non esiste
         ISTRUZIONI = new ArrayList<>();
         istruzioniGui = new ArrayList<>();
@@ -514,15 +529,21 @@ public class TrainingGui extends javax.swing.JFrame {
      */
     private synchronized void placeRobots(){
         int indiceRiga, indiceColonna, indiceDirezione;
+        RobotMarker robot = arrayRobot.get(0);
         
         indiceRiga = this.comboRighe.getSelectedIndex();
         indiceColonna = this.comboColonne.getSelectedIndex();
         indiceDirezione = this.comboDirezione.getSelectedIndex();
         Direction d = Direction.values()[indiceDirezione];
-
-        mappaCtrl.placeRobot(arrayRobot.get(0), d, indiceRiga, indiceColonna); // aggiunge il robot1 al tabellone  
-        for(RobotMarker robot : arrayRobot){
-            if(robot.getLastPosition() == null){//posiziona nei dock assegnati ogni robot che non e' nel tabellone
+        
+        //se il robot era già nella mappa allora segnala che esce dalla cella
+        if(robot.getLastPosition() != null){
+            this.getDrome().getCell(robot.getLastPosition().getRiga(), robot.getLastPosition().getRiga()).robotOutside();
+        }
+        mappaCtrl.placeRobot(robot, d, indiceRiga, indiceColonna); // aggiunge il robot 1 al tabellone  
+        
+        for(RobotMarker rob : arrayRobot){
+            if(rob.getLastPosition() == null){//posiziona nei dock assegnati ogni robot che non e' nel tabellone
                 mappaCtrl.placeOnDock(robot);
             }
         }
@@ -653,13 +674,24 @@ public class TrainingGui extends javax.swing.JFrame {
      * Avvia l'esecuzione delle fasi di allenamento
      */
     private void avviaAllenamento(){
-        eseguiTutteIstruzioni();
-        this.movimentoCtrl.attivaNastri();
-        this.movimentoCtrl.attivaRotatorie();
-        spara();
-        this.sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
-        
-        this.movimentoCtrl.playAnimations();
+        ultimaIstruzioneEseguita = 0;
+        sottofase = 1;
+        proseguiEsecuzione();
+    }
+    
+    
+    /**
+     * Esegue la successiva istruzione da eseguire se esiste.
+     */
+    private void eseguiProssimaIstruzione(){
+        if(ultimaIstruzioneEseguita < istruzioniGui.size()){//se non ha eseguito tutte le istruzioni
+            InstructionCard ic = istruzioniGui.get(ultimaIstruzioneEseguita).getSourceCard();
+            ultimaIstruzioneEseguita++;
+            movimentoCtrl.eseguiIstruzione(arrayRobot.get(0), ic);
+            this.getDromeView().addPause(1000);
+            this.movimentoCtrl.playAnimations();
+            sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
+        }
     }
     
     
@@ -674,20 +706,27 @@ public class TrainingGui extends javax.swing.JFrame {
 
     
     /**
-     * Resetta la gui di gioco
+     * Resetta la gui di gioco.
      */
     private void resetTrainingGui(){
+        RobotMarker robot = arrayRobot.get(0);
+        ArrayList<Posizione> posizioni = robot.getStoricoPosizioni();
+        for(Posizione pos : posizioni){
+            BoardCell cella = this.getDrome().getCell(pos.getRiga(), pos.getColonna());
+            cella.robotOutside();
+        }
         
-        this.getDrome().getCell(arrayRobot.get(0).getLastPosition().getRiga(), arrayRobot.get(0).getLastPosition().getColonna()).robotOutside();
-        this.getDromeView().removeRobot(arrayRobot.get(0));
-        this.arrayRobot.get(0).reset();
+        this.getDromeView().removeRobot(robot);
+        robot.reset();
         this.logTextArea.setText("");
         
         this.istruzioniGui = new ArrayList<InstructionCardGui>();//svuota l'elenco di schede istruzione
         this.panelCardGui.removeAll(); // svuota il pannello che mostra il programma
         this.indiceIstruzioneMostrata = -1;
-        this.updateLabelIndiceIstruzioneMostrata(this.indiceIstruzioneMostrata);
+        updateLabelIndiceIstruzioneMostrata(indiceIstruzioneMostrata);
         this.panelCardGui.repaint();
+        this.ultimaIstruzioneEseguita = 0;
+        this.sottofase = 1;
     }
     
     
@@ -735,8 +774,105 @@ public class TrainingGui extends javax.swing.JFrame {
         
     }
 
+    
+    /**
+     * Esegue l'animazione dello sparo.
+     */
     private void spara() {
         for(RobotMarker robot : arrayRobot)
             raggioCtrl.spara(robot);
+        this.movimentoCtrl.playAnimations();
+    }
+    
+    
+    /**
+     * Avvia l'animazione dei nastri semplici.
+     */
+    private void attivaNastriSemplici(){
+        this.movimentoCtrl.nastriTrasportatoriSemplici();
+        this.getDromeView().addPause(1000);
+        
+        this.movimentoCtrl.playAnimations();
+        sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
+    }
+    
+    
+    /**
+     * Esegue i nastri express.
+     */
+    private void attivaNastriExpress(){
+        this.movimentoCtrl.nastriTrasportatoriExpress();
+        this.getDromeView().addPause(1000);
+        
+        this.movimentoCtrl.playAnimations();
+        sendToLog("Robot in: " + this.arrayRobot.get(0).getLastPosition().toString());
+    }
+
+    
+    
+    /**
+     * Esegue la sottofase del turno da eseguire a seconda del valore
+     * della variabile 'sottofase'.
+     */
+    private void proseguiEsecuzione() {
+        
+        switch(sottofase){
+            case 1:{//esegui istruzioni
+                sottofase++;
+                System.out.println("fase 1");
+                eseguiProssimaIstruzione();
+                break;
+            }
+            case 2:{
+                sottofase++;
+                System.out.println("fase 2");
+                spara();
+                break;
+            }
+            case 3:{//nastri semplici
+                sottofase++;
+                System.out.println("fase 3");
+                this.attivaNastriSemplici();
+                break;
+            }
+            case 4:{//nastri Express
+                sottofase++;
+                System.out.println("fase 4");
+                this.attivaNastriExpress();
+                break;
+            }
+            case 5:{//rotatorie
+                sottofase++;
+                System.out.println("fase 5");
+                this.movimentoCtrl.attivaRotatorie();
+            }
+            default:{//ricomincia sottofasi
+                sottofase = 1;
+                //prosegue solo se non sono state eseguite tutte le istruzioni,
+                //altrimenti termina l'esecuzione delle sottofasi
+                if(ultimaIstruzioneEseguita < istruzioniGui.size())
+                    proseguiEsecuzione();
+                
+                System.out.println("fase 1 in training gui");
+                break;
+            }
+        }
+    }
+    
+    
+    /**
+     * Metodo eseguito all'avvio di ogni animazione.
+     */
+    @Override
+    public void animationStarted() {
+    }
+
+    
+    /**
+     * Metodo eseguito al termine di ogni animazione.
+     */
+    @Override
+    public void animationFinished() {
+        proseguiEsecuzione();
     }
 }
