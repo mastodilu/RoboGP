@@ -1,6 +1,6 @@
 # RoboGP
 
-Robots fighing in a dangerous map.
+Robots fighting in a dangerous map.
 
 ## What I learnt
 
